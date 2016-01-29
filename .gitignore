@@ -1,0 +1,16 @@
+## .gitignore ##
+# ignore all
+*
+*/
+
+# allow any
+!/src
+!/src/
+!/gradle
+!/gradle/
+!/build.gradle
+!/gradlew
+!/gradlew.bat
+!/install.bat
+!/build.bat
+!/.gitignore
