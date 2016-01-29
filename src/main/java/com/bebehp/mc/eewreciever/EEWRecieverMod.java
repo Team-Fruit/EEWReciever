@@ -19,7 +19,8 @@ import net.minecraftforge.event.ServerChatEvent;
 @Mod(modid="EEWReciever", name="EEWReciever", version="1.0")
 public class EEWRecieverMod
 {
-	public static final Logger logger = LogManager.getLogger("EEWReciever");
+	public static final String owner = "EEWReciever";
+	public static final Logger logger = LogManager.getLogger();
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
