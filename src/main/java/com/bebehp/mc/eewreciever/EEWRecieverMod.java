@@ -47,7 +47,7 @@ public class EEWRecieverMod
 	{
 		if (event.message.contains("fuck"))
 		{
-
+			fireworksAllPlayer();
 			EEWRecieverMod.sendServerChat("fuck you too");
 		}
 	}
@@ -79,7 +79,7 @@ public class EEWRecieverMod
 	{
 		player.worldObj.spawnEntityInWorld(new EntityFireworkRocket(
 				player.worldObj,
-				player.getPlayerCoordinates().posX+2,
+				player.getPlayerCoordinates().posX,
 				player.getPlayerCoordinates().posY,
 				player.getPlayerCoordinates().posZ,
 				makeFireworks()
