@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 
@@ -30,9 +31,9 @@ public class APIPathP2PQUAKE implements IAPIPath {
 		return API_PATH + "?date=" + format.format(new Date());
 	}
 
-	public QuakeData dlData(String path) throws IOException, QuakeException
+	public List<QuakeNode> dlData(String path) throws IOException, QuakeException
 	{
-		LinkedList<QuakeNode> list = new LinkedList<QuakeNode>();
+		List<QuakeNode> list = new LinkedList<QuakeNode>();
 
 		URL url = new URL(path);
 		URLConnection connection = url.openConnection();
@@ -50,7 +51,7 @@ public class APIPathP2PQUAKE implements IAPIPath {
 		}
 		is.close();
 
-		return new QuakeData(list);
+		return list;
 	}
 
 	public static QuakeNode parseString(String text) throws QuakeException
@@ -78,7 +79,7 @@ public class APIPathP2PQUAKE implements IAPIPath {
 	}
 
 	@Override
-	public QuakeData getQuake() throws QuakeException {
+	public List<QuakeNode> getQuake() throws QuakeException {
 		try {
 			return dlData(getURL());
 		} catch (IOException e) {

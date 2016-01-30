@@ -1,17 +1,17 @@
 package com.bebehp.mc.eewreciever;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.bebehp.mc.eewreciever.ping.QuakeMain;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.util.ChatComponentText;
@@ -28,7 +28,7 @@ public class EEWRecieverMod
 	public void init(FMLInitializationEvent event)
 	{
 		logger.info("EEW is setting up.");
-		FMLCommonHandler.instance().bus().register(this);
+		FMLCommonHandler.instance().bus().register(new QuakeMain());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
@@ -38,18 +38,6 @@ public class EEWRecieverMod
 		if (event.message.contains("fuck"))
 		{
 			EEWRecieverMod.sendServerChat("fuck you too");
-		}
-	}
-	
-	public static long WaitMilliSeconds = 1000 * 15;
-	long before;
-	@SubscribeEvent
-	public void onServerTick(ServerTickEvent event) {
-		long now = new Date().getTime();
-		if (now - before > WaitMilliSeconds)
-		{
-			before = now;
-		EEWRecieverMod.sendServerChat("orrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 		}
 	}
 
