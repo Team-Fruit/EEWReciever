@@ -1,5 +1,6 @@
 package com.bebehp.mc.eewreciever;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +15,16 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.item.EntityFireworkRocket;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemDye;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 
@@ -37,6 +47,7 @@ public class EEWRecieverMod
 	{
 		if (event.message.contains("fuck"))
 		{
+
 			EEWRecieverMod.sendServerChat("fuck you too");
 		}
 	}
@@ -51,5 +62,50 @@ public class EEWRecieverMod
 	{
 		FMLCommonHandler.instance().getMinecraftServerInstance()
 			.getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
+	}
+
+	public static void fireworksAllPlayer()
+	{
+		World world = Minecraft.getMinecraft().getIntegratedServer().getEntityWorld();
+
+		List<?> players = world.playerEntities;
+		for (Object playerobj : players)
+		{
+			fireworksPlayer((EntityPlayerMP) playerobj);
+		}
+	}
+
+	public static void fireworksPlayer(EntityPlayerMP player)
+	{
+		player.worldObj.spawnEntityInWorld(new EntityFireworkRocket(
+				player.worldObj,
+				player.getPlayerCoordinates().posX+2,
+				player.getPlayerCoordinates().posY,
+				player.getPlayerCoordinates().posZ,
+				makeFireworks()
+		));
+	}
+
+	public static ItemStack makeFireworks()
+	{
+		final NBTTagCompound explosion = new NBTTagCompound() {{
+			setByte("Type", (byte)2);
+			setByte("Trail", (byte)1);
+			setIntArray("Colors", ItemDye.field_150922_c);
+		}};
+		final NBTTagList nbttaglist = new NBTTagList() {{
+			appendTag(explosion);
+			appendTag(explosion);
+			appendTag(explosion);
+		}};
+        final NBTTagCompound nbt = new NBTTagCompound() {{
+        	setTag("Fireworks", new NBTTagCompound() {{
+            	setTag("Explosions", nbttaglist);
+                setByte("Flight", (byte)1);
+			}});
+        }};
+		ItemStack itemstack = new ItemStack(Items.firework_charge);
+        itemstack.setTagCompound(nbt);
+        return itemstack;
 	}
 }
