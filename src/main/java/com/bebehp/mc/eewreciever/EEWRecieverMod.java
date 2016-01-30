@@ -10,6 +10,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.util.ChatComponentText;
@@ -26,6 +27,7 @@ public class EEWRecieverMod
 	public void init(FMLInitializationEvent event)
 	{
 		logger.info("EEW is setting up.");
+		FMLCommonHandler.instance().bus().register(this);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
@@ -36,6 +38,11 @@ public class EEWRecieverMod
 		{
 			EEWRecieverMod.sendServerChat("fuck you too");
 		}
+	}
+	
+	@SubscribeEvent
+	public void onServerTick(ServerTickEvent event) {
+		EEWRecieverMod.sendServerChat("orrrrrrrrrrrrrrrrr");
 	}
 
 	@NetworkCheckHandler

@@ -29,6 +29,7 @@ public class QuakeData {
 	{
 		IAPIPath checker = new APIPathP2PQUAKE();
 		QuakeData buf = checker.getQuake();
+		
 		EEWRecieverMod.logger.info(buf);
 //		SimpleDateFormat format = new SimpleDateFormat("M/d");
 //		EEWRecieverMod.logger.info(format.format(new Date()));
