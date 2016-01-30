@@ -6,11 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedList;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 
@@ -28,13 +26,13 @@ public class APIPathP2PQUAKE implements IAPIPath {
 	};
 
 	public String getURL() {
-		SimpleDateFormat format = new SimpleDateFormat("m/d");
-		return API_PATH + "?date=" +format.format(new Date());
+		SimpleDateFormat format = new SimpleDateFormat("M/d");
+		return API_PATH + "?date=" + format.format(new Date());
 	}
 
 	public QuakeData dlData(String path) throws IOException, QuakeException
 	{
-		List<QuakeNode> list = new ArrayList<QuakeNode>();
+		LinkedList<QuakeNode> list = new LinkedList<QuakeNode>();
 
 		URL url = new URL(path);
 		URLConnection connection = url.openConnection();
@@ -43,7 +41,7 @@ public class APIPathP2PQUAKE implements IAPIPath {
 		connection.setRequestProperty("User-Agent", EEWRecieverMod.owner);
 
 		InputStream is = connection.getInputStream();
-		InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+		InputStreamReader isr = new InputStreamReader(is, "Shift_JIS");
 		BufferedReader reader = new BufferedReader(isr);
 
 		String line;
@@ -67,14 +65,14 @@ public class APIPathP2PQUAKE implements IAPIPath {
 			node.time = time[2];
 			node.strong = Integer.parseInt(data[1]);
 			node.tsunami = "1".equals(data[2]);
-			node.quaketype = quakeType[Integer.parseInt(data[3])];
+			node.quaketype = quakeType[Integer.parseInt(data[3])-1];
 			node.where = data[4];
 			node.deep = data[5];
 			node.magnitude = Float.parseFloat(data[6]);
 			node.modified = "1".equals(data[7]);
 			node.point = new String[] {data[8], data[9]};
 		} catch (Exception e) {
-			throw new QuakeException("parse error");
+			throw new QuakeException("parse error", e);
 		}
 		return node;
 	}
