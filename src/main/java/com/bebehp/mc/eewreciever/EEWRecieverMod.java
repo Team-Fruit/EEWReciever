@@ -42,7 +42,7 @@ public class EEWRecieverMod
 	
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent event) {
-		EEWRecieverMod.sendServerChat("orrrrrrrrrrrrrrrrr");
+		EEWRecieverMod.sendServerChat("orrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 	}
 
 	@NetworkCheckHandler
