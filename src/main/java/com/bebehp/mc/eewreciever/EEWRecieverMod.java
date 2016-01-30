@@ -1,5 +1,6 @@
 package com.bebehp.mc.eewreciever;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,9 +41,16 @@ public class EEWRecieverMod
 		}
 	}
 	
+	public static long WaitMilliSeconds = 1000 * 15;
+	long before;
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent event) {
-		EEWRecieverMod.sendServerChat("orrrrrrrrrrrrrrrrr");
+		long now = new Date().getTime();
+		if (now - before > WaitMilliSeconds)
+		{
+			before = now;
+			EEWRecieverMod.sendServerChat("orrrrrrrrrrrrrrrrr");
+		}
 	}
 
 	@NetworkCheckHandler
