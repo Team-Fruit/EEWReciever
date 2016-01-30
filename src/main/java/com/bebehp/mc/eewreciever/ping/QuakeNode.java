@@ -12,4 +12,13 @@ public class QuakeNode {
 	public float magnitude;
 	public boolean modified;
 	public String[] point;
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o instanceof QuakeNode)
+			return ((QuakeNode)o).uptime == this.uptime;
+		else
+			return false;
+	}
 }
