@@ -26,14 +26,14 @@ public class QuakeNode {
 		else
 			return false;
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		return "[" + this.quaketype + "]" +
 				this.time + "に" +
 				this.where + "で" +
-				"震度" + this.strong + "、" +
+				"最大震度" + this.strong + "、" +
 				"マグニチュード" + this.magnitude + "の" +
 				"地震が" +
 				"深さ" + this.deep + "で発生しました。" +
@@ -51,7 +51,7 @@ public class QuakeNode {
 		}
         return list;
 	}
-	
+
 	public static <E> Collection<E> subtract(final Collection<E> a, final Collection<E> b) {
         ArrayList<E> list = new ArrayList<E>( a );
         for (Iterator<E> it = b.iterator(); it.hasNext();) {
