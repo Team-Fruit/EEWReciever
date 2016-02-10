@@ -20,7 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class EEWRecieverMod
 {
 	public static final String owner = "EEWReciever";
-	public static final Logger logger = LogManager.getLogger();
+	public static final Logger logger = LogManager.getLogger("EEWReciever");
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)

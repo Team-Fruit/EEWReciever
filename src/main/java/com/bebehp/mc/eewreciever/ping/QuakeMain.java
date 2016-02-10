@@ -39,7 +39,7 @@ public class QuakeMain {
 			return;
 		}
 	}
-	
+
 	public void printUpdate(List<QuakeNode> update)
 	{
 		if (!update.isEmpty())
