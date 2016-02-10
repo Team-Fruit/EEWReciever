@@ -50,6 +50,28 @@ public class EEWRecieverMod
 			fireworksAllPlayer();
 			EEWRecieverMod.sendServerChat("fuck you too");
 		}
+
+		if (event.message.contains("bubu"))
+		{
+			EntityPlayerMP player = event.player;
+			player.worldObj.createExplosion(
+					player,
+					player.getPlayerCoordinates().posX,
+					player.getPlayerCoordinates().posY,
+					player.getPlayerCoordinates().posZ,
+					2F,
+					false
+			);
+
+//			player.worldObj.spawnEntityInWorld(new EntityTNTPrimed(
+//					player.worldObj,
+//					player.getPlayerCoordinates().posX,
+//					player.getPlayerCoordinates().posY,
+//					player.getPlayerCoordinates().posZ,
+//					player
+//			));
+
+		}
 	}
 
 	@NetworkCheckHandler
@@ -71,7 +93,11 @@ public class EEWRecieverMod
 		List<?> players = world.playerEntities;
 		for (Object playerobj : players)
 		{
-			fireworksPlayer((EntityPlayerMP) playerobj);
+			EntityPlayerMP player = (EntityPlayerMP) playerobj;
+//			player.moveEntity(5, 0, 0);
+//			player.setPosition(0, 5, 0);
+//			player.setPositionAndUpdate(0, 5, 0);
+			fireworksPlayer(player);
 		}
 	}
 
