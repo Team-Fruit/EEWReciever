@@ -1,6 +1,5 @@
 package com.bebehp.mc.eewreciever;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,21 +11,10 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ServerChatEvent;
 
 @Mod(modid="EEWReciever", name="EEWReciever", version="1.0")
 public class EEWRecieverMod
@@ -42,7 +30,7 @@ public class EEWRecieverMod
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	@SubscribeEvent
+/*	@SubscribeEvent
 	public void onServerChat(ServerChatEvent event)
 	{
 		if (event.message.contains("fuck"))
@@ -74,7 +62,7 @@ public class EEWRecieverMod
 		}
 	}
 
-	@NetworkCheckHandler
+*/	@NetworkCheckHandler
 	public boolean netCheckHandler(Map<String, String> mods, Side side)
 	{
 		return true;
@@ -85,7 +73,7 @@ public class EEWRecieverMod
 		FMLCommonHandler.instance().getMinecraftServerInstance()
 			.getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
 	}
-
+/*
 	public static void fireworksAllPlayer()
 	{
 		World world = Minecraft.getMinecraft().getIntegratedServer().getEntityWorld();
@@ -134,4 +122,4 @@ public class EEWRecieverMod
         itemstack.setTagCompound(nbt);
         return itemstack;
 	}
-}
+*/}
