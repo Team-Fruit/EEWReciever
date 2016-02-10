@@ -31,12 +31,11 @@ public class QuakeNode {
 	public String toString()
 	{
 		return "[" + this.quaketype + "]" +
-				this.time + "に" +
-				this.where + "で" +
-				"最大震度" + this.strong + "、" +
-				"マグニチュード" + this.magnitude + "の" +
-				"地震が" +
-				"深さ" + this.deep + "で発生しました。" +
+				"【最大震度" + this.strong + "】(気象庁発表)" +
+				this.where +
+				"深さ約" + this.deep +
+				"M" + this.magnitude +
+				this.time + "頃発生" +
 				(this.tsunami ?
 					"震源が海底の為津波が発生する可能性があります。" :
 						"この地震による津波の心配ありません。") +
