@@ -11,10 +11,12 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ServerChatEvent;
 
 @Mod(modid="EEWReciever", name="EEWReciever", version="β1.0")
 public class EEWRecieverMod
@@ -30,39 +32,44 @@ public class EEWRecieverMod
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-/*	@SubscribeEvent
+	@SubscribeEvent
 	public void onServerChat(ServerChatEvent event)
 	{
 		if (event.message.contains("fuck"))
 		{
-			fireworksAllPlayer();
-			EEWRecieverMod.sendServerChat("fuck you too");
+			logger.info("ファッキュン♡©");
+			sendServerChat("ファッキュン♡©");
 		}
-
-		if (event.message.contains("bubu"))
-		{
-			EntityPlayerMP player = event.player;
-			player.worldObj.createExplosion(
-					player,
-					player.getPlayerCoordinates().posX,
-					player.getPlayerCoordinates().posY,
-					player.getPlayerCoordinates().posZ,
-					2F,
-					false
-			);
-
-//			player.worldObj.spawnEntityInWorld(new EntityTNTPrimed(
-//					player.worldObj,
+//		if (event.message.contains("fuck"))
+//		{
+//			fireworksAllPlayer();
+//			EEWRecieverMod.sendServerChat("fuck you too");
+//		}
+//
+//		if (event.message.contains("bubu"))
+//		{
+//			EntityPlayerMP player = event.player;
+//			player.worldObj.createExplosion(
+//					player,
 //					player.getPlayerCoordinates().posX,
 //					player.getPlayerCoordinates().posY,
 //					player.getPlayerCoordinates().posZ,
-//					player
-//			));
-
-		}
+//					2F,
+//					false
+//			);
+//
+////			player.worldObj.spawnEntityInWorld(new EntityTNTPrimed(
+////					player.worldObj,
+////					player.getPlayerCoordinates().posX,
+////					player.getPlayerCoordinates().posY,
+////					player.getPlayerCoordinates().posZ,
+////					player
+////			));
+//
+//		}
 	}
 
-*/	@NetworkCheckHandler
+	@NetworkCheckHandler
 	public boolean netCheckHandler(Map<String, String> mods, Side side)
 	{
 		return true;
