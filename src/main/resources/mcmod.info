@@ -4,7 +4,7 @@
   "name": "EEW Reciever",
   "description": "Watch EEW Informations.",
   "version": "${version}",
-  "mcversion": "1.7.x",
+  "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["bebe0601", "Kamesuta"],
