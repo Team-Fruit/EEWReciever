@@ -37,7 +37,7 @@ public class QuakeNode {
 				" M" + this.magnitude + " " +
 				this.time + "頃発生 " +
 				(this.tsunami ?
-					"震源が海底です、念のため津波の情報に注意して下さい。" :
+					"震源が海底です。念のため津波の情報に注意して下さい。" :
 						"この地震による津波の心配ありません。") +
 				"[" + this.point[0] + ":" + this.point[1] + "]";
 	}
