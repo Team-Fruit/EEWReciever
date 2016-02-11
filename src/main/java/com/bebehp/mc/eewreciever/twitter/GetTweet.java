@@ -1,7 +1,6 @@
 package com.bebehp.mc.eewreciever.twitter;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.bebehp.mc.eewreciever.EEWRecieverMod;
 
 import twitter4j.FilterQuery;
 import twitter4j.MediaEntity;
@@ -48,9 +47,9 @@ public class GetTweet {
 
 		}
 		@Override
-		public void onStatus(Status arg0) {
+		public void onStatus(Status status) {
 			// TODO 自動生成されたメソッド・スタブ
-
+			EEWRecieverMod.sendServerChat("テスト" +  status.getText());
 		}
 		@Override
 		public void onTrackLimitationNotice(int arg0) {
@@ -60,11 +59,9 @@ public class GetTweet {
 		};
 		twitterStream.addListener(listener);
 
-		// フィルター
+/*		// フィルター
 		FilterQuery filterQuery = new FilterQuery();
 		filterQuery.track(new String[] {"from:eewbot"});
-		twitterStream.filter(filterQuery);
-
-//      System.out.println( "id = " + id + ", username = " + username + ", text = " + text );
+		twitterStream.filter(filterQuery); */
 	 }
 }
