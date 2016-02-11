@@ -18,7 +18,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 
-@Mod(modid="EEWReciever", name="EEWReciever", version="β1.0")
+@Mod(modid="EEWReciever", name="EEWReciever", version="1.0")
 public class EEWRecieverMod
 {
 	public static final String owner = "EEWReciever";
