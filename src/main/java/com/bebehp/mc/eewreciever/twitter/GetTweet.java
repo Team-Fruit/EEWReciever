@@ -16,10 +16,9 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class GetTweet {
 
-	 public void onStatus(Status status) {
+	public void onStatus(Status status) {
 
-		 Configuration configuration = new ConfigurationBuilder()
-				 	.setOAuthConsumerKey(mh5mOJhrXkVarLLdNgDn2QFRO)
+		 Configuration configuration = new ConfigurationBuilder().setOAuthConsumerKey(mh5mOJhrXkVarLLdNgDn2QFRO)
 		            .setOAuthConsumerSecret(NbBfZ5ytY47IniUEOoFOIk0wqfOuByzqMzK26DqvH9GhVL0K3E)
 		            .setOAuthAccessToken(4893957312-30hXziVjdX0ZHzH6OJCv0eWAJmaDgyqR7Wwfjob)
 		            .setOAuthAccessTokenSecret(4893957312-30hXziVjdX0ZHzH6OJCv0eWAJmaDgyqR7Wwfjob)
