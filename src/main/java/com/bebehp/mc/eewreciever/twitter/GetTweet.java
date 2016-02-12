@@ -3,7 +3,6 @@ package com.bebehp.mc.eewreciever.twitter;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 
 import twitter4j.FilterQuery;
-import twitter4j.MediaEntity;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -18,10 +17,10 @@ public class GetTweet {
 	public void onStatus(Status status) {
 
 		 Configuration configuration = new ConfigurationBuilder()
-				 .setOAuthConsumerKey(mh5mOJhrXkVarLLdNgDn2QFRO)
-				 .setOAuthConsumerSecret(NbBfZ5ytY47IniUEOoFOIk0wqfOuByzqMzK26DqvH9GhVL0K3E)
-				 .setOAuthAccessToken(4893957312-30hXziVjdX0ZHzH6OJCv0eWAJmaDgyqR7Wwfjob)
-				 .setOAuthAccessTokenSecret(ZwqJSMxSFC7lCMmAjgDw3ikwfgnJE9RVyTZt67MYIsMOM)
+				 .setOAuthConsumerKey("mh5mOJhrXkVarLLdNgDn2QFRO")
+				 .setOAuthConsumerSecret("NbBfZ5ytY47IniUEOoFOIk0wqfOuByzqMzK26DqvH9GhVL0K3E")
+				 .setOAuthAccessToken("4893957312-30hXziVjdX0ZHzH6OJCv0eWAJmaDgyqR7Wwfjob")
+				 .setOAuthAccessTokenSecret("ZwqJSMxSFC7lCMmAjgDw3ikwfgnJE9RVyTZt67MYIsMOM")
 				 .build();
 
 			TwitterStream twitterStream = new TwitterStreamFactory(configuration).getInstance();
