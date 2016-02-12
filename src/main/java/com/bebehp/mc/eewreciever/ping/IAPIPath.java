@@ -9,8 +9,9 @@ import java.util.List;
 public interface IAPIPath {
 
 	/**
-	 * 地震情報を取得します。
+	 * 地震情報の差分を取得します。
 	 * @return 地震情報
 	 */
-	public List<QuakeNode> getQuake() throws QuakeException;
+	public List<QuakeNode> getQuakeUpdate() throws QuakeException;
+
 }

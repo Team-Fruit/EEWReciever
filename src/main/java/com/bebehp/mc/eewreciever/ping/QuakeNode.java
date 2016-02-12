@@ -1,7 +1,6 @@
 package com.bebehp.mc.eewreciever.ping;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,12 +49,4 @@ public class QuakeNode {
 		}
         return list;
 	}
-
-	public static <E> Collection<E> subtract(final Collection<E> a, final Collection<E> b) {
-        ArrayList<E> list = new ArrayList<E>( a );
-        for (Iterator<E> it = b.iterator(); it.hasNext();) {
-            list.remove(it.next());
-        }
-        return list;
-    }
 }

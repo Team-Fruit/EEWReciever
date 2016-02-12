@@ -17,6 +17,7 @@ public class APIPathP2PQUAKE implements IAPIPath {
 //			EEWRecieverMod.logger.info(EEWRecieverMod.owner + " has some problem about [" + e.getMessage() + "].");
 
 	public static final String API_PATH = "http://api.p2pquake.net/userquake";
+	public static long WaitMilliSeconds = 1000 * 15;
 
 	public static final String[] quakeType = new String[] {
 			"震度速報",
@@ -78,12 +79,30 @@ public class APIPathP2PQUAKE implements IAPIPath {
 		return node;
 	}
 
-	@Override
 	public List<QuakeNode> getQuake() throws QuakeException {
 		try {
 			return dlData(getURL());
 		} catch (IOException e) {
 			throw new QuakeException(e);
 		}
+	}
+
+	long lasttime;
+	List<QuakeNode> before;
+	@Override
+	public List<QuakeNode> getQuakeUpdate() throws QuakeException
+	{
+		List<QuakeNode> update = null;
+
+		long nowtime = new Date().getTime();
+		if (nowtime - lasttime > WaitMilliSeconds)
+		{
+			lasttime = nowtime;
+			List<QuakeNode> now = this.getQuake();
+			if (before != null) update = QuakeNode.getUpdate(before, now);
+			before = now;
+		}
+
+		return update;
 	}
 }
