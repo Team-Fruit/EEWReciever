@@ -31,7 +31,7 @@ public class QuakeNode {
 	public String toString()
 	{
 		return "[" + this.quaketype + "]" +
-				"【最大震度" + this.strong + "】" +
+				"【最大震度" + this.strong + "】(気象庁発表)" +
 				this.where +
 				" 深さ約" + this.deep +
 				" M" + this.magnitude + " " +
