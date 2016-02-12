@@ -49,7 +49,7 @@ public class TweetStream
 			}
 
 			@Override
-			public void onStatus(Status arg0) {
+			public void onStatus(Status status) {
 				// TODO 自動生成されたメソッド・スタブ
 
 			}
