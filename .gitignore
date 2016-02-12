@@ -8,6 +8,8 @@
 !/src/
 !/gradle
 !/gradle/
+!/lib
+!/lib/
 !/build.gradle
 !/gradlew
 !/gradlew.bat
