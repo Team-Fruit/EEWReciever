@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.bebehp.mc.eewreciever.ping.IAPIPath;
+import com.bebehp.mc.eewreciever.ping.QuakeException;
+import com.bebehp.mc.eewreciever.ping.QuakeNode;
+
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -13,7 +17,7 @@ import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class TweetStream{
+public class TweetStream implements IAPIPath {
 	Configuration configuration = new ConfigurationBuilder()
 			.setOAuthConsumerKey("mh5mOJhrXkVarLLdNgDn2QFRO")
 			.setOAuthConsumerSecret("NbBfZ5ytY47IniUEOoFOIk0wqfOuByzqMzK26DqvH9GhVL0K3E")
@@ -67,4 +71,10 @@ public class TweetStream{
 		}
 
 	};
+
+	@Override
+	public List<QuakeNode> getQuake() throws QuakeException {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
 }
