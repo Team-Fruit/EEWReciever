@@ -33,7 +33,7 @@ public class QuakeNode {
 				"【最大震度" + this.strong + "】(気象庁発表)" +
 				this.where +
 				" 深さ約" + this.deep +
-				" M" + this.magnitude + " " +
+				" M" + this.magnitude +
 				this.time + "頃発生 " +
 				(this.tsunami ?
 					"揺れが強かった沿岸部では、念のため津波に注意してください" :
