@@ -22,7 +22,7 @@ public class P2PQuake implements IQuake {
 	public static final String API_PATH = "http://api.p2pquake.net/userquake";
 	public static long WaitMilliSeconds = 1000 * 15;
 
-	private List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
+	private static List<AbstractQuakeNode> empty = new LinkedList<AbstractQuakeNode>();
 
 	public String getURL() {
 		SimpleDateFormat format = new SimpleDateFormat("M/d");
@@ -67,7 +67,7 @@ public class P2PQuake implements IQuake {
 	@Override
 	public List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException
 	{
-		List<AbstractQuakeNode> update = null;
+		List<AbstractQuakeNode> update = empty;
 
 		long nowtime = new Date().getTime();
 		if (nowtime - lasttime > WaitMilliSeconds)
