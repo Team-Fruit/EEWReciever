@@ -3,7 +3,6 @@ package com.bebehp.mc.eewreciever.twitter;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.IQuake;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
@@ -31,13 +30,18 @@ public class TweetQuake implements IQuake {
 		listener = new StatusAdapter() {
 			@Override
 			public void onStatus(Status status) {
-				String str = (status.getText());
-
-				try {
-					updatequeue.add(new TweetQuakeNode().parseString(str));
-				} catch (QuakeException e) {
-					EEWRecieverMod.logger.error(e);
-				}
+//				try {
+//					String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
+//					String str = new String(status.getText().getBytes("8859_1"), "UTF-8");
+//					updatequeue.add(new TweetQuakeNode().parseString(str));
+					System.out.println(status.getText());
+//				} catch (QuakeException e) {
+//					e.printStackTrace();
+//					EEWRecieverMod.logger.error(e);
+//				} catch (UnsupportedEncodingException e) {
+//					// TODO 自動生成された catch ブロック
+//					e.printStackTrace();
+//				}
 			}
 		};
 		twitterStream.addListener(listener);

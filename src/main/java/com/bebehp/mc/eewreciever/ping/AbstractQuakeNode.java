@@ -30,7 +30,6 @@ public abstract class AbstractQuakeNode {
 	 * マグニチュード
 	 */
 	protected float magnitude;
-	protected boolean modified;
 	protected QuakeLocation location;
 
 	@Override

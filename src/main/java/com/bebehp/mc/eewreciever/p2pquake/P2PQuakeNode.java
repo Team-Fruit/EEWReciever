@@ -8,6 +8,7 @@ import com.bebehp.mc.eewreciever.ping.QuakeException;
 public class P2PQuakeNode extends AbstractQuakeNode {
 	protected P2PQuakeNodeQuakeType quaketype;
 	protected boolean tsunami;
+	protected boolean modified;
 	protected String type;
 
 	@Override
