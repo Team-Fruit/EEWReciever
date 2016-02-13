@@ -31,6 +31,15 @@ public class EEWRecieverMod
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
+/*	@SubscribeEvent
+	public void onServerChat(ServerChatEvent event)
+	{
+		if (event.message.contains("fuck"))
+		{
+			sendServerChat("ygagjaxn§2yja\nuxreugy\nuiknhafx");
+		}
+	}*/
+
 /*
 	@SubscribeEvent
 	public void onServerChat(ServerChatEvent event)
