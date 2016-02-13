@@ -50,6 +50,13 @@ public class TweetStream implements IAPIPath {
 		try {
 			String[] tnode = text.split(",", 0);
 
+			//node.Telegram = tnode[0];
+			//node.Training = tnode[1];
+			//node.Announcementtime =
+			//node.Announcement = tnode[3]
+			//node.Telegramnumber = tnode[4]
+			//node.Quakenumber = tnode[5]
+			node.time =
 
 		} catch (Exception e) {
 			throw new QuakeException("parse error", e);
