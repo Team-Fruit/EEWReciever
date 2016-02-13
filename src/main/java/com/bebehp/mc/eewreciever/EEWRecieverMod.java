@@ -13,6 +13,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -77,8 +78,14 @@ public class EEWRecieverMod
 
 	public static void sendServerChat(String msg)
 	{
-		FMLCommonHandler.instance().getMinecraftServerInstance()
-			.getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
+		ServerConfigurationManager sender = FMLCommonHandler.instance().getMinecraftServerInstance()
+			.getConfigurationManager();
+
+		String[] linemsg = msg.split("\n");
+		for (String line : linemsg)
+		{
+			sender.sendChatMsg(new ChatComponentText(line));
+		}
 	}
 /*
 	public static void fireworksAllPlayer()
