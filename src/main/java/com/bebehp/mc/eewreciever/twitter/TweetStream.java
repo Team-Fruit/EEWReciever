@@ -34,7 +34,6 @@ public class TweetStream implements IAPIPath {
 		public  void onStatus(Status status) {
 			// TODO 自動生成されたメソッド・スタブ
 			String str = (status.getText());
-			String[] tnode = str.split(",", 0);
 
 			try {
 				updatequeue.add(parseString(str));
