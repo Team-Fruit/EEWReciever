@@ -3,13 +3,14 @@ package com.bebehp.mc.eewreciever.ping;
 import java.util.List;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.p2pquake.P2PQuake;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public class QuakeMain {
 
-	final IAPIPath getter = new APIPathP2PQUAKE();
+	final IQuake getter = new P2PQuake();
 
 	long lasttime;
 	@SubscribeEvent
@@ -21,11 +22,11 @@ public class QuakeMain {
 		}
 	}
 
-	public void printUpdate(List<QuakeNode> update)
+	public void printUpdate(List<AbstractQuakeNode> update)
 	{
 		if (!update.isEmpty())
 		{
-			for (QuakeNode up : update)
+			for (AbstractQuakeNode up : update)
 			{
 				if ("QUA".equals(up.type))
 				{

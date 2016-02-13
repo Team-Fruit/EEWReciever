@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.ping;
+package com.bebehp.mc.eewreciever.p2pquake;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,29 +12,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
+import com.bebehp.mc.eewreciever.ping.IQuake;
+import com.bebehp.mc.eewreciever.ping.QuakeException;
 
-public class APIPathP2PQUAKE implements IAPIPath {
+public class P2PQuake implements IQuake {
 //			EEWRecieverMod.logger.info(EEWRecieverMod.owner + " has some problem about [" + e.getMessage() + "].");
 
 	public static final String API_PATH = "http://api.p2pquake.net/userquake";
 	public static long WaitMilliSeconds = 1000 * 15;
-
-	public static final String[] quakeType = new String[] {
-			"震度速報",
-			"震源情報",
-			"震源・震度情報",
-			"震源・詳細震度情報",
-			"遠地地震情報"
-	};
 
 	public String getURL() {
 		SimpleDateFormat format = new SimpleDateFormat("M/d");
 		return API_PATH + "?date=" + format.format(new Date());
 	}
 
-	public List<QuakeNode> dlData(String path) throws IOException, QuakeException
+	public List<AbstractQuakeNode> dlData(String path) throws IOException, QuakeException
 	{
-		List<QuakeNode> list = new LinkedList<QuakeNode>();
+		List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>();
 
 		URL url = new URL(path);
 		URLConnection connection = url.openConnection();
@@ -48,38 +43,16 @@ public class APIPathP2PQUAKE implements IAPIPath {
 
 		String line;
 		while ((line = reader.readLine()) != null) {
-			list.add(parseString(line));
+			list.add(new P2PQuakeNode().parseString(line));
 		}
 		is.close();
 
 		return list;
 	}
 
-	public static QuakeNode parseString(String text) throws QuakeException
-	{
-		QuakeNode node = new QuakeNode();
-		try {
-			String[] data = text.split("/");
-			String[] time = data[0].split(",");
 
-			node.uptime = new SimpleDateFormat("HH:mm:ss").parse(time[0]).getTime();
-			node.type = time[1];
-			node.time = time[2];
-			node.strong = Integer.parseInt(data[1]);
-			node.tsunami = "1".equals(data[2]);
-			node.quaketype = quakeType[Integer.parseInt(data[3])-1];
-			node.where = data[4];
-			node.deep = data[5];
-			node.magnitude = Float.parseFloat(data[6]);
-			node.modified = "1".equals(data[7]);
-			node.point = new String[] {data[8], data[9]};
-		} catch (Exception e) {
-			throw new QuakeException("parse error", e);
-		}
-		return node;
-	}
 
-	public List<QuakeNode> getQuake() throws QuakeException {
+	public List<AbstractQuakeNode> getQuake() throws QuakeException {
 		try {
 			return dlData(getURL());
 		} catch (IOException e) {
@@ -88,18 +61,18 @@ public class APIPathP2PQUAKE implements IAPIPath {
 	}
 
 	long lasttime;
-	List<QuakeNode> before;
+	List<AbstractQuakeNode> before;
 	@Override
-	public List<QuakeNode> getQuakeUpdate() throws QuakeException
+	public List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException
 	{
-		List<QuakeNode> update = null;
+		List<AbstractQuakeNode> update = null;
 
 		long nowtime = new Date().getTime();
 		if (nowtime - lasttime > WaitMilliSeconds)
 		{
 			lasttime = nowtime;
-			List<QuakeNode> now = this.getQuake();
-			if (before != null) update = QuakeNode.getUpdate(before, now);
+			List<AbstractQuakeNode> now = this.getQuake();
+			if (before != null) update = AbstractQuakeNode.getUpdate(before, now);
 			before = now;
 		}
 
