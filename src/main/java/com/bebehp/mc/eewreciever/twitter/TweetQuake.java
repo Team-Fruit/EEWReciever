@@ -17,13 +17,12 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class TweetQuake implements IQuake {
-	private List<AbstractQuakeNode> updatequeue;
+	private List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
 	private Configuration configuration;
 	private TwitterStream twitterStream;
 	private StatusListener listener;
 
 	public TweetQuake() {
-		updatequeue = new LinkedList<AbstractQuakeNode>();
 		configuration = new ConfigurationBuilder().setOAuthConsumerKey("mh5mOJhrXkVarLLdNgDn2QFRO")
 				.setOAuthConsumerSecret("NbBfZ5ytY47IniUEOoFOIk0wqfOuByzqMzK26DqvH9GhVL0K3E")
 				.setOAuthAccessToken("4893957312-30hXziVjdX0ZHzH6OJCv0eWAJmaDgyqR7Wwfjob")

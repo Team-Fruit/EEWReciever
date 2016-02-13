@@ -6,27 +6,51 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class AbstractQuakeNode {
-	protected Date uptime;
-	protected String type;
+	/**
+	 * 更新日時
+	 */
+	protected Date announcementtime;
+	/**
+	 * 発生日時
+	 */
 	protected Date time;
+	/**
+	 * 震度
+	 */
 	protected int strong;
-	protected String quaketype;
+	/**
+	 * 震央
+	 */
 	protected String where;
+	/**
+	 * 深さ
+	 */
 	protected String deep;
+	/**
+	 * マグニチュード
+	 */
 	protected float magnitude;
 	protected boolean modified;
-	protected String[] point;
+	protected QuakeLocation location;
 
 	@Override
 	public boolean equals(Object o)
 	{
 		if (o instanceof AbstractQuakeNode)
-			return ((AbstractQuakeNode)o).uptime == this.uptime;
+			return ((AbstractQuakeNode)o).announcementtime == this.announcementtime;
 		else
 			return false;
 	}
 
-	public abstract String toString();
+	public String toString()
+	{
+		return "【最大震度" + this.strong + "】(気象庁発表)" +
+				this.where +
+				" 深さ約" + this.deep +
+				" M" + this.magnitude +
+				this.time + "頃発生 " +
+				"[" + this.location + "]";
+	}
 
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
 

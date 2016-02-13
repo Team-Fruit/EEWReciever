@@ -6,15 +6,9 @@ import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 
 public class P2PQuakeNode extends AbstractQuakeNode {
+	protected P2PQuakeNodeQuakeType quaketype;
 	protected boolean tsunami;
-
-	public static final String[] quakeType = new String[] {
-			"震度速報",
-			"震源情報",
-			"震源・震度情報",
-			"震源・詳細震度情報",
-			"遠地地震情報"
-	};
+	protected String type;
 
 	@Override
 	public P2PQuakeNode parseString(String text) throws QuakeException
@@ -23,17 +17,17 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			String[] data = text.split("/");
 			String[] time = data[0].split(",");
 
-			this.uptime = new SimpleDateFormat("HH:mm:ss").parse(time[0]);
+			this.announcementtime = new SimpleDateFormat("HH:mm:ss").parse(time[0]);
 			this.type = time[1];
 			this.time = new SimpleDateFormat("dd日HH時mm分").parse(time[2]);
 			this.strong = Integer.parseInt(data[1]);
 			this.tsunami = "1".equals(data[2]);
-			this.quaketype = quakeType[Integer.parseInt(data[3])-1];
+			this.quaketype = P2PQuakeNodeQuakeType.parseString(data[3]);
 			this.where = data[4];
 			this.deep = data[5];
 			this.magnitude = Float.parseFloat(data[6]);
 			this.modified = "1".equals(data[7]);
-			this.point = new String[] {data[8], data[9]};
+			this.location = new P2PQuakeLocation(data[8], data[9]);
 		} catch (Exception e) {
 			throw new QuakeException("parse error", e);
 		}
@@ -53,6 +47,6 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 				(this.tsunami ?
 					"揺れが強かった沿岸部では、念のため津波に注意してください" :
 						"この地震による津波の心配はありません。") +
-				"[" + this.point[0] + ":" + this.point[1] + "]";
+				"[" + this.location + "]";
 	}
 }

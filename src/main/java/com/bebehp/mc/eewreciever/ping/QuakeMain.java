@@ -28,10 +28,10 @@ public class QuakeMain {
 		{
 			for (AbstractQuakeNode up : update)
 			{
-				if ("QUA".equals(up.type))
-				{
+//				if ("QUA".equals(up.type))
+//				{
 					EEWRecieverMod.sendServerChat(up.toString());
-				}
+//				}
 			}
 		}
 	}

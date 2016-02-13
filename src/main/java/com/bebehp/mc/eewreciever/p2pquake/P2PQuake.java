@@ -22,6 +22,8 @@ public class P2PQuake implements IQuake {
 	public static final String API_PATH = "http://api.p2pquake.net/userquake";
 	public static long WaitMilliSeconds = 1000 * 15;
 
+	private List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
+
 	public String getURL() {
 		SimpleDateFormat format = new SimpleDateFormat("M/d");
 		return API_PATH + "?date=" + format.format(new Date());
