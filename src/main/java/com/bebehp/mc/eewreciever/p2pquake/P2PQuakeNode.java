@@ -7,7 +7,7 @@ import com.bebehp.mc.eewreciever.ping.QuakeException;
 
 public class P2PQuakeNode extends AbstractQuakeNode {
 	protected P2PQuakeNodeQuakeType quaketype;
-	protected boolean tsunami;
+	protected P2PQuakeNodeTsunami tsunami;
 	protected boolean modified;
 	protected String type;
 
@@ -22,7 +22,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			this.type = time[1];
 			this.time = new SimpleDateFormat("dd日HH時mm分").parse(time[2]);
 			this.strong = Integer.parseInt(data[1]);
-			this.tsunami = "1".equals(data[2]);
+			this.tsunami = P2PQuakeNodeTsunami.parseString(data[2]);
 			this.quaketype = P2PQuakeNodeQuakeType.parseString(data[3]);
 			this.where = data[4];
 			this.deep = data[5];
@@ -45,9 +45,10 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 				" 深さ約" + this.deep +
 				" M" + this.magnitude +
 				this.time.toString() + "頃発生 " +
-				(this.tsunami ?
-					"揺れが強かった沿岸部では、念のため津波に注意してください" :
-						"この地震による津波の心配はありません。") +
+				this.tsunami +
+//				(this.tsunami ?
+//					"揺れが強かった沿岸部では、念のため津波に注意してください" :
+//						"この地震による津波の心配はありません。") +
 				"[" + this.location + "]";
 	}
 }
