@@ -36,20 +36,6 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 		return this;
 	}
 
-	private void qspeedmagnitude(float magnitude) throws QuakeException
-	{
-		if (0 >= this.magnitude){
-			this.magnitude = 0;
-			}
-
-//		try {
-			this.unknownmagnitude = "0".equals(this.magnitude);
-//		} catch (Exception e) {
-//			throw new QuakeException("", e);
-//		}
-
-	}
-
 	@Override
 	public String toString()
 	{
