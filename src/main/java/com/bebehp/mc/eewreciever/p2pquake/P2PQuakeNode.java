@@ -10,6 +10,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 	protected P2PQuakeNodeTsunami tsunami;
 	protected boolean modified;
 	protected String type;
+	protected boolean unknownmagnitude;
 
 	@Override
 	public P2PQuakeNode parseString(String text) throws QuakeException
@@ -32,8 +33,21 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 		} catch (Exception e) {
 			throw new QuakeException("parse error", e);
 		}
-
 		return this;
+	}
+
+	private void qspeedmagnitude(float magnitude) throws QuakeException
+	{
+		if (0 >= this.magnitude){
+			this.magnitude = 0;
+			}
+
+//		try {
+			this.unknownmagnitude = "0".equals(this.magnitude);
+//		} catch (Exception e) {
+//			throw new QuakeException("", e);
+//		}
+
 	}
 
 	@Override
@@ -43,8 +57,8 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 				"【最大震度" + this.strong + "】(気象庁発表)" +
 				this.where +
 				" 深さ約" + this.deep +
-				" M" + this.magnitude +
-				this.time.toString() + "頃発生 " +
+				" M" + (this.unknownmagnitude ? "不明" : this.magnitude) +
+				this.time.toString() + "頃発生\n" +
 				this.tsunami +
 //				(this.tsunami ?
 //					"揺れが強かった沿岸部では、念のため津波に注意してください" :

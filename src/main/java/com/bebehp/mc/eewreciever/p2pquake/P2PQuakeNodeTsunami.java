@@ -3,7 +3,9 @@ package com.bebehp.mc.eewreciever.p2pquake;
 public enum P2PQuakeNodeTsunami {
 	TInfo("揺れが強かった沿岸部では、念のため津波に注意してください。"),
 	TNoTsunami("この地震による津波の心配はありません。"),
-	TTunami("津波発生の可能性があります。テレビやインターネットなどの情報に警戒して下さい。"),
+	TTunami("§4§o[つなみ！にげて！]§rこの地震による津波に関する警報が発表されています！\n"
+			+ "警報が発表されている沿岸部にお住いの方は§n今すぐ避難§rして下さい！\n"
+			+ "§8(この情報は津波予報(若干の海面変動)等の際にも表示されます)§r \n"),
 	TDefault("Unknown");
 
 	private final String name;
