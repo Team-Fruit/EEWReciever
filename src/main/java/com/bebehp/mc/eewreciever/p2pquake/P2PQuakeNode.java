@@ -41,7 +41,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 		return "[" + this.quaketype + "]" +
 				"【最大震度" + this.strong + "】(気象庁発表)" +
 				this.where +
-				" 深さ" + this.magnitude +
+				" 深さ" + this.deep +
 				" M" + (this.magnitude >= 0 ? this.magnitude : "不明") +
 				this.time.toString() + "頃発生\n" +
 				this.tsunami +
