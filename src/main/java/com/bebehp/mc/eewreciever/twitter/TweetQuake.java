@@ -1,5 +1,6 @@
 package com.bebehp.mc.eewreciever.twitter;
 
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,22 +31,22 @@ public class TweetQuake implements IQuake {
 		listener = new StatusAdapter() {
 			@Override
 			public void onStatus(Status status) {
-//				try {
-//					String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
+				try {
+					String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
 //					String str = new String(status.getText().getBytes("8859_1"), "UTF-8");
-//					updatequeue.add(new TweetQuakeNode().parseString(str));
+					updatequeue.add(new TweetQuakeNode().parseString(str));
 					System.out.println(status.getText());
-//				} catch (QuakeException e) {
-//					e.printStackTrace();
-//					EEWRecieverMod.logger.error(e);
-//				} catch (UnsupportedEncodingException e) {
-//					// TODO 自動生成された catch ブロック
-//					e.printStackTrace();
-//				}
+				} catch (UnsupportedEncodingException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				} catch (QuakeException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
 			}
 		};
 		twitterStream.addListener(listener);
-		twitterStream.sample();
+		twitterStream.user();
 	}
 
 	@Override
