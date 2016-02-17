@@ -36,7 +36,7 @@ public abstract class AbstractQuakeNode {
 	public boolean equals(Object o)
 	{
 		if (o instanceof AbstractQuakeNode)
-			return ((AbstractQuakeNode)o).announcementtime == this.announcementtime;
+			return this.announcementtime.equals(((AbstractQuakeNode)o).announcementtime);
 		else
 			return false;
 	}
