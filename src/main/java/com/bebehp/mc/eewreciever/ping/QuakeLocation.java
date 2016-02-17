@@ -22,6 +22,6 @@ public class QuakeLocation {
 
 	public String toStringWE()
 	{
-		return ((we < 90) ? ("東経" + we) : ("西経" + (90-we))) + "°";
+		return ((we > 90) ? ("東経" + we) : ("西経" + (90-we))) + "°";
 	}
 }

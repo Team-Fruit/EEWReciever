@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.bebehp.mc.eewreciever.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.IQuake;
@@ -44,7 +45,7 @@ public class TweetQuake implements IQuake {
 			}
 		};
 		twitterStream.addListener(listener);
-		twitterStream.user();
+		if(ConfigurationHandler.twitterEnable) twitterStream.user();
 	}
 
 	@Override

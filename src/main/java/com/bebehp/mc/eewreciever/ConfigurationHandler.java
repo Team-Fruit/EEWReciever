@@ -15,6 +15,10 @@ public class ConfigurationHandler {
 	public static boolean twitterEnable = TWITTER_ENABLE_DEFAULT;
 	public static Property propTwitterEnable = null;
 
+	public static final boolean TWITTER_LEVEL_DEFAULT = true;
+	public static boolean twitterLevel = TWITTER_LEVEL_DEFAULT;
+	public static Property propTwitterLevel = null;
+
 	public static final boolean P2PQUAKE_ENABLE_DEFAULT = true;
 	public static boolean p2pQuakeEnable = TWITTER_ENABLE_DEFAULT;
 	public static Property propP2PQuakeEnable = null;
@@ -30,6 +34,10 @@ public class ConfigurationHandler {
 		propTwitterEnable = configuration.get("EEW", "isTwitterAPIEnabled",
 				TWITTER_ENABLE_DEFAULT, "Enabling this, it'll be cheking with twitter API.");
 		twitterEnable = propTwitterEnable.getBoolean();
+
+		propTwitterLevel = configuration.get("EEW", "levelTwitter",
+				TWITTER_LEVEL_DEFAULT, "Enabling this, it'll be strict mode.");
+		twitterLevel = propTwitterLevel.getBoolean();
 
 		propP2PQuakeEnable = configuration.get("EEW", "isP2PQuakeAPIEnabled",
 				P2PQUAKE_ENABLE_DEFAULT, "Enabling this, it'll be cheking with p2pQuake API.");
