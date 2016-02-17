@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.IQuake;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
@@ -33,13 +34,12 @@ public class TweetQuake implements IQuake {
 			public void onStatus(Status status) {
 				try {
 					String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
-//					String str = new String(status.getText().getBytes("8859_1"), "UTF-8");
 					updatequeue.add(new TweetQuakeNode().parseString(str));
-//					System.out.println(status.getText());
+					EEWRecieverMod.logger.info(status.getText());
 				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
+					EEWRecieverMod.logger.error("Encode Error", e);
 				} catch (QuakeException e) {
-					e.printStackTrace();
+					EEWRecieverMod.logger.error("Recieve Error", e);
 				}
 			}
 		};
