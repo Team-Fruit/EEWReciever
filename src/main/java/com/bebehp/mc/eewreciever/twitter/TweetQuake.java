@@ -35,12 +35,10 @@ public class TweetQuake implements IQuake {
 					String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
 //					String str = new String(status.getText().getBytes("8859_1"), "UTF-8");
 					updatequeue.add(new TweetQuakeNode().parseString(str));
-					System.out.println(status.getText());
+//					System.out.println(status.getText());
 				} catch (UnsupportedEncodingException e) {
-					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				} catch (QuakeException e) {
-					// TODO 自動生成された catch ブロック
 					e.printStackTrace();
 				}
 			}
