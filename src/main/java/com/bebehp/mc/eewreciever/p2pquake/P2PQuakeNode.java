@@ -3,9 +3,13 @@ package com.bebehp.mc.eewreciever.p2pquake;
 import java.text.SimpleDateFormat;
 
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
+import com.bebehp.mc.eewreciever.ping.MyNumber;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 
 public class P2PQuakeNode extends AbstractQuakeNode {
+	private static final SimpleDateFormat dateformat1 = new SimpleDateFormat("HH:mm:ss");
+	private static final SimpleDateFormat dateformat2 = new SimpleDateFormat("dd日HH時mm分");
+
 	protected P2PQuakeNodeQuakeType quaketype;
 	protected P2PQuakeNodeTsunami tsunami;
 	protected boolean modified;
@@ -18,15 +22,15 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			String[] data = text.split("/");
 			String[] time = data[0].split(",");
 
-			this.announcementtime = new SimpleDateFormat("HH:mm:ss").parse(time[0]);
+			this.announcementtime = dateformat1.parse(time[0]);
 			this.type = time[1];
-			this.time = new SimpleDateFormat("dd日HH時mm分").parse(time[2]);
-			this.strong = Integer.parseInt(data[1]);
+			this.time = dateformat2.parse(time[2]);
+			this.strong = new MyNumber(data[1]);
 			this.tsunami = P2PQuakeNodeTsunami.parseString(data[2]);
 			this.quaketype = P2PQuakeNodeQuakeType.parseString(data[3]);
 			this.where = data[4];
 			this.deep = data[5];
-			this.magnitude = Float.parseFloat(data[6]);
+			this.magnitude = new MyNumber(data[6]);
 			this.modified = "1".equals(data[7]);
 			this.location = new P2PQuakeLocation(data[8], data[9]);
 		} catch (Exception e) {
@@ -42,7 +46,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 				"【最大震度" + this.strong + "】(気象庁発表)" +
 				this.where +
 				" 深さ" + this.deep +
-				" M" + (this.magnitude >= 0 ? this.magnitude : "不明") +
+				this.magnitude.format((this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : "不明"), "不明") +
 				this.time.toString() + "頃発生\n" +
 				this.tsunami +
 //				(this.tsunami ?

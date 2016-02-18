@@ -17,7 +17,7 @@ public abstract class AbstractQuakeNode {
 	/**
 	 * 震度
 	 */
-	protected int strong;
+	protected MyNumber strong;
 	/**
 	 * 震央
 	 */
@@ -29,7 +29,7 @@ public abstract class AbstractQuakeNode {
 	/**
 	 * マグニチュード
 	 */
-	protected float magnitude;
+	protected MyNumber magnitude;
 	protected QuakeLocation location;
 
 	@Override
