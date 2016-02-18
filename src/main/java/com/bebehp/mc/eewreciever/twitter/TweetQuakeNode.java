@@ -46,7 +46,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString()
 	{
-		return String.format("%s %s %s %s 第%d報\n 最大震度(推定):%s 震央地名:%s マグニチュード(推定):%s 震源の深さ(推定):%s 地震発生時刻%s %s",
+		return String.format("%s %s %s %s 第%d報\n 最大震度(推定):%s 震央地名:%s マグニチュード(推定):%s 震源の深さ(推定):%s 地震発生時刻%s %s%s",
 				(this.training ? "[訓練です]" : ""),
 				(this.canceled ? "[誤報]" : ""),
 				this.announcement,
@@ -57,7 +57,8 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 				this.magnitude,
 				this.deep,
 				this.time,
-				this.location
+				this.location,
+				(this.alarm ? "\n身の安全を確保してください。\n倒れてくる家具などから離れ、机など頑丈な物の下に隠れてください。" : "")
 		);
 	}
 }
