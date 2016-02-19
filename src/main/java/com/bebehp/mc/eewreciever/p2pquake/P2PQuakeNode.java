@@ -1,6 +1,7 @@
 package com.bebehp.mc.eewreciever.p2pquake;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.MyNumber;
@@ -19,8 +20,8 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 	public P2PQuakeNode parseString(String text) throws QuakeException
 	{
 		try {
-			String[] data = text.split("/");
-			String[] time = data[0].split(",");
+			String[] data = Arrays.copyOf(text.split("/"), 9);
+			String[] time = Arrays.copyOf(data[0].split(","), 3);
 
 			this.announcementtime = dateformat1.parse(time[0]);
 			this.type = time[1];
