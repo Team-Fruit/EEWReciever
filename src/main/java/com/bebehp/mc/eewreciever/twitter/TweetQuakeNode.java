@@ -37,7 +37,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			this.time = dateformat.parse(tnode.get(6));
 			this.location = new TweetQuakeLocation(tnode.get(7), tnode.get(8));
 			this.where = tnode.get(9);
-			this.deep = tnode.get(10) + "km";
+			this.deep = tnode.get(10);
 			this.magnitude = new MyNumber(tnode.get(11));
 			this.strong = new MyNumber(tnode.get(12));
 			this.landorsea = "1".equals(tnode.get(13));
@@ -52,7 +52,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString()
 	{
-		return String.format("%s%s%s %s %s\n %s 震央地名:%s %s 震源の深さ(推定):%s 地震発生時刻%s %s%s",
+		return String.format("%s%s%s %s %s\n %s 震央地名:%s %s 震源の深さ(推定):%skm 地震発生時刻%s %s%s",
 				(this.training ? "[訓練です]" : ""),
 				(this.canceled ? "[誤報]" : ""),
 				this.announcement,
