@@ -1,30 +1,27 @@
 package com.bebehp.mc.eewreciever.p2pquake;
 
+import com.bebehp.mc.eewreciever.ping.MyNumber;
 import com.bebehp.mc.eewreciever.ping.QuakeLocation;
 
 public class P2PQuakeLocation extends QuakeLocation {
-	public P2PQuakeLocation(float ns, float we) {
-		super(ns, we);
-	}
-
 	public P2PQuakeLocation(String ns, String we) {
 		super(parseNS(ns), parseWE(we));
 	}
 
-	public static float parseNS(String ns)
+	public static MyNumber parseNS(String ns)
 	{
-		float nsf = Float.parseFloat(ns.substring(1));
+		MyNumber nsf = new MyNumber(ns.substring(1));
 		if ("S".equals(ns.substring(0, 0))) {
-			nsf = 180 - nsf;
+			nsf = new MyNumber(180 - nsf.getNumber(0).floatValue());
 		}
 		return nsf;
 	}
 
-	public static float parseWE(String we)
+	public static MyNumber parseWE(String we)
 	{
-		float wef = Float.parseFloat(we.substring(1));
+		MyNumber wef = new MyNumber(we.substring(1));
 		if ("W".equals(we.substring(0, 0))) {
-			wef = 180 - wef;
+			wef = new MyNumber(180 - wef.getNumber(0).floatValue());
 		}
 		return wef;
 	}

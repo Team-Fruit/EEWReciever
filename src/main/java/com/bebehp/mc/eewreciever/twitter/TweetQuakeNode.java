@@ -30,16 +30,16 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 
 			this.canceled = "39".equals(tnode[0]);
 			this.training = "01".equals(tnode[1]);
-			this.announcementtime = dateformat.parse(tnode[2]);
+			this.announcementtime = (tnode[2]!=null) ?dateformat.parse(tnode[2]) : null;
 			this.announcement = AnnouncementType.parseString(tnode[3]);
 			this.telegramnumber = new MyNumber(tnode[4]);
 			this.quakenumber = tnode[5];
-			this.time = dateformat.parse(tnode[6]);
+			this.time = (tnode[6]!=null) ?dateformat.parse(tnode[6]) : null;
 			this.location = new TweetQuakeLocation(tnode[7], tnode[8]);
 			this.where = tnode[9];
 			this.deep = tnode[10];
 			this.magnitude = new MyNumber(tnode[11]);
-			this.strong = new MyNumber(tnode[12]);
+			this.strong =  tnode[12];
 			this.landorsea = "1".equals(tnode[13]);
 			this.alarm = "1".equals(tnode[14]);
 

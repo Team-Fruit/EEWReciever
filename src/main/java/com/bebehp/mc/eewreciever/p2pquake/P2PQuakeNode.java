@@ -20,13 +20,13 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 	public P2PQuakeNode parseString(String text) throws QuakeException
 	{
 		try {
-			String[] data = Arrays.copyOf(text.split("/"), 9);
+			String[] data = Arrays.copyOf(text.split("/"), 10);
 			String[] time = Arrays.copyOf(data[0].split(","), 3);
 
-			this.announcementtime = dateformat1.parse(time[0]);
+			this.announcementtime = (time[0]!=null) ? dateformat1.parse(time[0]) : null;
 			this.type = time[1];
-			this.time = dateformat2.parse(time[2]);
-			this.strong = new MyNumber(data[1]);
+			this.time = (time[2]!=null) ? dateformat2.parse(time[2]) : null;
+			this.strong = data[1];
 			this.tsunami = P2PQuakeNodeTsunami.parseString(data[2]);
 			this.quaketype = P2PQuakeNodeQuakeType.parseString(data[3]);
 			this.where = data[4];
@@ -48,7 +48,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 				this.where +
 				" 深さ" + this.deep +
 				this.magnitude.format((this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : "不明"), "不明") +
-				this.time.toString() + "頃発生\n" +
+				((this.time!=null) ? (this.time + "頃発生\n") : "") +
 				this.tsunami +
 //				(this.tsunami ?
 //					"揺れが強かった沿岸部では、念のため津波に注意してください" :

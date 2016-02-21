@@ -17,7 +17,7 @@ public abstract class AbstractQuakeNode {
 	/**
 	 * 震度
 	 */
-	protected MyNumber strong;
+	protected String strong;
 	/**
 	 * 震央
 	 */
@@ -35,7 +35,9 @@ public abstract class AbstractQuakeNode {
 	@Override
 	public boolean equals(Object o)
 	{
-		if (o instanceof AbstractQuakeNode)
+		if (this.announcementtime == null && o == null)
+			return true;
+		if (this.announcementtime != null && o instanceof AbstractQuakeNode)
 			return this.announcementtime.equals(((AbstractQuakeNode)o).announcementtime);
 		else
 			return false;

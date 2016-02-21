@@ -9,16 +9,16 @@ import java.math.BigDecimal;
 public class MyNumber {
 	private final BigDecimal number;
 
-	public MyNumber(Number number) {
-		this.number = new BigDecimal(number.toString());
-	}
-
 	public MyNumber() {
 		this.number = null;
 	}
 
 	public MyNumber(String number) {
-		this.number = new BigDecimal(number);
+		this.number = newDecimal(number);
+	}
+
+	public MyNumber(Number number) {
+		this(number.toString());
 	}
 
 	public BigDecimal getNumber()
@@ -28,7 +28,7 @@ public class MyNumber {
 
 	public BigDecimal getNumber(Number defaultnum)
 	{
-		return (number != null) ? number : new BigDecimal(defaultnum.toString());
+		return (number != null) ? number : newDecimal(defaultnum.toString());
 	}
 
 	@Override
@@ -53,6 +53,15 @@ public class MyNumber {
 			return String.format(format, number);
 		} else {
 			return defaultstr;
+		}
+	}
+
+	public static BigDecimal newDecimal(String str) {
+		if (str == null) return null;
+		try {
+			return new BigDecimal(str);
+		} catch (NullPointerException e) {
+			return null;
 		}
 	}
 }

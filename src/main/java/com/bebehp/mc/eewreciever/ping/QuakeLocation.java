@@ -1,10 +1,10 @@
 package com.bebehp.mc.eewreciever.ping;
 
 public class QuakeLocation {
-	public final float ns;
-	public final float we;
+	public final MyNumber ns;
+	public final MyNumber we;
 
-	public QuakeLocation(float ns, float we) {
+	public QuakeLocation(MyNumber ns, MyNumber we) {
 		this.ns = ns;
 		this.we = we;
 	}
@@ -17,11 +17,13 @@ public class QuakeLocation {
 
 	public String toStringNS()
 	{
-		return ((ns < 90) ? ("北緯" + ns) : ("南緯" + (90-ns))) + "°";
+		double nsn = ns.getNumber(0).floatValue();
+		return ((nsn < 90) ? ("北緯" + nsn) : ("南緯" + (90-nsn))) + "°";
 	}
 
 	public String toStringWE()
 	{
-		return ((we > 90) ? ("東経" + we) : ("西経" + (90-we))) + "°";
+		double wen = we.getNumber(0).floatValue();
+		return ((wen > 90) ? ("東経" + wen) : ("西経" + (90-wen))) + "°";
 	}
 }
