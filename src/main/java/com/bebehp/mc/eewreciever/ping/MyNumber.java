@@ -9,10 +9,17 @@ import java.math.BigDecimal;
 public class MyNumber {
 	private final BigDecimal number;
 
+	/**
+	 * 値のない(ヌルヌルな)マイナンバーです(こんなマイナンバーあってたまるかｗｗ)
+	 */
 	public MyNumber() {
 		this.number = null;
 	}
 
+	/**
+	 * 値が入ったマイナンバー(正常ｗｗ)
+	 * @param number
+	 */
 	public MyNumber(String number) {
 		this.number = newDecimal(number);
 	}
@@ -60,7 +67,7 @@ public class MyNumber {
 		if (str == null) return null;
 		try {
 			return new BigDecimal(str);
-		} catch (NullPointerException e) {
+		} catch (NumberFormatException e) {
 			return null;
 		}
 	}

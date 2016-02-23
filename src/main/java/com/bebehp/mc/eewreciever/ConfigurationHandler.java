@@ -15,13 +15,13 @@ public class ConfigurationHandler {
 	public static boolean twitterEnable = TWITTER_ENABLE_DEFAULT;
 	public static Property propTwitterEnable = null;
 
-	public static final boolean TWITTER_LEVEL_DEFAULT = true;
-	public static boolean twitterLevel = TWITTER_LEVEL_DEFAULT;
-	public static Property propTwitterLevel = null;
-
 	public static final boolean P2PQUAKE_ENABLE_DEFAULT = true;
 	public static boolean p2pQuakeEnable = TWITTER_ENABLE_DEFAULT;
 	public static Property propP2PQuakeEnable = null;
+
+	public static final boolean FORCE_LEVEL_DEFAULT = true;
+	public static boolean forceLevel = FORCE_LEVEL_DEFAULT;
+	public static Property propForceLevel = null;
 
 	public static void init(File configFile) {
 		if (configuration == null) {
@@ -35,13 +35,13 @@ public class ConfigurationHandler {
 				TWITTER_ENABLE_DEFAULT, "Enabling this, it'll be cheking with twitter API.");
 		twitterEnable = propTwitterEnable.getBoolean();
 
-		propTwitterLevel = configuration.get("EEW", "levelTwitter",
-				TWITTER_LEVEL_DEFAULT, "Enabling this, it'll be strict mode.");
-		twitterLevel = propTwitterLevel.getBoolean();
-
 		propP2PQuakeEnable = configuration.get("EEW", "isP2PQuakeAPIEnabled",
 				P2PQUAKE_ENABLE_DEFAULT, "Enabling this, it'll be cheking with p2pQuake API.");
 		p2pQuakeEnable = propP2PQuakeEnable.getBoolean();
+
+		propForceLevel = configuration.get("EEW", "forceLevel",
+				FORCE_LEVEL_DEFAULT, "Enabling this, it'll be force mode.");
+		forceLevel = propForceLevel.getBoolean();
 
 		if (configuration.hasChanged()) {
 			configuration.save();

@@ -19,23 +19,23 @@ public class QuakeMain {
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent event) {
 		try {
-			if(ConfigurationHandler.p2pQuakeEnable) printUpdate(p2pQuake.getQuakeUpdate());
-			if(ConfigurationHandler.twitterEnable) printUpdate(tweetQuake.getQuakeUpdate());
+			List<AbstractQuakeNode> p2pQuakeNode = p2pQuake.getQuakeUpdate();
+			if(ConfigurationHandler.p2pQuakeEnable) checkUpdate(p2pQuakeNode);
+
+			List<AbstractQuakeNode> tweetQuakeNode = tweetQuake.getQuakeUpdate();
+			if(ConfigurationHandler.twitterEnable) checkUpdate(tweetQuakeNode);
 		} catch (QuakeException e) {
 			EEWRecieverMod.logger.error(e);
 		}
 	}
 
-	public void printUpdate(List<AbstractQuakeNode> update)
+	public void checkUpdate(List<AbstractQuakeNode> update)
 	{
-		if (!update.isEmpty())
+		for (AbstractQuakeNode up : update)
 		{
-			for (AbstractQuakeNode up : update)
+			if (ConfigurationHandler.forceLevel || up.isAlarm())
 			{
-//				if ("QUA".equals(up.type))
-//				{
-					EEWRecieverMod.sendServerChat(up.toString());
-//				}
+				EEWRecieverMod.sendServerChat(up.toString());
 			}
 		}
 	}

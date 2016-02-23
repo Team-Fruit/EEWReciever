@@ -37,12 +37,12 @@ public enum P2PQuakeNodeTsunami {
 
 	public static P2PQuakeNodeTsunami parseString(String type)
 	{
-		P2PQuakeNodeTsunami qtype;
+		P2PQuakeNodeTsunami ttype;
 		try {
-			qtype = parseInt(Integer.parseInt(type));
+			ttype = parseInt(Integer.parseInt(type));
 		} catch(NumberFormatException e) {
-			qtype = TDefault;
+			ttype = TDefault;
 		}
-		return qtype;
+		return ttype;
 	}
 }

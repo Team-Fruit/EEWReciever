@@ -17,7 +17,6 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	protected MyNumber telegramnumber;
 	protected String quakenumber;
 	protected boolean landorsea;
-	protected boolean alarm;
 
 	@Override
 	public TweetQuakeNode parseString(String text) throws QuakeException
@@ -42,22 +41,6 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			this.strong =  tnode[12];
 			this.landorsea = "1".equals(tnode[13]);
 			this.alarm = "1".equals(tnode[14]);
-
-/*			this.canceled = "39".equals(tnode.get(0));
-			this.training = "01".equals(tnode.get(1));
-			this.announcementtime = dateformat.parse(tnode.get(2));
-			this.announcement = AnnouncementType.parseString(tnode.get(3));
-			this.telegramnumber = new MyNumber(tnode.get(4));
-			this.quakenumber = tnode.get(5);
-			this.time = dateformat.parse(tnode.get(6));
-			this.location = new TweetQuakeLocation(tnode.get(7), tnode.get(8));
-			this.where = tnode.get(9);
-			this.deep = tnode.get(10);
-			this.magnitude = new MyNumber(tnode.get(11));
-			this.strong = new MyNumber(tnode.get(12));
-			this.landorsea = "1".equals(tnode.get(13));
-			this.alarm = "1".equals(tnode.get(14));
-*/
 
 		} catch (Exception e) {
 			throw new QuakeException("parse error", e);

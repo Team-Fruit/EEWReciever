@@ -1,6 +1,8 @@
 package com.bebehp.mc.eewreciever.ping;
 
 public class QuakeLocation {
+	public static final String format = "%.2f";
+
 	public final MyNumber ns;
 	public final MyNumber we;
 
@@ -12,18 +14,21 @@ public class QuakeLocation {
 	@Override
 	public String toString()
 	{
-		return toStringNS() + " : " + toStringWE();
+		if (ns != null && we != null)
+			return toStringNS() + " : " + toStringWE();
+		else
+			return "";
 	}
 
 	public String toStringNS()
 	{
 		double nsn = ns.getNumber(0).floatValue();
-		return ((nsn < 90) ? ("北緯" + nsn) : ("南緯" + (90-nsn))) + "°";
+		return ((nsn < 90) ? ("北緯" + String.format(format, nsn)) : ("南緯" + String.format(format, 90-nsn))) + "°";
 	}
 
 	public String toStringWE()
 	{
 		double wen = we.getNumber(0).floatValue();
-		return ((wen > 90) ? ("東経" + wen) : ("西経" + (90-wen))) + "°";
+		return ((wen > 90) ? ("東経" + String.format(format, wen)) : ("西経" + String.format(format, 90-wen))) + "°";
 	}
 }

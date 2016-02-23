@@ -25,6 +25,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 
 			this.announcementtime = (time[0]!=null) ? dateformat1.parse(time[0]) : null;
 			this.type = time[1];
+			this.alarm = "QUA".equals(time[1]);
 			this.time = (time[2]!=null) ? dateformat2.parse(time[2]) : null;
 			this.strong = data[1];
 			this.tsunami = P2PQuakeNodeTsunami.parseString(data[2]);
@@ -35,6 +36,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			this.modified = "1".equals(data[7]);
 			this.location = new P2PQuakeLocation(data[8], data[9]);
 		} catch (Exception e) {
+//			e.printStackTrace();
 			throw new QuakeException("parse error", e);
 		}
 		return this;
