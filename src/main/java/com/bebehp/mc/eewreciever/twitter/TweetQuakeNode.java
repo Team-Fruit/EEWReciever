@@ -38,7 +38,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			this.where = tnode[9];
 			this.deep = tnode[10];
 			this.magnitude = new MyNumber(tnode[11]);
-			this.strong =  tnode[12];
+			this.strong = tnode[12];
 			this.landorsea = "1".equals(tnode[13]);
 			this.alarm = "1".equals(tnode[14]);
 
@@ -51,13 +51,13 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString()
 	{
-		return String.format("%s%s%s %s %s\n %s 震央地名:%s %s 震源の深さ(推定):%skm 地震発生時刻%s %s%s",
+		return String.format("%s%s%s %s %s\n%s 震央地名:%s %s 震源の深さ(推定):%skm 地震発生時刻%s %s%s",
 				(this.training ? "[訓練です]" : ""),
 				(this.canceled ? "[誤報]" : ""),
 				this.announcement,
 				(this.alarm ? "[警報]" : "[予報]"),
 				this.telegramnumber.format("第%s報", ""),
-				this.strong.format("最大震度(推定):%s", ""),
+				String.format("最大震度(推定):%s", this.strong),
 				this.where,
 				this.magnitude.format("マグニチュード(推定):%s", ""),
 				this.deep,
