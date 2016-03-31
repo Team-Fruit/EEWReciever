@@ -24,7 +24,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			String[] time = Arrays.copyOf(data[0].split(","), 3);
 
 			this.announcementtime = (time[0]!=null) ? dateformat1.parse(time[0]) : null;
-			this.type = time[1];
+//			this.type = time[1];
 			this.alarm = "QUA".equals(time[1]);
 			this.time = (time[2]!=null) ? dateformat2.parse(time[2]) : null;
 			this.strong = data[1];
@@ -49,7 +49,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 				"【最大震度" + this.strong + "】(気象庁発表)" +
 				this.where +
 				" 深さ" + this.deep +
-				this.magnitude.format((this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : "不明"), "不明") +
+				this.magnitude.format((this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : " 不明"), "") +
 				((this.time!=null) ? (this.time + "頃発生\n") : "") +
 				this.tsunami +
 //				(this.tsunami ?
