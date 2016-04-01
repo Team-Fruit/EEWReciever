@@ -61,7 +61,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 				this.where,
 				this.magnitude.format("マグニチュード(推定):%s", ""),
 				this.deep,
-				this.time,
+				dateformat.format(this.time),
 				this.location,
 				(this.alarm ? "\n身の安全を確保してください。\n倒れてくる家具などから離れ、机など頑丈な物の下に隠れてください。" : "")
 		);

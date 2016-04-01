@@ -1,7 +1,7 @@
 package com.bebehp.mc.eewreciever.ping;
 
 public class QuakeLocation {
-	public static final String format = "%.2f";
+	public static final String format = "%.1f";
 
 	public final MyNumber ns;
 	public final MyNumber we;
