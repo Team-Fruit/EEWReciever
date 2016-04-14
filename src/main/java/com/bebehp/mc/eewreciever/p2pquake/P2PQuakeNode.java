@@ -45,6 +45,21 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString()
 	{
+		return String.format("[%s] 【最大震度%s】(気象庁発表) %s\n深さ約%s M%s %s頃発生\n%s",
+				this.quaketype,
+				this.strong,
+				this.where,
+				this.deep,
+				this.magnitude,
+//				this.magnitude.format(this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : " 不明", ""),
+				((this.time!=null) ? (dateformat2.format(this.time)) : ""),
+				this.tsunami
+			);
+	}
+
+/*	@Override
+	public String toString()
+	{
 		return "[" + this.quaketype + "]" +
 				"【最大震度" + this.strong + "】(気象庁発表)" +
 				this.where + "\n" +
@@ -52,9 +67,6 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 				String.format((this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : " 不明"), this.magnitude) +
 				((this.time!=null) ? (dateformat2.format(this.time) + "頃発生\n") : "") +
 				this.tsunami +
-//				(this.tsunami ?
-//					"揺れが強かった沿岸部では、念のため津波に注意してください" :
-//						"この地震による津波の心配はありません。") +
 				"[" + this.location + "]";
 	}
-}
+*/}

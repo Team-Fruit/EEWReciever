@@ -1,5 +1,6 @@
 package com.bebehp.mc.eewreciever.ping;
 
+//@Deprecated
 public class QuakeLocation {
 	public static final String format = "%.1f";
 

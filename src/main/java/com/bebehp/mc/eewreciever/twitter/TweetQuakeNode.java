@@ -34,7 +34,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			this.telegramnumber = new MyNumber(tnode[4]);
 			this.quakenumber = tnode[5];
 			this.time = (tnode[6]!=null) ?dateformat.parse(tnode[6]) : null;
-			this.location = new TweetQuakeLocation(tnode[7], tnode[8]);
+//			this.location = new TweetQuakeLocation(tnode[7], tnode[8]);
 			this.where = tnode[9];
 			this.deep = tnode[10];
 			this.magnitude = new MyNumber(tnode[11]);
@@ -51,19 +51,18 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString()
 	{
-		return String.format("%s%s%s %s %s\n%s 震央地名:%s %s\n震源の深さ(推定):%skm 地震発生時刻%s\n%s%s",
+		return String.format("%s%s%s %s %s\n%s 震央地名:%s %s\n震源の深さ(推定):%skm 地震発生時刻:%s%s",
 				(this.training ? "[訓練です]" : ""),
 				(this.canceled ? "[誤報]" : ""),
 				this.announcement,
-				(this.alarm ? "[警報]" : "[予報]"),
+				(this.alarm ? "§4[警報]強い揺れに警戒！§r" : "[予報]"),
 				this.telegramnumber.format("第%s報", ""),
 				String.format("最大震度(推定):%s", this.strong),
 				this.where,
 				this.magnitude.format("マグニチュード(推定):%s", ""),
 				this.deep,
 				dateformat.format(this.time),
-				this.location,
-				(this.alarm ? "\n身の安全を確保してください。\n倒れてくる家具などから離れ、机など頑丈な物の下に隠れてください。" : "")
+				(this.alarm ? "\n身の安全を確保してください。\n倒れやすい家具などから離れ、机など頑丈な物の下に隠れてください。" : "")
 		);
 	}
 }
