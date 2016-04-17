@@ -45,12 +45,13 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString()
 	{
-		return String.format("[%s] 【最大震度%s】(気象庁発表) %s\n深さ約%s M%s %s頃発生\n%s",
+		return String.format("[%s] 【最大震度%s】(気象庁発表) %s\n深さ約%s %s %s頃発生\n%s",
 				this.quaketype,
 				this.strong,
 				this.where,
 				this.deep,
 				this.magnitude,
+//				this,magnitude.format(magnitude.equals("-1.0") ? "M%s" : "不明",""),
 //				this.magnitude.format(this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : " 不明", ""),
 				((this.time!=null) ? (dateformat2.format(this.time)) : ""),
 				this.tsunami
