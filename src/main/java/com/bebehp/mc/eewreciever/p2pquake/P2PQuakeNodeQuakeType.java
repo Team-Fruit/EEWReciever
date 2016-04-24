@@ -1,6 +1,7 @@
 package com.bebehp.mc.eewreciever.p2pquake;
 
 public enum P2PQuakeNodeQuakeType {
+	QUpdate("情報更新"),
 	QSpeedLevelInfo("震度速報"),
 	QCoreInfo("震源情報"),
 	QCoreLevelInfo("震源・震度情報"),
@@ -24,6 +25,8 @@ public enum P2PQuakeNodeQuakeType {
 	{
 		switch(type)
 		{
+			case 0:
+				return QUpdate;
 			case 1:
 				return QSpeedLevelInfo;
 			case 2:
