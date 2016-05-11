@@ -3,7 +3,7 @@ package com.bebehp.mc.eewreciever.p2pquake;
 import com.bebehp.mc.eewreciever.ping.MyNumber;
 import com.bebehp.mc.eewreciever.ping.QuakeLocation;
 
-//@Deprecated
+@Deprecated
 public class P2PQuakeLocation extends QuakeLocation {
 	public P2PQuakeLocation(String ns, String we) {
 		super(parseNS(ns), parseWE(we));

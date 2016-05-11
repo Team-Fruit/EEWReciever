@@ -6,6 +6,7 @@ public enum P2PQuakeNodeTsunami {
 	TTunami("§c§o[つなみ！にげて！]§rこの地震による津波に関する警報が発表されています！\n"
 			+ "警報が発表されている沿岸部にお住いの方は§n今すぐ避難§rして下さい！\n"
 			+ "§8(この情報は津波予報(若干の海面変動)等の際にも表示されます)§r \n"),
+	TUnknown("津波に関する情報は取得できませんでした。"),
 	TDefault("Unknown");
 
 	private final String name;
@@ -30,6 +31,8 @@ public enum P2PQuakeNodeTsunami {
 				return TTunami;
 			case 2:
 				return TInfo;
+			case 3:
+				return TUnknown;
 			default:
 				return TDefault;
 		}

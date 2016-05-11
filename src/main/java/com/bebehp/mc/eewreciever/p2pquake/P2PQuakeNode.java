@@ -34,7 +34,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			this.deep = data[5];
 			this.magnitude = new MyNumber(data[6]);
 			this.modified = "1".equals(data[7]);
-			this.location = new P2PQuakeLocation(data[8], data[9]);
+//			this.location = new P2PQuakeLocation(data[8], data[9]);
 		} catch (Exception e) {
 //			e.printStackTrace();
 			throw new QuakeException("parse error", e);
@@ -51,7 +51,6 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 				this.where,
 				this.deep,
 				this.magnitude,
-//				if(this.magnitude.equals("-1.0")){}else{this.magnitude.format("M%s");},
 //				this,magnitude.format(magnitude.equals("-1.0") ? "M%s" : "不明",""),
 //				this.magnitude.format(this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : " 不明", ""),
 				((this.time!=null) ? (dateformat2.format(this.time)) : ""),

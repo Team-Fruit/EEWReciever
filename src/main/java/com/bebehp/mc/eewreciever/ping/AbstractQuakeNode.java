@@ -30,7 +30,7 @@ public abstract class AbstractQuakeNode {
 	 * マグニチュード
 	 */
 	protected MyNumber magnitude;
-	protected QuakeLocation location;
+//	protected QuakeLocation location;
 	protected boolean alarm;
 
 	public boolean isAlarm() {
@@ -48,14 +48,15 @@ public abstract class AbstractQuakeNode {
 			return false;
 	}
 
+	@Override
 	public String toString()
 	{
-		return "【最大震度" + this.strong + "】(気象庁発表)" +
-				this.where +
-				" 深さ" + this.deep +
-				String.format((this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : " 不明"), this.magnitude) +
-				((this.time!=null) ? (this.time + "頃発生\n") : "") +
-				"[" + this.location + "]";
+		return String.format("[%s] 【最大震度%s】(気象庁発表) %s\n深さ約%s M%s %s頃発生\n%s",
+				this.strong,
+				this.where,
+				this.deep,
+				this.magnitude
+			);
 	}
 
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
