@@ -18,18 +18,18 @@ import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = EEWRecieverMod.owner, name = EEWRecieverMod.owner, version = "2.1")
+@Mod(modid = EEWRecieverMod.owner, name = EEWRecieverMod.owner, version = "2.3")
 public class EEWRecieverMod {
 	public static final String owner = "EEWReciever";
 	public static final Logger logger = LogManager.getLogger(owner);
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(final FMLPreInitializationEvent event) {
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public void init(final FMLInitializationEvent event) {
 		logger.info("EEW is setting up.");
 		FMLCommonHandler.instance().bus().register(new QuakeMain());
 		FMLCommonHandler.instance().bus().register(ConfigurationHandler.INSTANCE);
@@ -61,16 +61,16 @@ public class EEWRecieverMod {
 	 */
 
 	@NetworkCheckHandler
-	public boolean netCheckHandler(Map<String, String> mods, Side side) {
+	public boolean netCheckHandler(final Map<String, String> mods, final Side side) {
 		return true;
 	}
 
-	public static void sendServerChat(String msg) {
-		ServerConfigurationManager sender = FMLCommonHandler.instance().getMinecraftServerInstance()
+	public static void sendServerChat(final String msg) {
+		final ServerConfigurationManager sender = FMLCommonHandler.instance().getMinecraftServerInstance()
 				.getConfigurationManager();
 
-		String[] linemsg = msg.split("\n");
-		for (String line : linemsg) {
+		final String[] linemsg = msg.split("\n");
+		for (final String line : linemsg) {
 			sender.sendChatMsg(new ChatComponentText(line));
 		}
 	}

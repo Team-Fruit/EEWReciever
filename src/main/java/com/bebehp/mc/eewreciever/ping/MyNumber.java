@@ -23,20 +23,20 @@ public class MyNumber {
 	 *
 	 * @param number
 	 */
-	public MyNumber(String number) {
+	public MyNumber(final String number) {
 		this.number = newDecimal(number);
 	}
 
-	public MyNumber(Number number) {
+	public MyNumber(final Number number) {
 		this(number.toString());
 	}
 
 	public BigDecimal getNumber() {
-		return number;
+		return this.number;
 	}
 
-	public BigDecimal getNumber(Number defaultnum) {
-		return (number != null) ? number : newDecimal(defaultnum.toString());
+	public BigDecimal getNumber(final Number defaultnum) {
+		return (this.number != null) ? this.number : newDecimal(defaultnum.toString());
 	}
 
 	@Override
@@ -44,35 +44,40 @@ public class MyNumber {
 		return toString("");
 	}
 
-	public String toString(String defaultstr) {
-		if (number != null) {
-			return number.toString();
+	public String toString(final String defaultstr) {
+		if (this.number != null) {
+			return this.number.toString();
 		} else {
 			return defaultstr;
 		}
 	}
 
-	public String format(String format) {
-		return String.format(format, number);
+	public String format(final String format) {
+		return String.format(format, this.number);
 	}
 
-	public String format(String format, String defaultstr) {
-		if (number != null) {
+	public String format(final String format, final String defaultstr) {
+		if (this.number != null) {
 			try {
-				return String.format(format, number);
-			} catch (IllegalFormatConversionException e) {
+				return String.format(format, this.number);
+			} catch (final IllegalFormatConversionException e) {
 			}
 		}
 		return defaultstr;
 	}
 
-	public static BigDecimal newDecimal(String str) {
+	public static BigDecimal newDecimal(final String str) {
 		if (str == null)
 			return null;
 		try {
 			return new BigDecimal(str);
-		} catch (NumberFormatException e) {
+		} catch (final NumberFormatException e) {
 			return null;
 		}
+	}
+
+	public void replace(final String string, final String string2) {
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 }

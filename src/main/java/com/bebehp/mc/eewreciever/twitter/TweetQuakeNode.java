@@ -19,13 +19,13 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	protected boolean landorsea;
 
 	@Override
-	public TweetQuakeNode parseString(String text) throws QuakeException
+	public TweetQuakeNode parseString(final String text) throws QuakeException
 	{
 		try {
 			EEWRecieverMod.logger.info(text);
-//			ArrayList<String> tnode = new ArrayList<String>(15);
-//			tnode.addAll(Arrays.asList(text.split(",", 0)));
-			String[] tnode = Arrays.copyOf(text.split(",", 0), 15);
+			//			ArrayList<String> tnode = new ArrayList<String>(15);
+			//			tnode.addAll(Arrays.asList(text.split(",", 0)));
+			final String[] tnode = Arrays.copyOf(text.split(",", 0), 15);
 
 			this.canceled = "39".equals(tnode[0]);
 			this.training = "01".equals(tnode[1]);
@@ -34,7 +34,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			this.telegramnumber = new MyNumber(tnode[4]);
 			this.quakenumber = tnode[5];
 			this.time = (tnode[6]!=null) ?dateformat.parse(tnode[6]) : null;
-//			this.location = new TweetQuakeLocation(tnode[7], tnode[8]);
+			//			this.location = new TweetQuakeLocation(tnode[7], tnode[8]);
 			this.where = tnode[9];
 			this.deep = tnode[10];
 			this.magnitude = new MyNumber(tnode[11]);
@@ -42,7 +42,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			this.landorsea = "1".equals(tnode[13]);
 			this.alarm = "1".equals(tnode[14]);
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new QuakeException("parse error", e);
 		}
 		return this;
@@ -51,20 +51,20 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString()
 	{
-		return String.format("%s%s%s%s%s %s %s\n%s 震央地名:%s %s\n震源の深さ(推定):%skm 地震発生時刻:%s%s",
+		return String.format("%s%s%s%s%s %s %s\n%s 震源:%s %s\n深さ:%skm%s",
 				(this.training ? "[訓練です]" : ""),
 				(this.canceled ? "[誤報]" : ""),
 				(this.alarm ? "§c" : ""),
 				this.announcement,
+				(this.alarm ? "[警報]強い揺れに警戒！" : "[予報]"),
 				(this.alarm ? "§r" : ""),
-				(this.alarm ? "§c[警報]強い揺れに警戒！§r" : "[予報]"),
 				this.telegramnumber.format("第%s報", ""),
-				String.format("最大震度(推定):%s", this.strong),
+				String.format("最大震度:%s", this.strong),
 				this.where,
-				this.magnitude.format("マグニチュード(推定):%s", ""),
+				this.magnitude.format("マグニチュード:%s", ""),
 				this.deep,
 				dateformat.format(this.time),
-				(this.alarm ? "\n身の安全を確保してください。\n倒れやすい家具などから離れ、机など頑丈な物の下に隠れてください。" : "")
-		);
+				(this.alarm ? "\n§6強い地震発生の可能性。身の安全を図り、今後の情報に警戒して下さい。§r" : "")
+				);
 	}
 }

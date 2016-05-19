@@ -30,15 +30,15 @@ public abstract class AbstractQuakeNode {
 	 * マグニチュード
 	 */
 	protected MyNumber magnitude;
-//	protected QuakeLocation location;
+	//	protected QuakeLocation location;
 	protected boolean alarm;
 
 	public boolean isAlarm() {
-		return alarm;
+		return this.alarm;
 	}
 
 	@Override
-	public boolean equals(Object o)
+	public boolean equals(final Object o)
 	{
 		if (this.announcementtime == null && o == null)
 			return true;
@@ -56,17 +56,17 @@ public abstract class AbstractQuakeNode {
 				this.where,
 				this.deep,
 				this.magnitude
-			);
+				);
 	}
 
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
 
-	public static List<AbstractQuakeNode> getUpdate(List<AbstractQuakeNode> older, List<AbstractQuakeNode> newer)
+	public static List<AbstractQuakeNode> getUpdate(final List<AbstractQuakeNode> older, final List<AbstractQuakeNode> newer)
 	{
-		ArrayList<AbstractQuakeNode> list = new ArrayList<AbstractQuakeNode>(newer);
-		for (Iterator<AbstractQuakeNode> it = older.iterator(); it.hasNext();) {
+		final ArrayList<AbstractQuakeNode> list = new ArrayList<AbstractQuakeNode>(newer);
+		for (final Iterator<AbstractQuakeNode> it = older.iterator(); it.hasNext();) {
 			list.remove(it.next());
 		}
-        return list;
+		return list;
 	}
 }
