@@ -51,7 +51,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString()
 	{
-		return String.format("%s%s%s%s%s %s %s\n%s 震源:%s %s\n深さ:%skm%s",
+		return String.format("%s%s%s%s%s %s %s\n%s 震源:%s %s\n深さ:%skm %s",
 				(this.training ? "[訓練です]" : ""),
 				(this.canceled ? "[誤報]" : ""),
 				(this.alarm ? "§c" : ""),
