@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
@@ -17,7 +18,7 @@ import com.bebehp.mc.eewreciever.ping.IQuake;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 
 public class P2PQuake implements IQuake {
-//			EEWRecieverMod.logger.info(EEWRecieverMod.owner + " has some problem about [" + e.getMessage() + "].");
+	//			EEWRecieverMod.logger.info(EEWRecieverMod.owner + " has some problem about [" + e.getMessage() + "].");
 
 	public static final String API_PATH = "http://api.p2pquake.net/userquake";
 	public static long WaitMilliSeconds = 1000 * 15;
@@ -25,39 +26,40 @@ public class P2PQuake implements IQuake {
 	private static List<AbstractQuakeNode> empty = new LinkedList<AbstractQuakeNode>();
 
 	public String getURL() {
-		SimpleDateFormat format = new SimpleDateFormat("M/d");
+		final SimpleDateFormat format = new SimpleDateFormat("M/d");
 		return API_PATH + "?date=" + format.format(new Date());
 	}
 
-	public List<AbstractQuakeNode> dlData(String path) throws IOException, QuakeException
+	public List<AbstractQuakeNode> dlData(final String path) throws IOException, QuakeException
 	{
-		List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>();
+		final List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>();
 
-		URL url = new URL(path);
-		URLConnection connection = url.openConnection();
-		connection.setConnectTimeout(5000);
-		connection.setReadTimeout(5000);
-		connection.setRequestProperty("User-Agent", EEWRecieverMod.owner);
+		try {
+			final URL url = new URL(path);
+			final URLConnection connection = url.openConnection();
+			connection.setConnectTimeout(5000);
+			connection.setReadTimeout(5000);
+			connection.setRequestProperty("User-Agent", EEWRecieverMod.owner);
 
-		InputStream is = connection.getInputStream();
-		InputStreamReader isr = new InputStreamReader(is, "Shift_JIS");
-		BufferedReader reader = new BufferedReader(isr);
+			final InputStream is = connection.getInputStream();
+			final InputStreamReader isr = new InputStreamReader(is, "Shift_JIS");
+			final BufferedReader reader = new BufferedReader(isr);
 
-		String line;
-		while ((line = reader.readLine()) != null) {
-			list.add(new P2PQuakeNode().parseString(line));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				list.add(new P2PQuakeNode().parseString(line));
+			}
+			is.close();
+		} catch (final SocketTimeoutException e) {
 		}
-		is.close();
 
 		return list;
 	}
 
-
-
 	public List<AbstractQuakeNode> getQuake() throws QuakeException {
 		try {
 			return dlData(getURL());
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new QuakeException(e);
 		}
 	}
@@ -69,13 +71,13 @@ public class P2PQuake implements IQuake {
 	{
 		List<AbstractQuakeNode> update = empty;
 
-		long nowtime = new Date().getTime();
-		if (nowtime - lasttime > WaitMilliSeconds)
+		final long nowtime = new Date().getTime();
+		if (nowtime - this.lasttime > WaitMilliSeconds)
 		{
-			lasttime = nowtime;
-			List<AbstractQuakeNode> now = this.getQuake();
-			if (before != null) update = AbstractQuakeNode.getUpdate(before, now);
-			before = now;
+			this.lasttime = nowtime;
+			final List<AbstractQuakeNode> now = getQuake();
+			if (this.before != null) update = AbstractQuakeNode.getUpdate(this.before, now);
+			this.before = now;
 		}
 
 		return update;

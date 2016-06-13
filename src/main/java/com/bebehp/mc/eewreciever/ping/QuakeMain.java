@@ -17,21 +17,21 @@ public class QuakeMain {
 
 	long lasttime;
 	@SubscribeEvent
-	public void onServerTick(ServerTickEvent event) {
+	public void onServerTick(final ServerTickEvent event) {
 		try {
-			List<AbstractQuakeNode> p2pQuakeNode = p2pQuake.getQuakeUpdate();
+			final List<AbstractQuakeNode> p2pQuakeNode = this.p2pQuake.getQuakeUpdate();
 			if(ConfigurationHandler.p2pQuakeEnable) checkUpdate(p2pQuakeNode);
 
-			List<AbstractQuakeNode> tweetQuakeNode = tweetQuake.getQuakeUpdate();
+			final List<AbstractQuakeNode> tweetQuakeNode = this.tweetQuake.getQuakeUpdate();
 			if(ConfigurationHandler.twitterEnable) checkUpdate(tweetQuakeNode);
-		} catch (QuakeException e) {
+		} catch (final QuakeException e) {
 			EEWRecieverMod.logger.error(e);
 		}
 	}
 
-	public void checkUpdate(List<AbstractQuakeNode> update)
+	public void checkUpdate(final List<AbstractQuakeNode> update)
 	{
-		for (AbstractQuakeNode up : update)
+		for (final AbstractQuakeNode up : update)
 		{
 			if (ConfigurationHandler.forceLevel || up.isAlarm())
 			{

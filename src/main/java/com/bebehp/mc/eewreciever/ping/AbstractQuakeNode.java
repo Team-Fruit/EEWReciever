@@ -59,6 +59,7 @@ public abstract class AbstractQuakeNode {
 				);
 	}
 
+
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
 
 	public static List<AbstractQuakeNode> getUpdate(final List<AbstractQuakeNode> older, final List<AbstractQuakeNode> newer)
