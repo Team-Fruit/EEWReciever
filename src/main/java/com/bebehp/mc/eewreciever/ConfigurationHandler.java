@@ -23,7 +23,11 @@ public class ConfigurationHandler {
 	public static boolean forceLevel = FORCE_LEVEL_DEFAULT;
 	public static Property propForceLevel = null;
 
-	public static void init(File configFile) {
+	public static final boolean DEBUG_MODE_DEFAULT = false;
+	public static boolean debugMode = DEBUG_MODE_DEFAULT;
+	public static Property propDebugMode = null;
+
+	public static void init(final File configFile) {
 		if (configuration == null) {
 			configuration = new Configuration(configFile, VERSION);
 			loadConfiguration();
@@ -43,6 +47,10 @@ public class ConfigurationHandler {
 				FORCE_LEVEL_DEFAULT, "Enabling this, it'll be force mode.");
 		forceLevel = propForceLevel.getBoolean();
 
+		propDebugMode = configuration.get("EEW", "isDebugModeEnabled",
+				DEBUG_MODE_DEFAULT, "Enabling this, it'll be debug mode.");
+		debugMode = propDebugMode.getBoolean();
+
 		if (configuration.hasChanged()) {
 			configuration.save();
 		}
@@ -52,7 +60,7 @@ public class ConfigurationHandler {
 	}
 
 	@SubscribeEvent
-	public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
+	public void onConfigurationChangedEvent(final ConfigChangedEvent.OnConfigChangedEvent event) {
 		if (event.modID.equalsIgnoreCase(EEWRecieverMod.owner)) {
 			loadConfiguration();
 		}

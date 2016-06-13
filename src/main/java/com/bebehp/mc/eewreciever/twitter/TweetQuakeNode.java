@@ -12,13 +12,11 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	private static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 	protected boolean canceled;
-	protected boolean training;
 	protected AnnouncementType announcement;
 	protected MyNumber telegramnumber;
 	protected String quakenumber;
 	protected boolean landorsea;
 	protected boolean finaleew;
-
 
 	@Override
 	public TweetQuakeNode parseString(final String text) throws QuakeException
@@ -50,45 +48,33 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 		return this;
 	}
 
-	//	@Override
-	//	public String toString()
-	//	{
-	//		return String.format("%s%s%s%s%s %s %s\n%s 震源:%s %s\n深さ:%skm %s",
-	//				(this.training ? "[訓練です]" : ""),
-	//				(this.canceled ? "[誤報]" : ""),
-	//				(this.alarm ? "§c" : ""),
-	//				this.announcement,
-	//				(this.alarm ? "[警報]強い揺れに警戒！" : "[予報]"),
-	//				(this.alarm ? "§r" : ""),
-	//				this.telegramnumber.format("第%s報", ""),
-	//				String.format("最大震度:%s", this.strong),
-	//				this.where,
-	//				this.magnitude.format("マグニチュード:%s", ""),
-	//				this.deep,
-	//				dateformat.format(this.time),
-	//				(this.alarm ? "\n§6強い地震発生の可能性。身の安全を図り、今後の情報に警戒して下さい。§r" : "")
-	//				);
-	//	}
-
 	@Override
 	public String toString()
 	{
 		//		return String.format("{\"text\":\"%s%s%s%s%s %s %skm %s震度%s%s M%s\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"%s%s 地震発生時刻:%s\"}}",
-		return String.format("%s%s%s%s%s %s %skm %s震度%s%s M%s",
-				(this.training ? "[訓練報]" : ""),
-				(this.canceled ? "[誤報]" : ""),
-				(this.alarm ? "§c" : ""),
-				this.announcement,
-				(this.alarm ? "§r" : ""),
-				this.where,
-				this.deep,
-				(this.alarm ? "§c" : ""),
-				this.strong,
-				(this.alarm ? "§r" : ""),
-				this.magnitude,
-				(this.alarm ? "§c[警報]§r" : "[予報]"),
-				(this.finaleew ? "最終報" : String.format("第%s報", this.telegramnumber)),
-				dateformat.format(this.time)
-				);
+		if (this.alarm){
+			return String.format("%s%s§c%s(警報)%s§r §b%s§r %skm 震度§d%s§r M%s\n§e強い地震が発生しています。身の安全を確保してください。§r",
+					(this.training ? "[訓練報]" : ""),
+					(this.canceled ? "[誤報]" : ""),
+					this.announcement,
+					(this.finaleew ? "最終報" : String.format("第%s報", this.telegramnumber)),
+					this.where,
+					this.deep,
+					this.strong,
+					this.magnitude
+					//				dateformat.format(this.time)
+					);
+		} else {
+			return String.format("%s%s%s(予報)%s %s %skm 震度%s M%s",
+					(this.training ? "[訓練報]" : ""),
+					(this.canceled ? "[誤報]" : ""),
+					this.announcement,
+					(this.finaleew ? "最終報" : String.format("第%s報", this.telegramnumber)),
+					this.where,
+					this.deep,
+					this.strong,
+					this.magnitude
+					);
+		}
 	}
 }

@@ -33,9 +33,14 @@ public class QuakeMain {
 	{
 		for (final AbstractQuakeNode up : update)
 		{
-			if (ConfigurationHandler.forceLevel || up.isAlarm())
+			if (ConfigurationHandler.debugMode || up.training)
 			{
 				EEWRecieverMod.sendServerChat(up.toString());
+			} else {
+				if (ConfigurationHandler.forceLevel || up.isAlarm())
+				{
+					EEWRecieverMod.sendServerChat(up.toString());
+				}
 			}
 		}
 	}

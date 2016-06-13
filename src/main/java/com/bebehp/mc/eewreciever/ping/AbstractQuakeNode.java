@@ -30,11 +30,15 @@ public abstract class AbstractQuakeNode {
 	 * マグニチュード
 	 */
 	protected MyNumber magnitude;
-	//	protected QuakeLocation location;
 	protected boolean alarm;
+	protected boolean training;
 
 	public boolean isAlarm() {
 		return this.alarm;
+	}
+
+	public boolean istraining() {
+		return this.training;
 	}
 
 	@Override
