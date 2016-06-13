@@ -16,31 +16,28 @@ public class QuakeMain {
 	final IQuake tweetQuake = new TweetQuake();
 
 	long lasttime;
+
 	@SubscribeEvent
 	public void onServerTick(final ServerTickEvent event) {
 		try {
 			final List<AbstractQuakeNode> p2pQuakeNode = this.p2pQuake.getQuakeUpdate();
-			if(ConfigurationHandler.p2pQuakeEnable) checkUpdate(p2pQuakeNode);
+			if (ConfigurationHandler.p2pQuakeEnable)
+				checkUpdate(p2pQuakeNode);
 
 			final List<AbstractQuakeNode> tweetQuakeNode = this.tweetQuake.getQuakeUpdate();
-			if(ConfigurationHandler.twitterEnable) checkUpdate(tweetQuakeNode);
+			if (ConfigurationHandler.twitterEnable)
+				checkUpdate(tweetQuakeNode);
 		} catch (final QuakeException e) {
 			EEWRecieverMod.logger.error(e);
 		}
 	}
 
-	public void checkUpdate(final List<AbstractQuakeNode> update)
-	{
-		for (final AbstractQuakeNode up : update)
-		{
-			if (ConfigurationHandler.debugMode || up.training)
-			{
+	public void checkUpdate(final List<AbstractQuakeNode> update) {
+		for (final AbstractQuakeNode up : update) {
+			if (ConfigurationHandler.debugMode) {
 				EEWRecieverMod.sendServerChat(up.toString());
-			} else {
-				if (ConfigurationHandler.forceLevel || up.isAlarm())
-				{
-					EEWRecieverMod.sendServerChat(up.toString());
-				}
+			} else if (ConfigurationHandler.forceLevel || up.isAlarm()) {
+				EEWRecieverMod.sendServerChat(up.toString());
 			}
 		}
 	}
