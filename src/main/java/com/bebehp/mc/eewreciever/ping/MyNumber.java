@@ -75,9 +75,4 @@ public class MyNumber {
 			return null;
 		}
 	}
-
-	public void replace(final String string, final String string2) {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
 }

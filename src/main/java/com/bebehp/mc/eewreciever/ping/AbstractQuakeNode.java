@@ -41,33 +41,35 @@ public abstract class AbstractQuakeNode {
 		return this.training;
 	}
 
+	protected MyNumber magnitude() {
+		if (this.magnitude.equals("-1.0")) {
+			return null;
+		} else {
+			return this.magnitude;
+		}
+
+	}
+
 	@Override
-	public boolean equals(final Object o)
-	{
+	public boolean equals(final Object o) {
 		if (this.announcementtime == null && o == null)
 			return true;
 		if (this.announcementtime != null && o instanceof AbstractQuakeNode)
-			return this.announcementtime.equals(((AbstractQuakeNode)o).announcementtime);
+			return this.announcementtime.equals(((AbstractQuakeNode) o).announcementtime);
 		else
 			return false;
 	}
 
 	@Override
-	public String toString()
-	{
-		return String.format("[%s] 【最大震度%s】(気象庁発表) %s\n深さ約%s M%s %s頃発生\n%s",
-				this.strong,
-				this.where,
-				this.deep,
-				this.magnitude
-				);
+	public String toString() {
+		return String.format("[%s] 【最大震度%s】(気象庁発表) %s\n深さ約%s M%s %s頃発生\n%s", this.strong, this.where, this.deep,
+				this.magnitude);
 	}
-
 
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
 
-	public static List<AbstractQuakeNode> getUpdate(final List<AbstractQuakeNode> older, final List<AbstractQuakeNode> newer)
-	{
+	public static List<AbstractQuakeNode> getUpdate(final List<AbstractQuakeNode> older,
+			final List<AbstractQuakeNode> newer) {
 		final ArrayList<AbstractQuakeNode> list = new ArrayList<AbstractQuakeNode>(newer);
 		for (final Iterator<AbstractQuakeNode> it = older.iterator(); it.hasNext();) {
 			list.remove(it.next());

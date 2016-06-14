@@ -42,11 +42,6 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 		return this;
 	}
 
-	public MyNumber rePlace(){
-		this.magnitude.replace("-1.0", "不明");
-		return this.magnitude;
-	}
-
 	@Override
 	public String toString()
 	{
@@ -57,7 +52,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 					this.where,
 					(this.deep.equals("ごく浅い") ? "" : "約"),
 					this.deep,
-					this.magnitude,
+					((magnitude()!=null) ? "不明" : this.magnitude),
 					//				this.magnitude.format(this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : " 不明", ""),
 					((this.time!=null) ? (dateformat2.format(this.time)) : ""),
 					this.tsunami
