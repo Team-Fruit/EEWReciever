@@ -32,6 +32,7 @@ public abstract class AbstractQuakeNode {
 	protected MyNumber magnitude;
 	protected boolean alarm;
 	protected boolean training;
+	protected boolean unknownMagnitude;
 
 	public boolean isAlarm() {
 		return this.alarm;
@@ -41,14 +42,9 @@ public abstract class AbstractQuakeNode {
 		return this.training;
 	}
 
-	protected MyNumber magnitude() {
-		if (this.magnitude.equals("-1.0")) {
-			return null;
-		} else {
-			return this.magnitude;
-		}
-
-	}
+	//	protected boolean ismagnitude() {
+	//		return false;
+	//	}
 
 	@Override
 	public boolean equals(final Object o) {

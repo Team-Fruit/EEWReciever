@@ -33,6 +33,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			this.where = data[4];
 			this.deep = data[5];
 			this.magnitude = new MyNumber(data[6]);
+			this.unknownMagnitude = "-1.0".equals(data[6]);
 			this.modified = "1".equals(data[7]);
 			//			this.location = new P2PQuakeLocation(data[8], data[9]);
 		} catch (final Exception e) {
@@ -46,21 +47,20 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 	public String toString()
 	{
 		if (this.quaketype.equals("1")){
+			return String.format("[%s] 【最大震度%s】 %s頃発生\n%s",
+					this.quaketype,
+					this.strong,
+					((this.time!=null) ? (dateformat2.format(this.time)) : ""),
+					this.tsunami
+					);
+		} else {
 			return 	String.format("[%s]【最大震度%s】%s\n深さ%s%s M%s %s頃発生\n%s",
 					this.quaketype,
 					this.strong,
 					this.where,
 					(this.deep.equals("ごく浅い") ? "" : "約"),
 					this.deep,
-					((magnitude()!=null) ? "不明" : this.magnitude),
-					//				this.magnitude.format(this.magnitude.getNumber(-1f).doubleValue() >= 0 ? " M %d" : " 不明", ""),
-					((this.time!=null) ? (dateformat2.format(this.time)) : ""),
-					this.tsunami
-					);
-		} else {
-			return String.format("[%s] 【最大震度%s】 %s\n%s",
-					this.quaketype,
-					this.strong,
+					(this.unknownMagnitude ? "不明" : this.magnitude),
 					((this.time!=null) ? (dateformat2.format(this.time)) : ""),
 					this.tsunami
 					);

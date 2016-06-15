@@ -38,6 +38,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			this.where = tnode[9];
 			this.deep = tnode[10];
 			this.magnitude = new MyNumber(tnode[11]);
+			this.unknownMagnitude = "-1.0".equals(tnode[11]);
 			this.strong = tnode[12];
 			this.landorsea = "1".equals(tnode[13]);
 			this.alarm = "1".equals(tnode[14]);
@@ -47,6 +48,16 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 		}
 		return this;
 	}
+
+	//	@Override
+	//	protected boolean ismagnitude() {
+	//		final MyNumber unknownMagnitude = new MyNumber("-1.0");
+	//		if (this.magnitude.equals(unknownMagnitude))
+	//			return true;
+	//		else
+	//			return false;
+	//	}
+
 
 	@Override
 	public String toString()
@@ -61,11 +72,11 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 					this.where,
 					this.deep,
 					this.strong,
-					this.magnitude
+					(this.unknownMagnitude ? "不明" : this.magnitude)
 					//				dateformat.format(this.time)
 					);
 		} else {
-			return String.format("%s%s%s(予報)%s %s %skm 震度%s M%s",
+			return String.format("%s%s%s(予報)%s %s %skm 予測震度:%s M:%s",
 					(this.training ? "[訓練報]" : ""),
 					(this.canceled ? "[誤報]" : ""),
 					this.announcement,
@@ -73,7 +84,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 					this.where,
 					this.deep,
 					this.strong,
-					this.magnitude
+					(this.unknownMagnitude ? "不明" : this.magnitude)
 					);
 		}
 	}
