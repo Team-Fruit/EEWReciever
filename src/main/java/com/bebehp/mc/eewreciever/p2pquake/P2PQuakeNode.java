@@ -15,6 +15,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 	protected P2PQuakeNodeTsunami tsunami;
 	protected boolean modified;
 	protected String type;
+	protected boolean unknownMagnitude;
 
 	@Override
 	public P2PQuakeNode parseString(final String text) throws QuakeException
