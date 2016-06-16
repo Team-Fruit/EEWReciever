@@ -1,5 +1,6 @@
 package com.bebehp.mc.eewreciever.p2pquake;
 
+@Deprecated
 public enum P2PQuakeNodeQuakeType {
 	QUpdate("情報更新"),
 	QSpeedLevelInfo("震度速報"),
@@ -10,44 +11,44 @@ public enum P2PQuakeNodeQuakeType {
 	QDefault("Unknown");
 
 	private final String name;
-	private P2PQuakeNodeQuakeType(String str)
+	private P2PQuakeNodeQuakeType(final String str)
 	{
-		name = str;
+		this.name = str;
 	}
 
 	@Override
 	public String toString()
 	{
-		return name;
+		return this.name;
 	}
 
-	public static P2PQuakeNodeQuakeType parseInt(int type)
+	public static P2PQuakeNodeQuakeType parseInt(final int type)
 	{
 		switch(type)
 		{
-			case 0:
-				return QUpdate;
-			case 1:
-				return QSpeedLevelInfo;
-			case 2:
-				return QCoreInfo;
-			case 3:
-				return QCoreLevelInfo;
-			case 4:
-				return QCoreDetailLevelInfo;
-			case 5:
-				return QFarInfo;
-			default:
-				return QDefault;
+		case 0:
+			return QUpdate;
+		case 1:
+			return QSpeedLevelInfo;
+		case 2:
+			return QCoreInfo;
+		case 3:
+			return QCoreLevelInfo;
+		case 4:
+			return QCoreDetailLevelInfo;
+		case 5:
+			return QFarInfo;
+		default:
+			return QDefault;
 		}
 	}
 
-	public static P2PQuakeNodeQuakeType parseString(String type)
+	public static P2PQuakeNodeQuakeType parseString(final String type)
 	{
 		P2PQuakeNodeQuakeType qtype;
 		try {
 			qtype = parseInt(Integer.parseInt(type));
-		} catch(NumberFormatException e) {
+		} catch(final NumberFormatException e) {
 			qtype = QDefault;
 		}
 		return qtype;

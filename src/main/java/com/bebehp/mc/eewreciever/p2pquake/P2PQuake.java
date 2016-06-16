@@ -52,7 +52,6 @@ public class P2PQuake implements IQuake {
 			is.close();
 		} catch (final SocketTimeoutException e) {
 		}
-
 		return list;
 	}
 
