@@ -10,6 +10,7 @@ import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.IQuake;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 
+import twitter4j.FilterQuery;
 import twitter4j.Status;
 import twitter4j.StatusAdapter;
 import twitter4j.StatusListener;
@@ -45,14 +46,30 @@ public class TweetQuake implements IQuake {
 			}
 		};
 		this.twitterStream.addListener(this.listener);
-		//		if (ConfigurationHandler.debugMode && ConfigurationHandler.twitterEnable)
-		//			this.twitterStream.user();
-		//		else if (ConfigurationHandler.twitterEnable) {
-		//			final FilterQuery query = new FilterQuery();
-		//			query.track(new String[] { "from:eewbot" });
-		//			this.twitterStream.filter(query);
-		//	}
-		if (ConfigurationHandler.twitterEnable) this.twitterStream.user();
+		if (ConfigurationHandler.twitterEnable){
+			if (ConfigurationHandler.debugMode) {
+				final long[] list = {214358709L, 4893957312L};
+				final FilterQuery query = new FilterQuery(list);
+				this.twitterStream.filter(query);
+			} else {
+				final long[] list = {214358709L};
+				final FilterQuery query = new FilterQuery(list);
+				this.twitterStream.filter(query);
+			}
+		}
+		if (ConfigurationHandler.debugMode && ConfigurationHandler.twitterEnable)
+		{
+			final long[] list = {214358709L, 4893957312L};
+			final FilterQuery query = new FilterQuery(list);
+			this.twitterStream.filter(query);
+		}
+		else if (ConfigurationHandler.twitterEnable)
+		{
+			final long[] list = {214358709L};
+			final FilterQuery query = new FilterQuery(list);
+			this.twitterStream.filter(query);
+		}
+		//		if (ConfigurationHandler.twitterEnable) this.twitterStream.user();
 	}
 
 	@Override

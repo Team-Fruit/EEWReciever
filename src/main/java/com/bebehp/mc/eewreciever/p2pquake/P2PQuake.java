@@ -18,7 +18,8 @@ import com.bebehp.mc.eewreciever.ping.IQuake;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 
 public class P2PQuake implements IQuake {
-	//			EEWRecieverMod.logger.info(EEWRecieverMod.owner + " has some problem about [" + e.getMessage() + "].");
+	// EEWRecieverMod.logger.info(EEWRecieverMod.owner + " has some problem
+	// about [" + e.getMessage() + "].");
 
 	public static final String API_PATH = "http://api.p2pquake.net/userquake";
 	public static long WaitMilliSeconds = 1000 * 15;
@@ -30,18 +31,16 @@ public class P2PQuake implements IQuake {
 		return API_PATH + "?date=" + format.format(new Date());
 	}
 
-	public List<AbstractQuakeNode> dlData(final String path) throws IOException, QuakeException
-	{
+	public List<AbstractQuakeNode> dlData(final String path) throws IOException, QuakeException {
 		final List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>();
-
+		final URL url = new URL(path);
+		final URLConnection connection = url.openConnection();
+		final InputStream is = connection.getInputStream();
 		try {
-			final URL url = new URL(path);
-			final URLConnection connection = url.openConnection();
 			connection.setConnectTimeout(5000);
 			connection.setReadTimeout(5000);
 			connection.setRequestProperty("User-Agent", EEWRecieverMod.owner);
 
-			final InputStream is = connection.getInputStream();
 			final InputStreamReader isr = new InputStreamReader(is, "Shift_JIS");
 			final BufferedReader reader = new BufferedReader(isr);
 
@@ -49,8 +48,9 @@ public class P2PQuake implements IQuake {
 			while ((line = reader.readLine()) != null) {
 				list.add(new P2PQuakeNode().parseString(line));
 			}
-			is.close();
 		} catch (final SocketTimeoutException e) {
+		} finally {
+			is.close();
 		}
 		return list;
 	}
@@ -65,17 +65,17 @@ public class P2PQuake implements IQuake {
 
 	long lasttime;
 	List<AbstractQuakeNode> before;
+
 	@Override
-	public List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException
-	{
+	public List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException {
 		List<AbstractQuakeNode> update = empty;
 
 		final long nowtime = new Date().getTime();
-		if (nowtime - this.lasttime > WaitMilliSeconds)
-		{
+		if (nowtime - this.lasttime > WaitMilliSeconds) {
 			this.lasttime = nowtime;
 			final List<AbstractQuakeNode> now = getQuake();
-			if (this.before != null) update = AbstractQuakeNode.getUpdate(this.before, now);
+			if (this.before != null)
+				update = AbstractQuakeNode.getUpdate(this.before, now);
 			this.before = now;
 		}
 
