@@ -48,6 +48,8 @@ public class TweetQuake implements IQuake {
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable){
 			if (ConfigurationHandler.debugMode) {
+				// @eewbot = 214358709
+				// @EEWReciever = 4893957312
 				final long[] list = {214358709L, 4893957312L};
 				final FilterQuery query = new FilterQuery(list);
 				this.twitterStream.filter(query);
@@ -56,18 +58,6 @@ public class TweetQuake implements IQuake {
 				final FilterQuery query = new FilterQuery(list);
 				this.twitterStream.filter(query);
 			}
-		}
-		if (ConfigurationHandler.debugMode && ConfigurationHandler.twitterEnable)
-		{
-			final long[] list = {214358709L, 4893957312L};
-			final FilterQuery query = new FilterQuery(list);
-			this.twitterStream.filter(query);
-		}
-		else if (ConfigurationHandler.twitterEnable)
-		{
-			final long[] list = {214358709L};
-			final FilterQuery query = new FilterQuery(list);
-			this.twitterStream.filter(query);
 		}
 		//		if (ConfigurationHandler.twitterEnable) this.twitterStream.user();
 	}

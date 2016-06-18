@@ -5,12 +5,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
@@ -33,13 +41,13 @@ public class P2PQuake implements IQuake {
 
 	public List<AbstractQuakeNode> dlData(final String path) throws IOException, QuakeException {
 		final List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>();
-		final URL url = new URL(path);
-		final URLConnection connection = url.openConnection();
-		final InputStream is = connection.getInputStream();
+		InputStream is = null;
+		//		BufferedReader reader = null;
 		try {
-			connection.setConnectTimeout(5000);
-			connection.setReadTimeout(5000);
-			connection.setRequestProperty("User-Agent", EEWRecieverMod.owner);
+			final HttpGet httpPost = new HttpGet(path);
+			final HttpResponse response = this.httpClient.execute(httpPost);
+
+			is = response.getEntity().getContent();
 
 			final InputStreamReader isr = new InputStreamReader(is, "Shift_JIS");
 			final BufferedReader reader = new BufferedReader(isr);
@@ -50,9 +58,22 @@ public class P2PQuake implements IQuake {
 			}
 		} catch (final SocketTimeoutException e) {
 		} finally {
-			is.close();
+			IOUtils.closeQuietly(is);
 		}
 		return list;
+	}
+
+	public final HttpClient httpClient = getHttpClient();
+	public static HttpClient getHttpClient() {
+		// request configuration
+		final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(5000).build();
+		// headers
+		final List<Header> headers = new ArrayList<Header>();
+		headers.add(new BasicHeader("Accept-Charset", "Shift_JIS"));
+		headers.add(new BasicHeader("Accept-Language", "ja, en;q=0.8"));
+		headers.add(new BasicHeader("User-Agent", EEWRecieverMod.owner));
+		// create client
+		return HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).setDefaultHeaders(headers).build();
 	}
 
 	public List<AbstractQuakeNode> getQuake() throws QuakeException {

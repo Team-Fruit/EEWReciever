@@ -2,10 +2,13 @@ package com.bebehp.mc.eewreciever.ping;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public abstract class AbstractQuakeNode {
+	/**
+	 * 識別子
+	 */
+	protected String id;
 	/**
 	 * 更新日時
 	 */
@@ -48,13 +51,28 @@ public abstract class AbstractQuakeNode {
 	}
 
 	@Override
-	public boolean equals(final Object o) {
-		if (this.announcementtime == null && o == null)
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
 			return true;
-		if (this.announcementtime != null && o instanceof AbstractQuakeNode)
-			return this.announcementtime.equals(((AbstractQuakeNode) o).announcementtime);
-		else
+		if (obj == null)
 			return false;
+		if (!(obj instanceof AbstractQuakeNode))
+			return false;
+		final AbstractQuakeNode other = (AbstractQuakeNode) obj;
+		if (this.id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!this.id.equals(other.id))
+			return false;
+		return true;
 	}
 
 	@Override
@@ -68,9 +86,8 @@ public abstract class AbstractQuakeNode {
 	public static List<AbstractQuakeNode> getUpdate(final List<AbstractQuakeNode> older,
 			final List<AbstractQuakeNode> newer) {
 		final ArrayList<AbstractQuakeNode> list = new ArrayList<AbstractQuakeNode>(newer);
-		for (final Iterator<AbstractQuakeNode> it = older.iterator(); it.hasNext();) {
-			list.remove(it.next());
-		}
+		list.removeAll(older);
+
 		return list;
 	}
 }

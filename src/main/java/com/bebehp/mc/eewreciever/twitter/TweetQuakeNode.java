@@ -27,6 +27,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			//			tnode.addAll(Arrays.asList(text.split(",", 0)));
 			final String[] tnode = Arrays.copyOf(text.split(",", 0), 15);
 
+			this.id = tnode[2];
 			this.canceled = "39".equals(tnode[0]);
 			this.training = "01".equals(tnode[1]);
 			this.announcementtime = (tnode[2]!=null) ?dateformat.parse(tnode[2]) : null;

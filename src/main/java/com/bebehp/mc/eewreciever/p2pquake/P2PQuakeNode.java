@@ -23,6 +23,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			final String[] data = Arrays.copyOf(text.split("/"), 10);
 			final String[] time = Arrays.copyOf(data[0].split(","), 3);
 
+			this.id = time[0];
 			this.announcementtime = (time[0] != null) ? dateformat1.parse(time[0]) : null;
 			// this.type = time[1];
 			this.alarm = "QUA".equals(time[1]);
@@ -53,7 +54,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 					this.tsunami
 					);
 		case 2:
-			return String.format("[震源情報]【最大震度%s】(気象庁速報)%s\n深さ%s%s M%s %s頃発生\n%s",
+			return String.format("[震源情報]【最大震度%s】%s\n深さ%s%s M%s %s頃発生\n%s",
 					this.strong,
 					this.where,
 					(this.deep.equals("ごく浅い") ? "" : "約"),
