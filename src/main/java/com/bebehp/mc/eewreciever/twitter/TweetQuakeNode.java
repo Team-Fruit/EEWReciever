@@ -27,7 +27,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			//			tnode.addAll(Arrays.asList(text.split(",", 0)));
 			final String[] tnode = Arrays.copyOf(text.split(",", 0), 15);
 
-			this.id = tnode[2];
+			//			this.id = tnode[2];
 			this.canceled = "39".equals(tnode[0]);
 			this.training = "01".equals(tnode[1]);
 			this.announcementtime = (tnode[2]!=null) ?dateformat.parse(tnode[2]) : null;
@@ -54,27 +54,27 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	{
 		//		return String.format("{\"text\":\"%s%s%s%s%s %s %skm %s震度%s%s M%s\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"%s%s 地震発生時刻:%s\"}}",
 		if (this.alarm){
-			return String.format("%s%s§c%s(警報)%s§r §b%s§r %skm 予測震度:§d%s§r M:%s\n§e強い地震が発生しています。身の安全を確保してください。§r",
+			return String.format("%s%s§c%s§r §b%s§rで地震 予測震度:§d%s§r %skm M:%s (%s)\n§e強い地震が発生しています。身の安全を確保してください。§r",
 					(this.training ? "[訓練報]" : ""),
 					(this.canceled ? "[誤報]" : ""),
 					this.announcement,
-					(this.finaleew ? "最終報" : String.format("第%s報", this.telegramnumber)),
 					this.where,
-					this.deep,
 					this.strong,
-					this.magnitude
+					this.deep,
+					this.magnitude,
+					(this.finaleew ? "最終報" : String.format("第%s報", this.telegramnumber))
 					//				dateformat.format(this.time)
 					);
 		} else {
-			return String.format("%s%s%s(予報)%s %s %skm 予測震度:%s M:%s",
+			return String.format("%s%s%s %sで地震 %s 予測震度:%s %skm M:%s (%s)",
 					(this.training ? "[訓練報]" : ""),
 					(this.canceled ? "[誤報]" : ""),
 					this.announcement,
-					(this.finaleew ? "最終報" : String.format("第%s報", this.telegramnumber)),
 					this.where,
-					this.deep,
 					this.strong,
-					this.magnitude
+					this.deep,
+					this.magnitude,
+					(this.finaleew ? "最終報" : String.format("第%s報", this.telegramnumber))
 					);
 		}
 	}

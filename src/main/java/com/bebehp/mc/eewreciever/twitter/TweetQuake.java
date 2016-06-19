@@ -37,7 +37,7 @@ public class TweetQuake implements IQuake {
 				try {
 					final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
 					TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
-					EEWRecieverMod.logger.info(status.getText());
+					//					EEWRecieverMod.logger.info(status.getText());
 				} catch (final UnsupportedEncodingException e) {
 					EEWRecieverMod.logger.error("Encode Error", e);
 				} catch (final QuakeException e) {

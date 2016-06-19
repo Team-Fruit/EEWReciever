@@ -57,6 +57,8 @@ public class P2PQuake implements IQuake {
 				list.add(new P2PQuakeNode().parseString(line));
 			}
 		} catch (final SocketTimeoutException e) {
+			//			EEWRecieverMod.logger.error("Socket Timeout", e);
+			return null;
 		} finally {
 			IOUtils.closeQuietly(is);
 		}
@@ -95,11 +97,12 @@ public class P2PQuake implements IQuake {
 		if (nowtime - this.lasttime > WaitMilliSeconds) {
 			this.lasttime = nowtime;
 			final List<AbstractQuakeNode> now = getQuake();
-			if (this.before != null)
-				update = AbstractQuakeNode.getUpdate(this.before, now);
-			this.before = now;
+			if (now != null) {
+				if (this.before != null)
+					update = AbstractQuakeNode.getUpdate(this.before, now);
+				this.before = now;
+			}
 		}
-
 		return update;
 	}
 }
