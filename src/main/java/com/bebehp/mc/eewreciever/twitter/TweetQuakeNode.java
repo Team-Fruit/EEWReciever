@@ -66,7 +66,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 					//				dateformat.format(this.time)
 					);
 		} else {
-			return String.format("%s%s%s %sで地震 %s 予測震度:%s %skm M:%s (%s)",
+			return String.format("%s%s%s %sで地震 予測震度:%s %skm M:%s (%s)",
 					(this.training ? "[訓練報]" : ""),
 					(this.canceled ? "[誤報]" : ""),
 					this.announcement,
