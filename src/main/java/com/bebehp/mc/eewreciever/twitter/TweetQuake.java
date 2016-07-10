@@ -29,7 +29,8 @@ public class TweetQuake implements IQuake {
 		this.configuration = new ConfigurationBuilder().setOAuthConsumerKey("mh5mOJhrXkVarLLdNgDn2QFRO")
 				.setOAuthConsumerSecret("NbBfZ5ytY47IniUEOoFOIk0wqfOuByzqMzK26DqvH9GhVL0K3E")
 				.setOAuthAccessToken("4893957312-30hXziVjdX0ZHzH6OJCv0eWAJmaDgyqR7Wwfjob")
-				.setOAuthAccessTokenSecret("ZwqJSMxSFC7lCMmAjgDw3ikwfgnJE9RVyTZt67MYIsMOM").build();
+				.setOAuthAccessTokenSecret("ZwqJSMxSFC7lCMmAjgDw3ikwfgnJE9RVyTZt67MYIsMOM")
+				.setIncludeMyRetweetEnabled(false).build();
 		this.twitterStream = new TwitterStreamFactory(this.configuration).getInstance();
 		this.listener = new StatusAdapter() {
 			@Override
@@ -37,7 +38,6 @@ public class TweetQuake implements IQuake {
 				try {
 					final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
 					TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
-					//					EEWRecieverMod.logger.info(status.getText());
 				} catch (final UnsupportedEncodingException e) {
 					EEWRecieverMod.logger.error("Encode Error", e);
 				} catch (final QuakeException e) {
@@ -51,15 +51,14 @@ public class TweetQuake implements IQuake {
 				// @eewbot = 214358709
 				// @EEWReciever = 4893957312
 				final long[] list = {214358709L, 4893957312L};
-				final FilterQuery query = new FilterQuery(list);
+				final FilterQuery query = new FilterQuery(list + " -filter:retweets");
 				this.twitterStream.filter(query);
 			} else {
 				final long[] list = {214358709L};
-				final FilterQuery query = new FilterQuery(list);
+				final FilterQuery query = new FilterQuery(list + " -filter:retweets");
 				this.twitterStream.filter(query);
 			}
 		}
-		//		if (ConfigurationHandler.twitterEnable) this.twitterStream.user();
 	}
 
 	@Override

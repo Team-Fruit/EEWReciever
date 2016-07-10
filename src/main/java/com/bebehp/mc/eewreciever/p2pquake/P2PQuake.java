@@ -42,7 +42,6 @@ public class P2PQuake implements IQuake {
 	public List<AbstractQuakeNode> dlData(final String path) throws IOException, QuakeException {
 		final List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>();
 		InputStream is = null;
-		//		BufferedReader reader = null;
 		try {
 			final HttpGet httpPost = new HttpGet(path);
 			final HttpResponse response = this.httpClient.execute(httpPost);
@@ -57,7 +56,6 @@ public class P2PQuake implements IQuake {
 				list.add(new P2PQuakeNode().parseString(line));
 			}
 		} catch (final SocketTimeoutException e) {
-			//			EEWRecieverMod.logger.error("Socket Timeout", e);
 			return null;
 		} finally {
 			IOUtils.closeQuietly(is);
