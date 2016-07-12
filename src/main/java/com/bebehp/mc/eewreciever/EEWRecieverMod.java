@@ -18,7 +18,7 @@ import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = EEWRecieverMod.owner, name = EEWRecieverMod.owner, version = "2.4.5")
+@Mod(modid = EEWRecieverMod.owner, name = EEWRecieverMod.owner, version = "2.4.6")
 public class EEWRecieverMod {
 	public static final String owner = "EEWReciever";
 	public static final Logger logger = LogManager.getLogger(owner);

@@ -1,9 +1,9 @@
 package com.bebehp.mc.eewreciever.twitter;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.MyNumber;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
@@ -22,7 +22,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	public TweetQuakeNode parseString(final String text) throws QuakeException
 	{
 		try {
-			EEWRecieverMod.logger.info(text);
+			//			EEWRecieverMod.logger.info(text);
 			//			ArrayList<String> tnode = new ArrayList<String>(15);
 			//			tnode.addAll(Arrays.asList(text.split(",", 0)));
 			final String[] tnode = Arrays.copyOf(text.split(",", 0), 15);
@@ -42,9 +42,8 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 			this.strong = tnode[12];
 			this.landorsea = "1".equals(tnode[13]);
 			this.alarm = "1".equals(tnode[14]);
-
-		} catch (final Exception e) {
-			throw new QuakeException("parse error", e);
+		} catch (final ParseException e) {
+			throw new QuakeException("Parse Error", e);
 		}
 		return this;
 	}

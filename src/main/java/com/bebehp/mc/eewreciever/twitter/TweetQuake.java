@@ -26,36 +26,42 @@ public class TweetQuake implements IQuake {
 	private final StatusListener listener;
 
 	public TweetQuake() {
-		this.configuration = new ConfigurationBuilder().setOAuthConsumerKey("mh5mOJhrXkVarLLdNgDn2QFRO")
+		this.configuration = new ConfigurationBuilder()
+				.setOAuthConsumerKey("mh5mOJhrXkVarLLdNgDn2QFRO")
 				.setOAuthConsumerSecret("NbBfZ5ytY47IniUEOoFOIk0wqfOuByzqMzK26DqvH9GhVL0K3E")
 				.setOAuthAccessToken("4893957312-30hXziVjdX0ZHzH6OJCv0eWAJmaDgyqR7Wwfjob")
 				.setOAuthAccessTokenSecret("ZwqJSMxSFC7lCMmAjgDw3ikwfgnJE9RVyTZt67MYIsMOM")
-				.setIncludeMyRetweetEnabled(false).build();
+				.setIncludeMyRetweetEnabled(false)
+				.build();
 		this.twitterStream = new TwitterStreamFactory(this.configuration).getInstance();
 		this.listener = new StatusAdapter() {
 			@Override
 			public void onStatus(final Status status) {
-				try {
-					final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
-					TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
-				} catch (final UnsupportedEncodingException e) {
-					EEWRecieverMod.logger.error("Encode Error", e);
-				} catch (final QuakeException e) {
-					EEWRecieverMod.logger.error("Recieve Error", e);
+				if (!status.isRetweet()) {
+					if (status.getInReplyToScreenName() == null) {
+						try {
+							final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
+							TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
+						} catch (final UnsupportedEncodingException e) {
+							EEWRecieverMod.logger.error("Encode Error", e);
+						} catch (final QuakeException e) {
+							EEWRecieverMod.logger.error("Recieve Error", e);
+						}
+					}
 				}
 			}
 		};
 		this.twitterStream.addListener(this.listener);
-		if (ConfigurationHandler.twitterEnable){
+		if (ConfigurationHandler.twitterEnable) {
 			if (ConfigurationHandler.debugMode) {
 				// @eewbot = 214358709
 				// @EEWReciever = 4893957312
-				final long[] list = {214358709L, 4893957312L};
-				final FilterQuery query = new FilterQuery(list + " -filter:retweets");
+				final long[] list = { 214358709L, 4893957312L };
+				final FilterQuery query = new FilterQuery(list);
 				this.twitterStream.filter(query);
 			} else {
-				final long[] list = {214358709L};
-				final FilterQuery query = new FilterQuery(list + " -filter:retweets");
+				final long[] list = { 214358709L };
+				final FilterQuery query = new FilterQuery(list);
 				this.twitterStream.filter(query);
 			}
 		}

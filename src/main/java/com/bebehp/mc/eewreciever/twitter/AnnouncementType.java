@@ -3,7 +3,6 @@ package com.bebehp.mc.eewreciever.twitter;
 public enum AnnouncementType {
 	AEEW("緊急地震速報"),
 	ACancel("先ほどの誤報発表は間違いでした"),
-	//	AEEWLast("緊急地震速報"),
 	ADefault("Unknown");
 	private final String name;
 	private AnnouncementType(final String str)
@@ -27,9 +26,6 @@ public enum AnnouncementType {
 			return AEEW;
 		case 7:
 			return ACancel;
-			//		case 8:
-			//		case 9:
-			//			return AEEWLast;
 		default:
 			return ADefault;
 		}
