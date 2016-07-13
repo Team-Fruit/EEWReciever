@@ -1,5 +1,6 @@
 package com.bebehp.mc.eewreciever.p2pquake;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
@@ -25,20 +26,18 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 
 			this.id = time[0];
 			this.announcementtime = (time[0] != null) ? dateformat1.parse(time[0]) : null;
-			// this.type = time[1];
 			this.alarm = "QUA".equals(time[1]);
 			this.time = (time[2] != null) ? dateformat2.parse(time[2]) : null;
 			this.strong = data[1];
 			this.tsunami = P2PQuakeNodeTsunami.parseString(data[2]);
-			// this.quaketype = P2PQuakeNodeQuakeType.parseString(data[3]);
 			this.quaketype = Integer.parseInt(data[3]);
 			this.where = data[4];
 			this.deep = data[5];
 			this.magnitude = new MyNumber(data[6]);
 			this.unknownMagnitude = "-1.0".equals(data[6]);
 			this.modified = "1".equals(data[7]);
-		} catch (final Exception e) {
-			throw new QuakeException("parse error", e);
+		} catch (final ParseException e) {
+			throw new QuakeException("Parse Error", e);
 		}
 		return this;
 	}

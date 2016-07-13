@@ -50,12 +50,4 @@ public class EEWRecieverMod {
 			sender.sendChatMsg(new ChatComponentText(line));
 		}
 	}
-
-	//	@SubscribeEvent
-	//	public void onServerChat(ServerChatEvent event) {
-	//	if (event.message.contains("fuck"))
-	//		{
-	//	 	sendServerChat("kill you");
-	//	 	}
-	//	}
 }

@@ -16,24 +16,14 @@ import twitter4j.StatusAdapter;
 import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
-	private final Configuration configuration;
 	private final TwitterStream twitterStream;
 	private final StatusListener listener;
 
 	public TweetQuake() {
-		this.configuration = new ConfigurationBuilder()
-				.setOAuthConsumerKey("mh5mOJhrXkVarLLdNgDn2QFRO")
-				.setOAuthConsumerSecret("NbBfZ5ytY47IniUEOoFOIk0wqfOuByzqMzK26DqvH9GhVL0K3E")
-				.setOAuthAccessToken("4893957312-30hXziVjdX0ZHzH6OJCv0eWAJmaDgyqR7Wwfjob")
-				.setOAuthAccessTokenSecret("ZwqJSMxSFC7lCMmAjgDw3ikwfgnJE9RVyTZt67MYIsMOM")
-				.setIncludeMyRetweetEnabled(false)
-				.build();
-		this.twitterStream = new TwitterStreamFactory(this.configuration).getInstance();
+		this.twitterStream = new TwitterStreamFactory().getInstance();
 		this.listener = new StatusAdapter() {
 			@Override
 			public void onStatus(final Status status) {

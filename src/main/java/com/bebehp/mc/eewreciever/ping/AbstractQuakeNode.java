@@ -77,8 +77,7 @@ public abstract class AbstractQuakeNode {
 
 	@Override
 	public String toString() {
-		return String.format("[%s] 【最大震度%s】(気象庁発表) %s\n深さ約%s M%s %s頃発生\n%s", this.strong, this.where, this.deep,
-				this.magnitude);
+		return this.id;
 	}
 
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
