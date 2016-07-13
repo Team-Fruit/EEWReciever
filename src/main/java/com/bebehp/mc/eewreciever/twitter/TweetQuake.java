@@ -43,17 +43,13 @@ public class TweetQuake implements IQuake {
 		};
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable) {
-			if (ConfigurationHandler.debugMode) {
-				// @eewbot = 214358709
-				// @EEWReciever = 4893957312
-				final long[] list = { 214358709L, 4893957312L };
-				final FilterQuery query = new FilterQuery(list);
-				this.twitterStream.filter(query);
-			} else {
-				final long[] list = { 214358709L };
-				final FilterQuery query = new FilterQuery(list);
-				this.twitterStream.filter(query);
-			}
+			// @eewbot = 214358709
+			// @EEWReciever = 4893957312
+			final long[] list = new long[2];
+			list[0] = 214358709L;
+			if (ConfigurationHandler.debugMode) list[1] = 4893957312L;
+			final FilterQuery query = new FilterQuery(list);
+			this.twitterStream.filter(query);
 		}
 	}
 
