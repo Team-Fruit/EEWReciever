@@ -27,25 +27,23 @@ public class TweetQuake implements IQuake {
 		this.listener = new StatusAdapter() {
 			@Override
 			public void onStatus(final Status status) {
-				if (!status.isRetweet()) {
-					if (status.getInReplyToScreenName() == null) {
-						try {
-							final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
-							TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
-						} catch (final UnsupportedEncodingException e) {
-							EEWRecieverMod.logger.error("Encode Error", e);
-						} catch (final QuakeException e) {
-							EEWRecieverMod.logger.error("Recieve Error", e);
-						}
+				if (!status.isRetweet() && status.getInReplyToScreenName() == null) {
+					try {
+						final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
+						TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
+					} catch (final UnsupportedEncodingException e) {
+						EEWRecieverMod.logger.error("Encode Error", e);
+					} catch (final QuakeException e) {
+						EEWRecieverMod.logger.error("Recieve Error", e);
 					}
 				}
 			}
 		};
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable) {
+			final long[] list = new long[2];
 			// @eewbot = 214358709
 			// @EEWReciever = 4893957312
-			final long[] list = new long[2];
 			list[0] = 214358709L;
 			if (ConfigurationHandler.debugMode) list[1] = 4893957312L;
 			final FilterQuery query = new FilterQuery(list);
