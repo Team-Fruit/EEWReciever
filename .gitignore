@@ -16,3 +16,5 @@
 !/install.bat
 !/build.bat
 !/.gitignore
+
+/src/main/resources/twitter4j.properties
