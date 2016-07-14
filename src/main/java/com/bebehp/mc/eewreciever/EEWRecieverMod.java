@@ -2,9 +2,6 @@ package com.bebehp.mc.eewreciever;
 
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.bebehp.mc.eewreciever.ping.QuakeMain;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -18,10 +15,9 @@ import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = EEWRecieverMod.owner, name = EEWRecieverMod.owner, version = "2.4.6")
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EEWRecieverMod {
 	public static final String owner = "EEWReciever";
-	public static final Logger logger = LogManager.getLogger(owner);
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
@@ -30,7 +26,7 @@ public class EEWRecieverMod {
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-		logger.info("EEW is setting up.");
+		Reference.logger.info("EEWReciever is setting up.");
 		FMLCommonHandler.instance().bus().register(new QuakeMain());
 		FMLCommonHandler.instance().bus().register(ConfigurationHandler.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(this);

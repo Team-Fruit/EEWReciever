@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.bebehp.mc.eewreciever.ConfigurationHandler;
-import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.IQuake;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
@@ -32,9 +32,9 @@ public class TweetQuake implements IQuake {
 						final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
 						TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
 					} catch (final UnsupportedEncodingException e) {
-						EEWRecieverMod.logger.error("Encode Error", e);
+						Reference.logger.error("Encode Error", e);
 					} catch (final QuakeException e) {
-						EEWRecieverMod.logger.error("Recieve Error", e);
+						Reference.logger.error("Recieve Error", e);
 					}
 				}
 			}
@@ -42,10 +42,9 @@ public class TweetQuake implements IQuake {
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable) {
 			final long[] list = new long[2];
-			// @eewbot = 214358709
-			// @EEWReciever = 4893957312
-			list[0] = 214358709L;
-			if (ConfigurationHandler.debugMode) list[1] = 4893957312L;
+			list[0] = 214358709L; //from:eewbot
+			if (ConfigurationHandler.debugMode)
+				list[1] = 4893957312L; //from:EEWReciever
 			final FilterQuery query = new FilterQuery(list);
 			this.twitterStream.filter(query);
 		}

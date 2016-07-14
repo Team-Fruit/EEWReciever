@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bebehp.mc.eewreciever.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.p2pquake.P2PQuake;
 import com.bebehp.mc.eewreciever.twitter.TweetQuake;
 
@@ -28,7 +29,7 @@ public class QuakeMain {
 			if (ConfigurationHandler.twitterEnable)
 				checkUpdate(tweetQuakeNode);
 		} catch (final QuakeException e) {
-			EEWRecieverMod.logger.error(e);
+			Reference.logger.error(e);
 		}
 	}
 
