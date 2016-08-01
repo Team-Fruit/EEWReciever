@@ -1,5 +1,6 @@
 package com.bebehp.mc.eewreciever.twitter;
 
+@Deprecated
 public enum AnnouncementType {
 	AEEW("緊急地震速報"),
 	ACancel("緊急地震速報(キャンセル取り消し)"),

@@ -29,7 +29,7 @@ public class P2PQuake implements IQuake {
 	// EEWRecieverMod.logger.info(EEWRecieverMod.owner + " has some problem
 	// about [" + e.getMessage() + "].");
 
-	public static final String API_PATH = "http://p2pquake.ddo.jp/p2pquake/api_userquake.pl";
+	public static final String API_PATH = "http://api.p2pquake.net/userquake";
 	public static long WaitMilliSeconds = 1000 * 15;
 
 	private static List<AbstractQuakeNode> empty = new LinkedList<AbstractQuakeNode>();
