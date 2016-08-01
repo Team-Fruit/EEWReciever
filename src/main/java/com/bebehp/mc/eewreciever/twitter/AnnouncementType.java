@@ -2,7 +2,7 @@ package com.bebehp.mc.eewreciever.twitter;
 
 public enum AnnouncementType {
 	AEEW("緊急地震速報"),
-	ACancel("先ほどの誤報発表は間違いでした"),
+	ACancel("緊急地震速報(キャンセル取り消し)"),
 	ADefault("Unknown");
 	private final String name;
 	private AnnouncementType(final String str)

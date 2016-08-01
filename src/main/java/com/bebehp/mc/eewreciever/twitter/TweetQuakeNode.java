@@ -22,9 +22,6 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	public TweetQuakeNode parseString(final String text) throws QuakeException
 	{
 		try {
-			//			EEWRecieverMod.logger.info(text);
-			//			ArrayList<String> tnode = new ArrayList<String>(15);
-			//			tnode.addAll(Arrays.asList(text.split(",", 0)));
 			final String[] tnode = Arrays.copyOf(text.split(",", 0), 15);
 
 			//			this.id = tnode[2];
@@ -52,10 +49,11 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	public String toString()
 	{
 		//		return String.format("{\"text\":\"%s%s%s%s%s %s %skm %s震度%s%s M%s\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"%s%s 地震発生時刻:%s\"}}",
-		if (this.alarm){
-			return String.format("%s%s§c%s§r §b%s§rで地震 予測震度:§d%s§r %skm M:%s (%s)\n§e強い地震が発生しています。身の安全を確保してください。§r",
+		if (this.canceled){
+			return "先程の緊急地震速報はキャンセルされました";
+		} else if (this.alarm) {
+			return String.format("%s§c%s§r §b%s§rで地震 予測震度:§d%s§r %skm M:%s (%s)\n§e強い地震が発生しています。身の安全を確保してください。§r",
 					(this.training ? "[訓練報]" : ""),
-					(this.canceled ? "[誤報]" : ""),
 					this.announcement,
 					this.where,
 					this.strong,
@@ -65,9 +63,8 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 					//				dateformat.format(this.time)
 					);
 		} else {
-			return String.format("%s%s%s %sで地震 予測震度:%s %skm M:%s (%s)",
+			return String.format("%s%s %sで地震 予測震度:%s %skm M:%s (%s)",
 					(this.training ? "[訓練報]" : ""),
-					(this.canceled ? "[誤報]" : ""),
 					this.announcement,
 					this.where,
 					this.strong,
