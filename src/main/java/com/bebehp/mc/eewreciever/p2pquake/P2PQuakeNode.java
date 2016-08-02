@@ -9,13 +9,12 @@ import com.bebehp.mc.eewreciever.ping.MyNumber;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 
 public class P2PQuakeNode extends AbstractQuakeNode {
-	private static final SimpleDateFormat dateformat1 = new SimpleDateFormat("HH:mm:ss");
+	//	private static final SimpleDateFormat dateformat1 = new SimpleDateFormat("HH:mm:ss");
 	private static final SimpleDateFormat dateformat2 = new SimpleDateFormat("dd日HH時mm分");
 
 	protected int quaketype;
 	protected P2PQuakeNodeTsunami tsunami;
 	protected boolean modified;
-	protected String type;
 	protected boolean unknownMagnitude;
 
 	@Override
@@ -25,7 +24,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			final String[] time = Arrays.copyOf(data[0].split(","), 3);
 
 			this.id = time[0];
-			this.announcementtime = (time[0] != null) ? dateformat1.parse(time[0]) : null;
+			//			this.announcementtime = (time[0] != null) ? dateformat1.parse(time[0]) : null;
 			this.alarm = "QUA".equals(time[1]);
 			this.time = (time[2] != null) ? dateformat2.parse(time[2]) : null;
 			this.strong = data[1];

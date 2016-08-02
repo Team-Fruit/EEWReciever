@@ -17,8 +17,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	//	protected String quakenumber;
 
 	@Override
-	public TweetQuakeNode parseString(final String text) throws QuakeException
-	{
+	public TweetQuakeNode parseString(final String text) throws QuakeException {
 		//		try {
 		final String[] tnode = Arrays.copyOf(text.split(",", 0), 15);
 
@@ -44,10 +43,9 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		//		return String.format("{\"text\":\"%s%s%s%s%s %s %skm %s震度%s%s M%s\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"%s%s 地震発生時刻:%s\"}}",
-		if (this.canceled){
+		if (this.canceled) {
 			return "先程の緊急地震速報はキャンセルされました(第" + this.telegramnumber + "報)";
 		} else if (this.alarm) {
 			return String.format("%s§c%s§r §b%s§rで地震 予測震度:§d%s§r %skm M:%s (%s)\n§e強い地震が発生しています。身の安全を確保してください。§r",
