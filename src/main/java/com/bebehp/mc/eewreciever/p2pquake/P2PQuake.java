@@ -20,7 +20,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 
-import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.IQuake;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
@@ -71,7 +71,7 @@ public class P2PQuake implements IQuake {
 		final List<Header> headers = new ArrayList<Header>();
 		headers.add(new BasicHeader("Accept-Charset", "Shift_JIS"));
 		headers.add(new BasicHeader("Accept-Language", "ja, en;q=0.8"));
-		headers.add(new BasicHeader("User-Agent", EEWRecieverMod.owner));
+		headers.add(new BasicHeader("User-Agent", Reference.MODID));
 		// create client
 		return HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).setDefaultHeaders(headers).build();
 	}

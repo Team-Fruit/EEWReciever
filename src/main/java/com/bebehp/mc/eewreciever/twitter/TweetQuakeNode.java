@@ -7,18 +7,14 @@ import com.bebehp.mc.eewreciever.ping.MyNumber;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 
 public class TweetQuakeNode extends AbstractQuakeNode {
-	//	private static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 	protected boolean canceled;
 	protected boolean announcement;
 	protected MyNumber telegramnumber;
 	protected boolean finaleew;
-	//	protected AnnouncementType announcement;
-	//	protected String quakenumber;
 
 	@Override
 	public TweetQuakeNode parseString(final String text) throws QuakeException {
-		//		try {
 		final String[] tnode = Arrays.copyOf(text.split(",", 0), 15);
 
 		this.canceled = "39".equals(tnode[0]);
@@ -31,14 +27,6 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 		this.magnitude = new MyNumber(tnode[11]);
 		this.strong = tnode[12];
 		this.alarm = "1".equals(tnode[14]);
-		//			this.id = tnode[2];
-		//			this.announcementtime = (tnode[2]!=null) ? dateformat.parse(tnode[2]) : null;
-		//		this.announcement = AnnouncementType.parseString(tnode[3]);
-		//		this.quakenumber = tnode[5];
-		//			this.time = (tnode[6]!=null) ? dateformat.parse(tnode[6]) : null;
-		//		} catch (final ParseException e) {
-		//			throw new QuakeException("Parse Error", e);
-		//		}
 		return this;
 	}
 

@@ -17,7 +17,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EEWRecieverMod {
-	public static final String owner = "EEWReciever";
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
