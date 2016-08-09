@@ -46,7 +46,7 @@ public abstract class AbstractQuakeNode {
 		return this.alarm;
 	}
 
-	public boolean istraining() {
+	public boolean isTraining() {
 		return this.training;
 	}
 

@@ -25,7 +25,7 @@ public class EEWRecieverMod {
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-		Reference.logger.info("EEWReciever is setting up.");
+		Reference.logger.info("EEW is setting up.");
 		FMLCommonHandler.instance().bus().register(new QuakeMain());
 		FMLCommonHandler.instance().bus().register(ConfigurationHandler.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(this);

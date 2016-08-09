@@ -27,17 +27,15 @@ public class TweetQuake implements IQuake {
 		this.listener = new StatusAdapter() {
 			@Override
 			public void onStatus(final Status status) {
-				if (status.getInReplyToScreenName() == null){
-					if (!status.isRetweet()) {
-						try {
-							final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
-							TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
-						} catch (final UnsupportedEncodingException e) {
-							Reference.logger.error("Encode Error", e);
-						} catch (final QuakeException e) {
-							Reference.logger.error("Recieve Error", e);
-						}
+				try {
+					if (status.getInReplyToScreenName() == null && !status.isRetweet()) {
+						final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
+						TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
 					}
+				} catch (UnsupportedEncodingException e) {
+					Reference.logger.error("Encode Error", e);
+				} catch (QuakeException e) {
+					Reference.logger.error("Recieve Error", e);
 				}
 			}
 		};
