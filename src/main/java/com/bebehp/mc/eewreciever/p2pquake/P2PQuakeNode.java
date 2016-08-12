@@ -4,9 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.MyNumber;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
+
+import net.minecraft.util.EnumChatFormatting;
 
 public class P2PQuakeNode extends AbstractQuakeNode {
 	//	private static final SimpleDateFormat dateformat1 = new SimpleDateFormat("HH:mm:ss");
@@ -82,7 +85,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 					this.tsunami
 					);
 		case 5:
-			return String.format("[遠地地震情報](気象庁発表) %s M%s %s頃発生(日本時間)\n%s",
+			return String.format("[遠地地震情報](気象庁発表) %s M%s%s\n%s頃発生(日本時間)\n%s",
 					this.where,
 					(this.unknownMagnitude ? "不明" : this.magnitude),
 					((this.time != null) ? (dateformat2.format(this.time)) : ""),
@@ -91,7 +94,8 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 		case 6:
 			return "[EEWReciever]気象庁の情報更新を受信しました";
 		default:
-			return "[EEWReciever]不明な情報を受信しました";
+			Reference.logger.warn("受信した情報は想定外です: " + this.quaketype);
+			return EnumChatFormatting.GRAY + "[EEWReciever]サポートしていない情報を受信しました";
 		}
 	}
 }

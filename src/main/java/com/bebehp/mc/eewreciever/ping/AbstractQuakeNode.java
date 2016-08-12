@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.bebehp.mc.eewreciever.Reference;
+
 public abstract class AbstractQuakeNode {
 	/**
 	 * 識別子
@@ -77,7 +79,7 @@ public abstract class AbstractQuakeNode {
 
 	@Override
 	public String toString() {
-		return this.id;
+		return Reference.NAME;
 	}
 
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
