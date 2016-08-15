@@ -20,6 +20,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 
+import com.bebehp.mc.eewreciever.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.IQuake;
@@ -44,7 +45,8 @@ public class P2PQuake implements IQuake {
 			final HttpGet httpPost = new HttpGet(path);
 			final HttpResponse response = this.httpClient.execute(httpPost);
 
-			is = response.getEntity().getContent();
+			if (ConfigurationHandler.p2pQuakeEnable)
+				is = response.getEntity().getContent();
 
 			final InputStreamReader isr = new InputStreamReader(is, "Shift_JIS");
 			final BufferedReader reader = new BufferedReader(isr);

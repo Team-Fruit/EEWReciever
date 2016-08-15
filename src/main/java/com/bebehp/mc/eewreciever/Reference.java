@@ -9,6 +9,8 @@ public class Reference {
 	public static final String VERSION = "2.4.8";
 	public static final String FORGE = "10.13.4.1558";
 	public static final String MINECRAFT = "1.7.10";
+	//	public static final String PROXY_SERVER = "com.bebehp.mc.eewreciever.proxy.CommonProxy";
+	//	public static final String PROXY_CLIENT = "com.bebehp.mc.eewreciever.proxy.ClientProxy";
 
 	public static Logger logger = LogManager.getLogger(Reference.MODID);
 }

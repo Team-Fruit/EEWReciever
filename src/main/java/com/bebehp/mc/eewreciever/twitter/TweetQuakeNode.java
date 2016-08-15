@@ -62,7 +62,6 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 					this.deep,
 					this.magnitude,
 					(this.finaleew ? "最終報" : "第" + this.telegramnumber + "報")
-					//				dateformat.format(this.time)
 					);
 		}
 	}

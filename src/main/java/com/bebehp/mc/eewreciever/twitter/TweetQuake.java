@@ -21,6 +21,7 @@ public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
 	private final TwitterStream twitterStream;
 	private final StatusListener listener;
+	TweetQuakeCommands tqm = new TweetQuakeCommands();
 
 	public TweetQuake() {
 		this.twitterStream = new TwitterStreamFactory().getInstance();
@@ -28,24 +29,20 @@ public class TweetQuake implements IQuake {
 			@Override
 			public void onStatus(final Status status) {
 				try {
-					if (status.getInReplyToScreenName() == null && !status.isRetweet()) {
+					if (status.getInReplyToScreenName() == null && (!status.isRetweet() || ConfigurationHandler.debugMode)) {
 						final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
 						TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
 					}
-				} catch (UnsupportedEncodingException e) {
+				} catch (final UnsupportedEncodingException e) {
 					Reference.logger.error("Encode Error", e);
-				} catch (QuakeException e) {
+				} catch (final QuakeException e) {
 					Reference.logger.error("Recieve Error", e);
 				}
 			}
 		};
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable) {
-			final long[] list;
-			if (ConfigurationHandler.debugMode)
-				list = new long[] {214358709L, 4893957312L}; //from:EEWReciever
-			else
-				list = new long[] {214358709L}; //from:eewbot
+			final long[] list = {214358709L}; //from:eewbot;
 			final FilterQuery query = new FilterQuery(list);
 			this.twitterStream.filter(query);
 		}

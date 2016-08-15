@@ -5,13 +5,10 @@ import net.minecraft.util.EnumChatFormatting;
 public enum P2PQuakeNodeTsunami {
 	TInfo("震源が海底ですと、津波の恐れがあります。今後の情報に注意して下さい。"),
 	TNoTsunami("この地震による津波の心配はありません。"),
-	TTunami(String.format("%s%s[つなみ！にげて！]%sこの地震による津波に関する警報が発表されています！\n警報が発表されている沿岸部にお住いの方は%s今すぐ避難%sして下さい！",
-			EnumChatFormatting.RED,
-			EnumChatFormatting.ITALIC,
-			EnumChatFormatting.RESET,
-			EnumChatFormatting.UNDERLINE,
-			EnumChatFormatting.RESET
-			)),
+	TTunami(EnumChatFormatting.RED + "[つなみ！にげて！]" + EnumChatFormatting.RESET +
+			"この地震による津波に関する警報が発表されています！\n警報が発表されている沿岸部にお住いの方は" +
+			EnumChatFormatting.UNDERLINE + "今すぐ避難" + EnumChatFormatting.RESET + "して下さい！"
+			),
 	TUnknown("津波に関する情報は取得できませんでした。"),
 	TDefault("Unknown");
 

@@ -29,6 +29,7 @@ public class ConfigurationHandler {
 
 	public static void init(final File configFile) {
 		if (configuration == null) {
+			EEWRecieverMod.createFolders();
 			configuration = new Configuration(configFile, VERSION);
 			loadConfiguration();
 		}

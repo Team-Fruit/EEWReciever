@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.MyNumber;
@@ -49,46 +51,56 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 		switch (this.quaketype)
 		{
 		case 1:
-			return String.format("[震度速報]【最大震度%s】(気象庁速報) %s頃発生\n%s",
+			return String.format("[震度速報]【最大震度%s】(気象庁速報) %td日%tH時%tM分頃発生\n%s",
 					this.strong,
-					((this.time != null) ? (dateformat2.format(this.time)) : ""),
+					this.time,
+					this.time,
+					this.time,
 					this.tsunami
 					);
 		case 2:
-			return String.format("[震源情報]【最大震度%s】%s\n深さ%s%s M%s %s頃発生\n%s",
+			return String.format("[震源情報]【最大震度%s】%s\n深さ%s%s M%s %td日%tH時%tM分頃発生\n%s",
 					this.strong,
 					this.where,
-					(this.deep.equals("ごく浅い") ? "" : "約"),
+					(NumberUtils.isDigits(this.deep) ? "約" : ""),
 					this.deep,
 					(this.unknownMagnitude ? "不明" : this.magnitude),
-					((this.time != null) ? (dateformat2.format(this.time)) : ""),
+					this.time,
+					this.time,
+					this.time,
 					this.tsunami
 					);
 		case 3:
-			return String.format("[震源・詳細情報]【最大震度%s】%s\n深さ%s%s M%s %s頃発生\n%s",
+			return String.format("[震源・詳細情報]【最大震度%s】%s\n深さ%s%s M%s %td日%tH時%tM分頃発生\n%s",
 					this.strong,
 					this.where,
-					(this.deep.equals("ごく浅い") ? "" : "約"),
+					(NumberUtils.isDigits(this.deep) ? "約" : ""),
 					this.deep,
 					(this.unknownMagnitude ? "不明" : this.magnitude),
-					((this.time != null) ? (dateformat2.format(this.time)) : ""),
+					this.time,
+					this.time,
+					this.time,
 					this.tsunami
 					);
 		case 4:
-			return String.format("[震源・詳細震度情報]【最大震度%s】%s\n深さ%s%s M%s %s頃発生\n%s",
+			return String.format("[震源・詳細震度情報]【最大震度%s】%s\n深さ%s%s M%s %td日%tH時%tM分頃発生\n%s",
 					this.strong,
 					this.where,
-					(this.deep.equals("ごく浅い") ? "" : "約"),
+					(NumberUtils.isDigits(this.deep) ? "約" : ""),
 					this.deep,
 					(this.unknownMagnitude ? "不明" : this.magnitude),
-					((this.time != null) ? (dateformat2.format(this.time)) : ""),
+					this.time,
+					this.time,
+					this.time,
 					this.tsunami
 					);
 		case 5:
-			return String.format("[遠地地震情報](気象庁発表) %s M%s%s\n%s頃発生(日本時間)\n%s",
+			return String.format("[遠地地震情報](気象庁発表) %s M%s%s\n%td日%tH時%tM分頃発生(日本時間)\n%s",
 					this.where,
 					(this.unknownMagnitude ? "不明" : this.magnitude),
-					((this.time != null) ? (dateformat2.format(this.time)) : ""),
+					this.time,
+					this.time,
+					this.time,
 					this.tsunami
 					);
 		case 6:
