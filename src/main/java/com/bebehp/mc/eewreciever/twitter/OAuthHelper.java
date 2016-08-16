@@ -18,6 +18,10 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
+/**
+ * Twitter連携Helper
+ * @author bebe
+ */
 public class OAuthHelper {
 
 	/**
@@ -25,7 +29,6 @@ public class OAuthHelper {
 	 * @param pin
 	 * @return AccessToken
 	 * @throws TwitterException
-	 * @author bebe
 	 */
 	public static AccessToken getAccessTokentoPin(final String pin) throws TwitterException {
 		final Twitter twitter = TwitterFactory.getSingleton();
@@ -37,7 +40,6 @@ public class OAuthHelper {
 	/**
 	 * AccessToken保管
 	 * @param accessToken
-	 * @author bebe
 	 */
 	public static void storeAccessToken(final AccessToken accessToken) {
 		final File filename = createAccessTokenFileName();
@@ -56,7 +58,6 @@ public class OAuthHelper {
 	/**
 	 * 保管されたAccessToken取り出し
 	 * @return AccessToken ファイルが無いかファイルにAccessTokenが無い場合はnull
-	 * @author bebe
 	 */
 	public static AccessToken loadAccessToken() {
 		final File filename = createAccessTokenFileName();
@@ -78,8 +79,7 @@ public class OAuthHelper {
 
 	/**
 	 * AccessTokenFileを消去します
-	 * @return 消去に成功した場合ture, 失敗した場合やファイルが見つからなかった場合はfalse
-	 * @author bebe
+	 * @return 消去に成功した場合ture, 失敗した場合はfalse
 	 */
 	public static boolean deleteAccessTokenFile() {
 		final File filename = createAccessTokenFileName();
@@ -96,11 +96,22 @@ public class OAuthHelper {
 	}
 
 	/**
+	 * OAuth認証用URLを作成します
+	 * @return 認証URL(String)
+	 * @throws TwitterException
+	 */
+	public static String ceateAuthorizationURL() throws TwitterException {
+		final Twitter twitter = TwitterFactory.getSingleton();
+		final RequestToken requestToken = twitter.getOAuthRequestToken();
+		return requestToken.getAuthenticationURL();
+	}
+
+	/**
 	 * AccessTokenを保管するFileNameを生成します
 	 * @return File
-	 * @author bebe
 	 */
 	public static File createAccessTokenFileName() {
 		return new File(EEWRecieverMod.folderDir, "AccessToken.dat");
 	}
+
 }

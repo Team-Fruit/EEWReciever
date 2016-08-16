@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.eewreciever.p2pquake.P2PQuakeNode;
@@ -20,6 +21,7 @@ import twitter4j.TwitterException;
 
 public class EEWCommand extends CommandBase {
 	private final TweetQuakeCommand tqc;
+	private final String randomString = RandomStringUtils.randomAlphabetic(10);
 
 	public EEWCommand(final TweetQuakeCommand tqc) {
 		this.tqc = tqc;
@@ -91,7 +93,7 @@ public class EEWCommand extends CommandBase {
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを終了します"));
 								} catch (final TwitterException e) {
 									Reference.logger.error(e);
-									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証に失敗しました もう1度お試しください").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 								}
 							} else {
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Pinコードが不正です！").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
@@ -100,7 +102,12 @@ public class EEWCommand extends CommandBase {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupは現在利用できません").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "geturl")) {
-						this.tqc.sendURL(icommandsender);
+						try {
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(OAuthHelper.ceateAuthorizationURL()));
+						} catch (final TwitterException e) {
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+							Reference.logger.error(e.getStatusCode());
+						}
 					} else {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eewreciever setup pin <Pin>"));
 					}
@@ -110,10 +117,28 @@ public class EEWCommand extends CommandBase {
 			} else {
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携が無効な為 利用できません").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 			}
-		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "reset")) {
-			this.tqc.reset(icommandsender);
+		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "deletesettings")) {
+			if (astring.length >= 2) {
+				final String chat = func_82360_a(icommandsender, astring, 1);
+				if (StringUtils.equalsIgnoreCase(astring[1], this.randomString)) {
+					if (OAuthHelper.deleteAccessTokenFile()) {
+						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に成功しました"));
+					} else {
+						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+					}
+				} else {
+					ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去キーが違います").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+				}
+			} else {
+				final StringBuilder stb = new StringBuilder();
+				stb.append("{\"text\":\"本当に消去しますか？実行するにはチャットをクリックして下さい\",\"color\":\"light_purple\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"");
+				stb.append("/eewreciever deletesettings ");
+				stb.append(this.randomString);
+				stb.append("\"}}");
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
+			}
 		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "help")) {
-			final List<String> list = new LinkedList<String>(Arrays.asList("setup", "reset"));
+			final List<String> list = new LinkedList<String>(Arrays.asList("setup", "deletesettings"));
 			if (ConfigurationHandler.debugMode)
 				list.addAll(Arrays.asList("p2p", "twitter"));
 
@@ -129,9 +154,9 @@ public class EEWCommand extends CommandBase {
 	@Override
 	public List<String> addTabCompletionOptions(final ICommandSender icommandsender, final String[] astring) {
 		if (astring.length <= 1 && ConfigurationHandler.debugMode) {
-			return Arrays.asList("p2p", "twitter", "setup", "reset");
+			return Arrays.asList("p2p", "twitter", "setup", "deletesettings");
 		} else if (astring.length <= 1) {
-			return Arrays.asList("setup", "reset");
+			return Arrays.asList("setup", "deletesettings");
 		} else if ((astring.length <= 2 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) && ConfigurationHandler.debugMode) {
 			return Arrays.asList("00:00:00,QUA,01日00時00分/1/0/4/震央/10km/2.5/0/N35.0/E140.0/サンプル");
 		} else if ((astring.length <= 2 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) && ConfigurationHandler.debugMode) {
