@@ -90,7 +90,7 @@ public class OAuthHelper {
 				Reference.logger.warn("Failed to delete the AccessTokenFile({})", filename);
 			}
 		} else {
-			Reference.logger.warn("AccessTokenFile({}) not found", filename);
+			Reference.logger.warn("AccessTokenFile({}) Not found", filename);
 		}
 		return false;
 	}

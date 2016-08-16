@@ -21,7 +21,6 @@ public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
 	private final TwitterStream twitterStream;
 	private final StatusListener listener;
-	TweetQuakeCommand tqm = new TweetQuakeCommand();
 
 	public TweetQuake() {
 		this.twitterStream = new TwitterStreamFactory().getInstance();
@@ -41,8 +40,14 @@ public class TweetQuake implements IQuake {
 			}
 		};
 		this.twitterStream.addListener(this.listener);
-		if (ConfigurationHandler.twitterEnable && OAuthHelper.loadAccessToken() != null)
-			startStream();
+		if (ConfigurationHandler.twitterEnable) {
+			if (OAuthHelper.loadAccessToken() != null) {
+				startStream();
+			} else {
+				Reference.logger.warn("Twitter authentication was not possible!");
+				Reference.logger.info("Plaese try /eewreciever setup");
+			}
+		}
 	}
 
 	public void startStream() {

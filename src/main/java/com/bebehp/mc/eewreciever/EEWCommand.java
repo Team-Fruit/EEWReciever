@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.bebehp.mc.eewreciever.p2pquake.P2PQuakeNode;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 import com.bebehp.mc.eewreciever.twitter.OAuthHelper;
-import com.bebehp.mc.eewreciever.twitter.TweetQuakeCommand;
 import com.bebehp.mc.eewreciever.twitter.TweetQuakeNode;
 
 import net.minecraft.command.CommandBase;
@@ -20,11 +19,12 @@ import net.minecraft.util.EnumChatFormatting;
 import twitter4j.TwitterException;
 
 public class EEWCommand extends CommandBase {
-	private final TweetQuakeCommand tqc;
-	private final String randomString = RandomStringUtils.randomAlphabetic(10);
 
-	public EEWCommand(final TweetQuakeCommand tqc) {
-		this.tqc = tqc;
+	public static final EEWCommand INSTANCE = new EEWCommand();
+	private final String randomString = RandomStringUtils.randomAlphabetic(10);
+	public static ICommandSender setupSender;
+
+	private EEWCommand() {
 	}
 
 	@Override
@@ -83,13 +83,13 @@ public class EEWCommand extends CommandBase {
 			if (ConfigurationHandler.twitterEnable) {
 				if (astring.length >= 2) {
 					if (StringUtils.equalsIgnoreCase(astring[1], "pin")) {
-						if (TweetQuakeCommand.setupSender == null || TweetQuakeCommand.setupSender == icommandsender) {
+						if (setupSender == null || setupSender == icommandsender) {
 							final String chat = func_82360_a(icommandsender, astring, 2);
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
 									OAuthHelper.storeAccessToken(OAuthHelper.getAccessTokentoPin(chat));
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
-									TweetQuakeCommand.setupSender = null;
+									setupSender = null;
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを終了します"));
 								} catch (final TwitterException e) {
 									Reference.logger.error(e);
@@ -112,7 +112,32 @@ public class EEWCommand extends CommandBase {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eewreciever setup pin <Pin>"));
 					}
 				} else {
-					this.tqc.setup(icommandsender);
+					if (setupSender == null) {
+						if (OAuthHelper.loadAccessToken() == null) {
+							setupSender = icommandsender;
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("[WIP]EEWReciever TwitterSetupを開始します"));
+							try {
+								final StringBuilder stb = new StringBuilder();
+								stb.append("{\"text\":\"[ Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く) ]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"");
+								stb.append(OAuthHelper.ceateAuthorizationURL());
+								stb.append("\"}}");
+								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
+							} catch (final TwitterException e) {
+								Reference.logger.error(e.getStatusCode());
+								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを終了します").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+								setupSender = null;
+								return;
+							}
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson("{\"text\":\"/eew setup pin <Pin>でコードを入力して下さい(クリックで提案)\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/eewreciever setup pin\"}}"));
+						} else {
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携は設定済みです！").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+						}
+					} else if (setupSender == icommandsender){
+						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("あなたは現在Setupを実行中です！").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+					} else {
+						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupは現在利用出来ません").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+					}
 				}
 			} else {
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携が無効な為 利用できません").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
