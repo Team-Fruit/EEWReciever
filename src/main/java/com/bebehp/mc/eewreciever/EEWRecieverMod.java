@@ -1,10 +1,13 @@
 package com.bebehp.mc.eewreciever;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+
 import com.bebehp.mc.eewreciever.ping.QuakeMain;
-import com.bebehp.mc.eewreciever.twitter.TweetQuakeCommands;
+import com.bebehp.mc.eewreciever.twitter.TweetQuakeCommand;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -14,13 +17,12 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.command.ICommandSender;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EEWRecieverMod {
 
-	public final TweetQuakeCommands tqm = new TweetQuakeCommands();
+	public final TweetQuakeCommand tqm = new TweetQuakeCommand();
 	public final EEWCommand command = new EEWCommand(this.tqm);
 	public static File folderDir = null;
 
@@ -29,6 +31,7 @@ public class EEWRecieverMod {
 		Reference.logger = event.getModLog();
 		EEWRecieverMod.folderDir = new File(event.getModConfigurationDirectory(), Reference.MODID);
 		final File configFileDir = new File(folderDir, Reference.MODID + ".cfg");
+		checkConfigFile(event.getSuggestedConfigurationFile(), configFileDir);
 		ConfigurationHandler.init(configFileDir);
 	}
 
@@ -57,17 +60,24 @@ public class EEWRecieverMod {
 		}
 	}
 
-	public static void sendPlayerChat (final ICommandSender target, final String msg) {
-		final String[] linemsg = msg.split("\n");
-		for (final String line : linemsg) {
-			ChatUtil.sendPlayerChat(target, ChatUtil.byText(line));
-		}
-	}
-
 	public static void createFolders() {
 		if (!folderDir.exists()) {
 			if (!folderDir.mkdirs()) {
 				Reference.logger.warn("Could not create EEWReciever directory [{}]!", folderDir.getAbsolutePath());
+			}
+		}
+	}
+
+	public static void checkConfigFile(final File suggestedConfigFile, final File configDir) {
+		if (suggestedConfigFile.exists()) {
+			try {
+				FileUtils.copyFile(suggestedConfigFile, configDir);
+			} catch (final IOException e) {
+				Reference.logger.error(e);
+				return;
+			}
+			if (!suggestedConfigFile.delete()) {
+				Reference.logger.warn("Failed to delete the Legacy Config File({})", suggestedConfigFile);
 			}
 		}
 	}

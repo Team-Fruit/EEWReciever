@@ -2,7 +2,6 @@ package com.bebehp.mc.eewreciever.twitter;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,9 +18,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-public class TweetQuakeHelper {
-
-	public static Twitter twitter = TwitterFactory.getSingleton();
+public class OAuthHelper {
 
 	/**
 	 * OAuth認証用
@@ -30,11 +27,10 @@ public class TweetQuakeHelper {
 	 * @throws TwitterException
 	 * @author bebe
 	 */
-	public static AccessToken getAccessToken(final String pin) throws TwitterException {
-		AccessToken accessToken = null;
+	public static AccessToken getAccessTokentoPin(final String pin) throws TwitterException {
+		final Twitter twitter = TwitterFactory.getSingleton();
 		final RequestToken requestToken = twitter.getOAuthRequestToken();
-
-		accessToken = twitter.getOAuthAccessToken(requestToken, pin);
+		final AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, pin);
 		return accessToken;
 	}
 
@@ -46,16 +42,14 @@ public class TweetQuakeHelper {
 	public static void storeAccessToken(final AccessToken accessToken) {
 		final File filename = createAccessTokenFileName();
 		EEWRecieverMod.createFolders();
-		ObjectOutputStream out = null;
+		ObjectOutputStream outputStream = null;
 		try {
-			out = new ObjectOutputStream(new FileOutputStream(filename));
-			out.writeObject(accessToken);
-		} catch (final FileNotFoundException e) {
-			Reference.logger.error(e);
+			outputStream = new ObjectOutputStream(new FileOutputStream(filename));
+			outputStream.writeObject(accessToken);
 		} catch (final IOException e) {
 			Reference.logger.error(e);
 		} finally {
-			IOUtils.closeQuietly(out);
+			IOUtils.closeQuietly(outputStream);
 		}
 	}
 
@@ -66,17 +60,18 @@ public class TweetQuakeHelper {
 	 */
 	public static AccessToken loadAccessToken() {
 		final File filename = createAccessTokenFileName();
-		ObjectInputStream input = null;
+		ObjectInputStream inputStream = null;
 		AccessToken accessToken = null;
 		try {
-			input = new ObjectInputStream(new FileInputStream(filename));
-			accessToken = (AccessToken)input.readObject();
-		} catch (final ClassNotFoundException e) {
-			Reference.logger.error(e);
+			inputStream = new ObjectInputStream(new FileInputStream(filename));
+			accessToken = (AccessToken)inputStream.readObject();
 		} catch (final IOException e) {
 			Reference.logger.error(e);
+		} catch (final ClassNotFoundException
+				e) {
+			Reference.logger.error(e);
 		} finally {
-			IOUtils.closeQuietly(input);
+			IOUtils.closeQuietly(inputStream);
 		}
 		return accessToken;
 	}

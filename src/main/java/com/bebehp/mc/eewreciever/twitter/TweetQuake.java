@@ -21,7 +21,7 @@ public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
 	private final TwitterStream twitterStream;
 	private final StatusListener listener;
-	TweetQuakeCommands tqm = new TweetQuakeCommands();
+	TweetQuakeCommand tqm = new TweetQuakeCommand();
 
 	public TweetQuake() {
 		this.twitterStream = new TwitterStreamFactory().getInstance();
@@ -41,7 +41,7 @@ public class TweetQuake implements IQuake {
 			}
 		};
 		this.twitterStream.addListener(this.listener);
-		if (ConfigurationHandler.twitterEnable) {
+		if (ConfigurationHandler.twitterEnable && OAuthHelper.loadAccessToken() != null) {
 			final long[] list = {214358709L}; //from:eewbot;
 			final FilterQuery query = new FilterQuery(list);
 			this.twitterStream.filter(query);
