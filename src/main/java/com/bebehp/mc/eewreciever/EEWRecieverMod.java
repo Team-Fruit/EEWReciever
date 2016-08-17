@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
 import com.bebehp.mc.eewreciever.ping.QuakeMain;
+import com.bebehp.mc.eewreciever.twitter.TweetQuakeSetup;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -22,6 +23,8 @@ import net.minecraftforge.common.MinecraftForge;
 public class EEWRecieverMod {
 
 	public static File folderDir = null;
+	public TweetQuakeSetup quakeSetup = new TweetQuakeSetup();
+	public EEWCommand command = new EEWCommand(this.quakeSetup);
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
@@ -42,7 +45,7 @@ public class EEWRecieverMod {
 
 	@EventHandler
 	public void serverLoad(final FMLServerStartingEvent event){
-		event.registerServerCommand(EEWCommand.INSTANCE);
+		event.registerServerCommand(this.command);
 	}
 
 	@NetworkCheckHandler
@@ -67,14 +70,14 @@ public class EEWRecieverMod {
 
 	public static void checkConfigFile(final File suggestedConfigFile, final File configDir) {
 		if (suggestedConfigFile.exists()) {
+			Reference.logger.warn("Found old Config File[{}]", suggestedConfigFile);
 			try {
 				FileUtils.copyFile(suggestedConfigFile, configDir);
+				if (!suggestedConfigFile.delete()) {
+					Reference.logger.warn("Failed to delete the Legacy Config File[{}]", suggestedConfigFile);
+				}
 			} catch (final IOException e) {
 				Reference.logger.error(e);
-				return;
-			}
-			if (!suggestedConfigFile.delete()) {
-				Reference.logger.warn("Failed to delete the Legacy Config File({})", suggestedConfigFile);
 			}
 		}
 	}

@@ -18,15 +18,25 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
+	private final TweetQuakeKey tweetQuakeKey;
+	private final Configuration configuration;
 	private final TwitterStream twitterStream;
 	private final StatusListener listener;
 	private final Twitter twitter;
 
 	public TweetQuake() {
-		this.twitterStream = new TwitterStreamFactory().getInstance();
+		this.tweetQuakeKey = TweetQuakeFileHelper.loadKey();
+		this.configuration = new ConfigurationBuilder()
+				.setOAuthConsumerKey(this.tweetQuakeKey.getKey1())
+				.setOAuthAccessTokenSecret(this.tweetQuakeKey.getKey2())
+				.build();
+		this.twitterStream = new TwitterStreamFactory(this.configuration).getInstance();
 		this.twitter = new TwitterFactory().getInstance();
 		this.listener = new StatusAdapter() {
 			@Override
@@ -45,9 +55,9 @@ public class TweetQuake implements IQuake {
 		};
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable) {
-			if (OAuthHelper.loadAccessToken() != null) {
-				this.twitter.setOAuthConsumer(OAuthHelper.loadKey().getKey1(), OAuthHelper.loadKey().getKey2());
-				this.twitter.setOAuthAccessToken(OAuthHelper.loadAccessToken());
+			final AccessToken accessToken = TweetQuakeFileHelper.loadAccessToken();
+			if (accessToken != null) {
+				this.twitter.setOAuthAccessToken(accessToken);
 				final long[] list = {214358709L}; //from:eewbot;
 				final FilterQuery query = new FilterQuery(list);
 				this.twitterStream.filter(query);

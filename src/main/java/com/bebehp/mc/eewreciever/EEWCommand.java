@@ -9,8 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.eewreciever.p2pquake.P2PQuakeNode;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
-import com.bebehp.mc.eewreciever.twitter.OAuthHelper;
+import com.bebehp.mc.eewreciever.twitter.TweetQuakeFileHelper;
 import com.bebehp.mc.eewreciever.twitter.TweetQuakeNode;
+import com.bebehp.mc.eewreciever.twitter.TweetQuakeSetup;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -20,11 +21,12 @@ import twitter4j.TwitterException;
 
 public class EEWCommand extends CommandBase {
 
-	public static final EEWCommand INSTANCE = new EEWCommand();
+	private final TweetQuakeSetup tweetQuakeSetup;
 	private final String randomString = RandomStringUtils.randomAlphabetic(10);
 	public static ICommandSender setupSender;
 
-	private EEWCommand() {
+	public EEWCommand(final TweetQuakeSetup tweetQuakeSetup) {
+		this.tweetQuakeSetup = tweetQuakeSetup;
 	}
 
 	@Override
@@ -87,7 +89,7 @@ public class EEWCommand extends CommandBase {
 							final String chat = func_82360_a(icommandsender, astring, 2);
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
-									OAuthHelper.storeAccessToken(OAuthHelper.getAccessTokentoPin(chat));
+									TweetQuakeFileHelper.storeAccessToken(this.tweetQuakeSetup.getAccessToken(chat));
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
 									setupSender = null;
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを終了します"));
@@ -103,7 +105,7 @@ public class EEWCommand extends CommandBase {
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "geturl")) {
 						try {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(OAuthHelper.ceateAuthorizationURL()));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(this.tweetQuakeSetup.getRequestToken().getAuthenticationURL()));
 						} catch (final TwitterException e) {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 							Reference.logger.error(e.getStatusCode());
@@ -113,13 +115,13 @@ public class EEWCommand extends CommandBase {
 					}
 				} else {
 					if (setupSender == null) {
-						if (OAuthHelper.loadAccessToken() == null) {
+						if (TweetQuakeFileHelper.loadAccessToken() == null) {
 							setupSender = icommandsender;
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("[WIP]EEWReciever TwitterSetupを開始します"));
 							try {
 								final StringBuilder stb = new StringBuilder();
-								stb.append("{\"text\":\"[ Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く) ]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"");
-								stb.append(OAuthHelper.ceateAuthorizationURL());
+								stb.append("{\"text\":\"Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く)\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"");
+								stb.append(this.tweetQuakeSetup.getRequestToken().getAuthenticationURL());
 								stb.append("\"}}");
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
 							} catch (final TwitterException e) {
@@ -146,7 +148,7 @@ public class EEWCommand extends CommandBase {
 			if (astring.length >= 2) {
 				final String chat = func_82360_a(icommandsender, astring, 1);
 				if (StringUtils.equalsIgnoreCase(astring[1], this.randomString)) {
-					if (OAuthHelper.deleteAccessTokenFile()) {
+					if (TweetQuakeFileHelper.deleteAccessTokenFile()) {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に成功しました"));
 					} else {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));

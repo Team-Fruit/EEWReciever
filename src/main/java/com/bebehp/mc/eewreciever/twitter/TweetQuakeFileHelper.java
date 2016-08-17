@@ -2,12 +2,13 @@ package com.bebehp.mc.eewreciever.twitter;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 import org.apache.commons.compress.utils.IOUtils;
 
@@ -15,54 +16,62 @@ import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
 
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
 
 /**
  * Twitter連携Helper
  * @author bebe
  */
-public class OAuthHelper {
+public class TweetQuakeFileHelper {
 
-	public static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "AccessToken.dat");
+	private static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "AccessToken.dat");
+	private static final Twitter twitter = TwitterFactory.getSingleton();
 
 	/**
-	 * jarファイル内のKeyを読み込みます
-	 * @return TweetQuakeKey
+	 * jarファイル内のfile.eewを読み込みます<br>
+	 * 但し、クラスパスがディレクトリだった場合、
+	 * そちらを優先して読み込みます(開発用)
+	 * @return TweetQuakeKey Fileが存在しなかった場合等はnull
 	 */
 	public static TweetQuakeKey loadKey() {
-		URL keyURL = null;
-		ObjectInputStream objectInputStream = null;
-		InputStream inputStream = null;
-		TweetQuakeKey tweetQuakeKey = null;
-		try {
-			keyURL = new URL(OAuthHelper.class.getResource("."), "file.eew");
-			inputStream = keyURL.openConnection().getInputStream();
-			objectInputStream = new ObjectInputStream(inputStream);
-			tweetQuakeKey = (TweetQuakeKey)objectInputStream.readObject();
-		} catch (final ClassNotFoundException e) {
-			Reference.logger.error(e);
-		} catch (final IOException e) {
-			Reference.logger.error(e);
-		} finally {
-			IOUtils.closeQuietly(objectInputStream);
+		final String absolutePath = System.getProperty("java.class.path");
+		final String[] filePath = absolutePath.split(System.getProperty("path.separator"));
+		final File runFile = new File(filePath[0]);
+		if (runFile.isDirectory()) {
+			final File keyFile = new File(runFile, "file.eew");
+			if (keyFile.exists()) {
+				ObjectInputStream is = null;
+				try {
+					is = new ObjectInputStream(new FileInputStream(keyFile));
+					return (TweetQuakeKey)is.readObject();
+				} catch (final IOException e) {
+					Reference.logger.error(e);
+				} catch (final ClassNotFoundException e) {
+					Reference.logger.error(e);
+				} finally {
+					IOUtils.closeQuietly(is);
+				}
+			} else {
+				Reference.logger.warn("keyFile({}) Not Found", keyFile);
+			}
+		} else {
+			JarFile jar = null;
+			ObjectInputStream is = null;
+			try {
+				jar = new JarFile(filePath[0]);
+				final ZipEntry ze = jar.getEntry("file.eew");
+				is = new ObjectInputStream(jar.getInputStream(ze));
+				return (TweetQuakeKey)is.readObject();
+			} catch (final IOException e) {
+				Reference.logger.error(e);
+			} catch (final ClassNotFoundException e) {
+				Reference.logger.error(e);
+			} finally {
+				IOUtils.closeQuietly(is);
+			}
 		}
-		return tweetQuakeKey;
-	}
-
-	/**
-	 * OAuth認証用
-	 * @param pin
-	 * @return AccessToken
-	 * @throws TwitterException
-	 */
-	public static AccessToken getAccessTokentoPin(final String pin) throws TwitterException {
-		final Twitter twitter = TwitterFactory.getSingleton();
-		final RequestToken requestToken = twitter.getOAuthRequestToken();
-		final AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, pin);
-		return accessToken;
+		return null;
 	}
 
 	/**
@@ -92,10 +101,16 @@ public class OAuthHelper {
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream(accessTokenFile));
 			accessToken = (AccessToken)inputStream.readObject();
+		} catch (final FileNotFoundException e) {
+			try {
+				if (!accessTokenFile.createNewFile())
+					Reference.logger.warn("Could not create AccessToken File[{}]!", accessTokenFile);
+			} catch (final IOException e1) {
+				Reference.logger.error(e1);
+			}
 		} catch (final IOException e) {
 			Reference.logger.error(e);
-		} catch (final ClassNotFoundException
-				e) {
+		} catch (final ClassNotFoundException e) {
 			Reference.logger.error(e);
 		} finally {
 			IOUtils.closeQuietly(inputStream);
@@ -118,16 +133,5 @@ public class OAuthHelper {
 			Reference.logger.warn("AccessTokenFile({}) Not found", accessTokenFile);
 		}
 		return false;
-	}
-
-	/**
-	 * OAuth認証用URLを作成します
-	 * @return 認証URL(String)
-	 * @throws TwitterException
-	 */
-	public static String ceateAuthorizationURL() throws TwitterException {
-		final Twitter twitter = TwitterFactory.getSingleton();
-		final RequestToken requestToken = twitter.getOAuthRequestToken();
-		return requestToken.getAuthenticationURL();
 	}
 }
