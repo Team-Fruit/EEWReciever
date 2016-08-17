@@ -18,3 +18,4 @@
 !/.gitignore
 
 /src/main/java/com/bebehp/mc/eewreciever/twitter/TweetQuakeCreateFile.java
+/src/main/resources/file.eew

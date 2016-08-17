@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 
 import org.apache.commons.compress.utils.IOUtils;
 
@@ -23,6 +25,32 @@ import twitter4j.auth.RequestToken;
  * @author bebe
  */
 public class OAuthHelper {
+
+	public static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "AccessToken.dat");
+
+	/**
+	 * jarファイル内のKeyを読み込みます
+	 * @return TweetQuakeKey
+	 */
+	public static TweetQuakeKey loadKey() {
+		URL keyURL = null;
+		ObjectInputStream objectInputStream = null;
+		InputStream inputStream = null;
+		TweetQuakeKey tweetQuakeKey = null;
+		try {
+			keyURL = new URL(OAuthHelper.class.getResource("."), "file.eew");
+			inputStream = keyURL.openConnection().getInputStream();
+			objectInputStream = new ObjectInputStream(inputStream);
+			tweetQuakeKey = (TweetQuakeKey)objectInputStream.readObject();
+		} catch (final ClassNotFoundException e) {
+			Reference.logger.error(e);
+		} catch (final IOException e) {
+			Reference.logger.error(e);
+		} finally {
+			IOUtils.closeQuietly(objectInputStream);
+		}
+		return tweetQuakeKey;
+	}
 
 	/**
 	 * OAuth認証用
@@ -42,11 +70,10 @@ public class OAuthHelper {
 	 * @param accessToken
 	 */
 	public static void storeAccessToken(final AccessToken accessToken) {
-		final File filename = createAccessTokenFileName();
 		EEWRecieverMod.createFolders();
 		ObjectOutputStream outputStream = null;
 		try {
-			outputStream = new ObjectOutputStream(new FileOutputStream(filename));
+			outputStream = new ObjectOutputStream(new FileOutputStream(accessTokenFile));
 			outputStream.writeObject(accessToken);
 		} catch (final IOException e) {
 			Reference.logger.error(e);
@@ -60,11 +87,10 @@ public class OAuthHelper {
 	 * @return AccessToken ファイルが無いかファイルにAccessTokenが無い場合はnull
 	 */
 	public static AccessToken loadAccessToken() {
-		final File filename = createAccessTokenFileName();
 		ObjectInputStream inputStream = null;
 		AccessToken accessToken = null;
 		try {
-			inputStream = new ObjectInputStream(new FileInputStream(filename));
+			inputStream = new ObjectInputStream(new FileInputStream(accessTokenFile));
 			accessToken = (AccessToken)inputStream.readObject();
 		} catch (final IOException e) {
 			Reference.logger.error(e);
@@ -82,15 +108,14 @@ public class OAuthHelper {
 	 * @return 消去に成功した場合ture, 失敗した場合はfalse
 	 */
 	public static boolean deleteAccessTokenFile() {
-		final File filename = createAccessTokenFileName();
-		if (filename.exists()) {
-			if (filename.delete()) {
+		if (accessTokenFile.exists()) {
+			if (accessTokenFile.delete()) {
 				return true;
 			} else {
-				Reference.logger.warn("Failed to delete the AccessTokenFile({})", filename);
+				Reference.logger.warn("Failed to delete the AccessTokenFile({})", accessTokenFile);
 			}
 		} else {
-			Reference.logger.warn("AccessTokenFile({}) Not found", filename);
+			Reference.logger.warn("AccessTokenFile({}) Not found", accessTokenFile);
 		}
 		return false;
 	}
@@ -105,13 +130,4 @@ public class OAuthHelper {
 		final RequestToken requestToken = twitter.getOAuthRequestToken();
 		return requestToken.getAuthenticationURL();
 	}
-
-	/**
-	 * AccessTokenを保管するFileNameを生成します
-	 * @return File
-	 */
-	public static File createAccessTokenFileName() {
-		return new File(EEWRecieverMod.folderDir, "AccessToken.dat");
-	}
-
 }

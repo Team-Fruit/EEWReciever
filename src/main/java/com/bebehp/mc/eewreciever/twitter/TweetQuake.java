@@ -14,6 +14,8 @@ import twitter4j.FilterQuery;
 import twitter4j.Status;
 import twitter4j.StatusAdapter;
 import twitter4j.StatusListener;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
@@ -21,9 +23,11 @@ public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
 	private final TwitterStream twitterStream;
 	private final StatusListener listener;
+	private final Twitter twitter;
 
 	public TweetQuake() {
 		this.twitterStream = new TwitterStreamFactory().getInstance();
+		this.twitter = new TwitterFactory().getInstance();
 		this.listener = new StatusAdapter() {
 			@Override
 			public void onStatus(final Status status) {
@@ -42,18 +46,16 @@ public class TweetQuake implements IQuake {
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable) {
 			if (OAuthHelper.loadAccessToken() != null) {
-				startStream();
+				this.twitter.setOAuthConsumer(OAuthHelper.loadKey().getKey1(), OAuthHelper.loadKey().getKey2());
+				this.twitter.setOAuthAccessToken(OAuthHelper.loadAccessToken());
+				final long[] list = {214358709L}; //from:eewbot;
+				final FilterQuery query = new FilterQuery(list);
+				this.twitterStream.filter(query);
 			} else {
 				Reference.logger.warn("Twitter authentication was not possible!");
 				Reference.logger.info("Plaese try /eewreciever setup");
 			}
 		}
-	}
-
-	public void startStream() {
-		final long[] list = {214358709L}; //from:eewbot;
-		final FilterQuery query = new FilterQuery(list);
-		this.twitterStream.filter(query);
 	}
 
 	@Override
