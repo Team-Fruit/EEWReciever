@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.eewreciever.p2pquake.P2PQuakeNode;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
+import com.bebehp.mc.eewreciever.twitter.TweetQuake;
 import com.bebehp.mc.eewreciever.twitter.TweetQuakeFileHelper;
 import com.bebehp.mc.eewreciever.twitter.TweetQuakeNode;
 import com.bebehp.mc.eewreciever.twitter.TweetQuakeSetup;
@@ -90,6 +91,7 @@ public class EEWCommand extends CommandBase {
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
 									TweetQuakeFileHelper.storeAccessToken(this.tweetQuakeSetup.getAccessToken(chat));
+									new TweetQuake();
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
 									setupSender = null;
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを終了します"));
@@ -105,7 +107,7 @@ public class EEWCommand extends CommandBase {
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "geturl")) {
 						try {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(this.tweetQuakeSetup.getRequestToken().getAuthenticationURL()));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(this.tweetQuakeSetup.getAuthURL()));
 						} catch (final TwitterException e) {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 							Reference.logger.error(e.getStatusCode());
@@ -121,7 +123,7 @@ public class EEWCommand extends CommandBase {
 							try {
 								final StringBuilder stb = new StringBuilder();
 								stb.append("{\"text\":\"Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く)\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"");
-								stb.append(this.tweetQuakeSetup.getRequestToken().getAuthenticationURL());
+								stb.append(this.tweetQuakeSetup.getAuthURL());
 								stb.append("\"}}");
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
 							} catch (final TwitterException e) {

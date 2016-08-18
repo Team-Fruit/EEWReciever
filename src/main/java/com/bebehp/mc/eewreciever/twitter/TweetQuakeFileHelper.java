@@ -15,8 +15,6 @@ import org.apache.commons.compress.utils.IOUtils;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -26,12 +24,11 @@ import twitter4j.auth.AccessToken;
 public class TweetQuakeFileHelper {
 
 	private static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "AccessToken.dat");
-	private static final Twitter twitter = TwitterFactory.getSingleton();
 
 	/**
 	 * jarファイル内のfile.eewを読み込みます<br>
 	 * 但し、クラスパスがディレクトリだった場合、
-	 * そちらを優先して読み込みます(開発用)
+	 * そちらを読み込みます(開発用)
 	 * @return TweetQuakeKey Fileが存在しなかった場合等はnull
 	 */
 	public static TweetQuakeKey loadKey() {

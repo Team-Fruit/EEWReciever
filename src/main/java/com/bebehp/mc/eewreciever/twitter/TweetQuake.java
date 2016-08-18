@@ -25,6 +25,7 @@ import twitter4j.conf.ConfigurationBuilder;
 public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
 	private final TweetQuakeKey tweetQuakeKey;
+	private final AccessToken accessToken;
 	private final Configuration configuration;
 	private final TwitterStream twitterStream;
 	private final StatusListener listener;
@@ -32,6 +33,7 @@ public class TweetQuake implements IQuake {
 
 	public TweetQuake() {
 		this.tweetQuakeKey = TweetQuakeFileHelper.loadKey();
+		this.accessToken = TweetQuakeFileHelper.loadAccessToken();
 		this.configuration = new ConfigurationBuilder()
 				.setOAuthConsumerKey(this.tweetQuakeKey.getKey1())
 				.setOAuthAccessTokenSecret(this.tweetQuakeKey.getKey2())
@@ -55,9 +57,8 @@ public class TweetQuake implements IQuake {
 		};
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable) {
-			final AccessToken accessToken = TweetQuakeFileHelper.loadAccessToken();
-			if (accessToken != null) {
-				this.twitter.setOAuthAccessToken(accessToken);
+			if (this.accessToken != null) {
+				this.twitter.setOAuthAccessToken(this.accessToken);
 				final long[] list = {214358709L}; //from:eewbot;
 				final FilterQuery query = new FilterQuery(list);
 				this.twitterStream.filter(query);
@@ -67,6 +68,8 @@ public class TweetQuake implements IQuake {
 			}
 		}
 	}
+
+
 
 	@Override
 	public List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException {
