@@ -28,7 +28,7 @@ import twitter4j.auth.AccessToken;
  */
 public class TweetQuakeFileHelper {
 
-	private static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "Access.dat");
+	protected static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "Access.dat");
 
 	/**
 	 * jarファイル内のfile.eewを読み込みます<br>
@@ -40,34 +40,25 @@ public class TweetQuakeFileHelper {
 		final String absolutePath = System.getProperty("java.class.path");
 		final String[] filePath = absolutePath.split(System.getProperty("path.separator"));
 		final File runFile = new File(filePath[0]);
-		if (runFile.isDirectory()) {
-			final File keyFile = new File(runFile, "file.eew");
-			if (keyFile.exists()) {
-				BufferedInputStream bis = null;
-				try {
-					bis = new BufferedInputStream(new FileInputStream(keyFile));
-					return load(bis);
-				} catch (final IOException e) {
-					Reference.logger.error(e);
-				} finally {
-					IOUtils.closeQuietly(bis);
+		final String fileName = "file.eew";
+		JarFile jar = null;
+		try {
+			if (runFile.isDirectory()) {
+				final File keyFile = new File(runFile, fileName);
+				if (keyFile.exists()) {
+					return load(new BufferedInputStream(new FileInputStream(keyFile)));
+				} else {
+					Reference.logger.error("keyFile({}) Not Found", keyFile);
 				}
 			} else {
-				Reference.logger.warn("keyFile({}) Not Found", keyFile);
-			}
-		} else {
-			JarFile jar = null;
-			BufferedInputStream bis = null;
-			try {
 				jar = new JarFile(filePath[0]);
-				final ZipEntry ze = jar.getEntry("file.eew");
-				bis = new BufferedInputStream(jar.getInputStream(ze));
-				return load(bis);
-			} catch (final IOException e) {
-				Reference.logger.error(e);
-			} finally {
-				IOUtils.closeQuietly(bis);
+				final ZipEntry ze = jar.getEntry(fileName);
+				return load(new BufferedInputStream(jar.getInputStream(ze)));
 			}
+		} catch (final IOException e) {
+			Reference.logger.error(e);
+		} finally {
+			IOUtils.closeQuietly(jar);
 		}
 		return null;
 	}
@@ -85,6 +76,7 @@ public class TweetQuakeFileHelper {
 		final List<String> decodeList = new ArrayList<String>();
 		for (final byte[] line : list)
 			decodeList.add(new String(Base64.decodeBase64(line)));
+		is.close();
 		return new TweetQuakeKey(decodeList.get(0), decodeList.get(1));
 	}
 

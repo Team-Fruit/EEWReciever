@@ -1,5 +1,7 @@
 package com.bebehp.mc.eewreciever.twitter;
 
+import com.bebehp.mc.eewreciever.Reference;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -20,6 +22,8 @@ public class TweetQuakeSetup implements Runnable {
 	public TweetQuakeSetup() {
 		this.twitter = TwitterFactory.getSingleton();
 		this.tweetQuakeKey = TweetQuakeFileHelper.loadKey();
+		Reference.logger.info(this.tweetQuakeKey.getKey1());
+		Reference.logger.info(this.tweetQuakeKey.getKey2());
 		this.twitter.setOAuthConsumer(this.tweetQuakeKey.getKey1(), this.tweetQuakeKey.getKey2());
 	}
 

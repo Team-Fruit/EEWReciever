@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
 import com.bebehp.mc.eewreciever.ping.QuakeMain;
-import com.bebehp.mc.eewreciever.twitter.TweetQuakeSetup;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -23,8 +22,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class EEWRecieverMod {
 
 	public static File folderDir = null;
-	public TweetQuakeSetup quakeSetup = new TweetQuakeSetup();
-	public EEWCommand command = new EEWCommand(this.quakeSetup);
+	public EEWCommand command = new EEWCommand();
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {

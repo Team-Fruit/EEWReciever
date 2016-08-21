@@ -22,12 +22,10 @@ import twitter4j.TwitterException;
 
 public class EEWCommand extends CommandBase {
 
-	private final TweetQuakeSetup tweetQuakeSetup;
 	private final String randomString = RandomStringUtils.randomAlphabetic(10);
 	public static ICommandSender setupSender;
 
-	public EEWCommand(final TweetQuakeSetup tweetQuakeSetup) {
-		this.tweetQuakeSetup = tweetQuakeSetup;
+	public EEWCommand() {
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class EEWCommand extends CommandBase {
 							final String chat = func_82360_a(icommandsender, astring, 2);
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
-									TweetQuakeFileHelper.storeAccessToken(this.tweetQuakeSetup.getAccessToken(chat));
+									TweetQuakeFileHelper.storeAccessToken(TweetQuakeSetup.INSTANCE.getAccessToken(chat));
 									new TweetQuake();
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
 									setupSender = null;
@@ -107,7 +105,7 @@ public class EEWCommand extends CommandBase {
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "geturl")) {
 						try {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(this.tweetQuakeSetup.getAuthURL()));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(TweetQuakeSetup.INSTANCE.getAuthURL()));
 						} catch (final TwitterException e) {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 							Reference.logger.error(e.getStatusCode());
@@ -123,7 +121,7 @@ public class EEWCommand extends CommandBase {
 							try {
 								final StringBuilder stb = new StringBuilder();
 								stb.append("{\"text\":\"Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く)\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"");
-								stb.append(this.tweetQuakeSetup.getAuthURL());
+								stb.append(TweetQuakeSetup.INSTANCE.getAuthURL());
 								stb.append("\"}}");
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
 							} catch (final TwitterException e) {
