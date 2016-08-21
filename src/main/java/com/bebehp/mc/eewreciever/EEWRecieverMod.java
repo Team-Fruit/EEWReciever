@@ -25,7 +25,7 @@ import twitter4j.auth.AccessToken;
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EEWRecieverMod {
 
-	public static File folderDir = null;
+	public static File folderDir;
 	public static TweetQuakeKey tweetQuakeKey;
 	public static AccessToken accessToken;
 
