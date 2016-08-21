@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bebehp.mc.eewreciever.p2pquake.P2PQuakeNode;
 import com.bebehp.mc.eewreciever.ping.QuakeException;
 import com.bebehp.mc.eewreciever.twitter.TweetQuake;
-import com.bebehp.mc.eewreciever.twitter.TweetQuakeFileHelper;
+import com.bebehp.mc.eewreciever.twitter.TweetQuakeFileManager;
 import com.bebehp.mc.eewreciever.twitter.TweetQuakeNode;
 import com.bebehp.mc.eewreciever.twitter.TweetQuakeSetup;
 
@@ -88,7 +88,7 @@ public class EEWCommand extends CommandBase {
 							final String chat = func_82360_a(icommandsender, astring, 2);
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
-									TweetQuakeFileHelper.storeAccessToken(TweetQuakeSetup.INSTANCE.getAccessToken(chat));
+									TweetQuakeFileManager.storeAccessToken(TweetQuakeSetup.INSTANCE.getAccessToken(chat));
 									new TweetQuake();
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
 									setupSender = null;
@@ -115,7 +115,7 @@ public class EEWCommand extends CommandBase {
 					}
 				} else {
 					if (setupSender == null) {
-						if (TweetQuakeFileHelper.loadAccessToken() == null) {
+						if (TweetQuakeFileManager.loadAccessToken() == null) {
 							setupSender = icommandsender;
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("[WIP]EEWReciever TwitterSetupを開始します"));
 							try {
@@ -148,7 +148,7 @@ public class EEWCommand extends CommandBase {
 			if (astring.length >= 2) {
 				final String chat = func_82360_a(icommandsender, astring, 1);
 				if (StringUtils.equalsIgnoreCase(astring[1], this.randomString)) {
-					if (TweetQuakeFileHelper.deleteAccessTokenFile()) {
+					if (TweetQuakeFileManager.deleteAccessTokenFile()) {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に成功しました"));
 					} else {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));

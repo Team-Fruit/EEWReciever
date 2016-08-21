@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.bebehp.mc.eewreciever.ConfigurationHandler;
+import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.ping.IQuake;
@@ -18,25 +19,20 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
-import twitter4j.auth.AccessToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
-	private final TweetQuakeKey tweetQuakeKey;
-	private final AccessToken accessToken;
 	private final Configuration configuration;
 	private final TwitterStream twitterStream;
 	private final StatusListener listener;
 	private final Twitter twitter;
 
 	public TweetQuake() {
-		this.tweetQuakeKey = TweetQuakeFileHelper.loadKey();
-		this.accessToken = TweetQuakeFileHelper.loadAccessToken();
 		this.configuration = new ConfigurationBuilder()
-				.setOAuthConsumerKey(this.tweetQuakeKey.getKey1())
-				.setOAuthAccessTokenSecret(this.tweetQuakeKey.getKey2())
+				.setOAuthConsumerKey(EEWRecieverMod.tweetQuakeKey.getKey1())
+				.setOAuthAccessTokenSecret(EEWRecieverMod.tweetQuakeKey.getKey2())
 				.build();
 		this.twitterStream = new TwitterStreamFactory(this.configuration).getInstance();
 		this.twitter = new TwitterFactory().getInstance();
@@ -57,14 +53,14 @@ public class TweetQuake implements IQuake {
 		};
 		this.twitterStream.addListener(this.listener);
 		if (ConfigurationHandler.twitterEnable) {
-			if (this.accessToken != null) {
-				this.twitter.setOAuthAccessToken(this.accessToken);
+			if (EEWRecieverMod.accessToken != null) {
+				this.twitter.setOAuthAccessToken(EEWRecieverMod.accessToken);
 				final long[] list = {214358709L}; //from:eewbot;
 				final FilterQuery query = new FilterQuery(list);
 				this.twitterStream.filter(query);
 			} else {
 				Reference.logger.warn("Twitter authentication was not possible!");
-				Reference.logger.info("Plaese try /eewreciever setup");
+				Reference.logger.info("Plaese try /eew setup");
 			}
 		}
 	}

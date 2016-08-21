@@ -7,6 +7,9 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
 import com.bebehp.mc.eewreciever.ping.QuakeMain;
+import com.bebehp.mc.eewreciever.twitter.TweetQuakeAuthChecker;
+import com.bebehp.mc.eewreciever.twitter.TweetQuakeFileManager;
+import com.bebehp.mc.eewreciever.twitter.TweetQuakeKey;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -17,12 +20,14 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.MinecraftForge;
+import twitter4j.auth.AccessToken;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EEWRecieverMod {
 
 	public static File folderDir = null;
-	public EEWCommand command = new EEWCommand();
+	public static TweetQuakeKey tweetQuakeKey;
+	public static AccessToken accessToken;
 
 	@EventHandler
 	public void preInit(final FMLPreInitializationEvent event) {
@@ -31,6 +36,8 @@ public class EEWRecieverMod {
 		final File configFileDir = new File(folderDir, Reference.MODID + ".cfg");
 		checkConfigFile(event.getSuggestedConfigurationFile(), configFileDir);
 		ConfigurationHandler.init(configFileDir);
+		EEWRecieverMod.tweetQuakeKey = TweetQuakeFileManager.loadKey();
+		EEWRecieverMod.accessToken = TweetQuakeFileManager.loadAccessToken();
 	}
 
 	@EventHandler
@@ -38,12 +45,13 @@ public class EEWRecieverMod {
 		Reference.logger.info("EEW is setting up.");
 		FMLCommonHandler.instance().bus().register(new QuakeMain());
 		FMLCommonHandler.instance().bus().register(ConfigurationHandler.INSTANCE);
+		FMLCommonHandler.instance().bus().register(new TweetQuakeAuthChecker());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	@EventHandler
 	public void serverLoad(final FMLServerStartingEvent event){
-		event.registerServerCommand(this.command);
+		event.registerServerCommand(new EEWCommand());
 	}
 
 	@NetworkCheckHandler

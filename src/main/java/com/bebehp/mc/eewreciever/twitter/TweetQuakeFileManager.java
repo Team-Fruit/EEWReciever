@@ -26,7 +26,7 @@ import twitter4j.auth.AccessToken;
  * Twitter連携Helper
  * @author bebe
  */
-public class TweetQuakeFileHelper {
+public class TweetQuakeFileManager {
 
 	protected static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "Access.dat");
 
