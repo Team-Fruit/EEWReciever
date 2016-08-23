@@ -13,9 +13,9 @@ public class ByteUtil {
 		return joinByte(splitByte, Arrays.asList(arrays));
 	}
 
-	public static byte[] joinByte(final byte splitByte, final List<byte[]> arrays) {
+	public static byte[] joinByte(final byte splitByte, final List<byte[]> array) {
 		byte[] joinByte = null;
-		final Iterator it = arrays.iterator();
+		final Iterator it = array.iterator();
 		while (it.hasNext()) {
 			final byte[] line = (byte[])it.next();
 			joinByte = ArrayUtils.addAll(joinByte, line);
@@ -27,8 +27,7 @@ public class ByteUtil {
 
 	public static List<byte[]> splitByte(final byte target, final byte[] array) {
 		final List<byte[]> list = new ArrayList<byte[]>();
-		List<Integer> indexList = new ArrayList<Integer>();
-		indexList = indexAll(target, array);
+		final List<Integer> indexList = indexAll(target, array);
 		int count = 0;
 		final Iterator it = indexList.iterator();
 		while (it.hasNext()) {

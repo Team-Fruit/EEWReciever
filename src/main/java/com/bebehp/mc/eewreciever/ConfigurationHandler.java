@@ -1,6 +1,8 @@
 package com.bebehp.mc.eewreciever;
 import java.io.File;
 
+import com.bebehp.mc.eewreciever.proxy.CommonProxy;
+
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Configuration;
@@ -29,7 +31,7 @@ public class ConfigurationHandler {
 
 	public static void init(final File configFile) {
 		if (configuration == null) {
-			EEWRecieverMod.createFolders();
+			CommonProxy.createFolders();
 			configuration = new Configuration(configFile, VERSION);
 			loadConfiguration();
 		}

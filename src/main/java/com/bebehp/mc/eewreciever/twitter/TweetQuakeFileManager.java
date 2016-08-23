@@ -19,6 +19,7 @@ import org.apache.commons.compress.utils.IOUtils;
 import com.bebehp.mc.eewreciever.ByteUtil;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
+import com.bebehp.mc.eewreciever.proxy.CommonProxy;
 
 import twitter4j.auth.AccessToken;
 
@@ -85,7 +86,7 @@ public class TweetQuakeFileManager {
 	 * @param accessToken
 	 */
 	public static void storeAccessToken(final AccessToken accessToken) {
-		EEWRecieverMod.createFolders();
+		CommonProxy.createFolders();
 		ObjectOutputStream outputStream = null;
 		try {
 			outputStream = new ObjectOutputStream(new FileOutputStream(accessTokenFile));
@@ -103,10 +104,9 @@ public class TweetQuakeFileManager {
 	 */
 	public static AccessToken loadAccessToken() {
 		ObjectInputStream inputStream = null;
-		AccessToken accessToken = null;
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream(accessTokenFile));
-			accessToken = (AccessToken)inputStream.readObject();
+			return (AccessToken)inputStream.readObject();
 		} catch (final FileNotFoundException e) {
 			try {
 				if (!accessTokenFile.createNewFile())
@@ -121,7 +121,7 @@ public class TweetQuakeFileManager {
 		} finally {
 			IOUtils.closeQuietly(inputStream);
 		}
-		return accessToken;
+		return null;
 	}
 
 	/**
