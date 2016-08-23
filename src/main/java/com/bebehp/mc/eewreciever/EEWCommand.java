@@ -115,7 +115,7 @@ public class EEWCommand extends CommandBase {
 					}
 				} else {
 					if (setupSender == null) {
-						if (TweetQuakeFileManager.loadAccessToken() == null) {
+						if (EEWRecieverMod.accessToken == null) {
 							setupSender = icommandsender;
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("[WIP]EEWReciever TwitterSetupを開始します"));
 							try {

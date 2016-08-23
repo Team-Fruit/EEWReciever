@@ -27,9 +27,8 @@ public abstract class CommonProxy {
 		checkConfigFile(event.getSuggestedConfigurationFile(), configFileDir);
 		ConfigurationHandler.init(configFileDir);
 
-		Reference.logger.info("Loading the key...");
+		Reference.logger.info("Loading the files...");
 		EEWRecieverMod.tweetQuakeKey = TweetQuakeFileManager.loadKey();
-		Reference.logger.info("Loading the file...");
 		EEWRecieverMod.accessToken = TweetQuakeFileManager.loadAccessToken();
 	}
 

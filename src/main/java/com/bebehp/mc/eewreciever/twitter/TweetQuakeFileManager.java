@@ -1,6 +1,7 @@
 package com.bebehp.mc.eewreciever.twitter;
 
 import java.io.BufferedInputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,7 +77,7 @@ public class TweetQuakeFileManager {
 		final List<byte[]> list = ByteUtil.splitByte((byte)0x2F, data);
 		final List<String> decodeList = new ArrayList<String>();
 		for (final byte[] line : list)
-			decodeList.add(new String(Base64.decodeBase64(line)));
+			decodeList.add(new String(Base64.decodeBase64(line), "UTF-8"));
 		is.close();
 		return new TweetQuakeKey(decodeList.get(0), decodeList.get(1));
 	}
@@ -114,6 +115,8 @@ public class TweetQuakeFileManager {
 			} catch (final IOException e1) {
 				Reference.logger.error(e1);
 			}
+		} catch (final EOFException e) {
+			// NO-OP
 		} catch (final IOException e) {
 			Reference.logger.error(e);
 		} catch (final ClassNotFoundException e) {
