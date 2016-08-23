@@ -13,20 +13,21 @@ public class TweetQuakeSetup {
 
 	private final Twitter twitter;
 	private AccessToken accessToken;
+	private RequestToken requestToken = null;
 
 	public TweetQuakeSetup() {
 		this.twitter = TwitterFactory.getSingleton();
 		this.twitter.setOAuthConsumer(EEWRecieverMod.tweetQuakeKey.getKey1(), EEWRecieverMod.tweetQuakeKey.getKey2());
 	}
 
-	public AccessToken getAccessToken(final String pin) throws TwitterException {
-		final RequestToken requestToken = this.twitter.getOAuthRequestToken();
-		final AccessToken accessToken = this.twitter.getOAuthAccessToken(requestToken, pin);
-		return accessToken;
+	public String getAuthURL() throws TwitterException {
+		this.requestToken = this.twitter.getOAuthRequestToken();
+		return this.requestToken.getAuthorizationURL();
 	}
 
-	public String getAuthURL() throws TwitterException {
-		return this.twitter.getOAuthRequestToken().getAuthenticationURL();
+	public AccessToken getAccessToken(final String pin) throws TwitterException {
+		final AccessToken accessToken = this.twitter.getOAuthAccessToken(this.requestToken, pin);
+		return accessToken;
 	}
 
 }

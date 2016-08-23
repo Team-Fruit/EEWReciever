@@ -25,7 +25,7 @@ public class EEWCommand extends CommandBase {
 	private final String randomString = RandomStringUtils.randomAlphabetic(10);
 	public static ICommandSender setupSender;
 
-	public EEWCommand() {
+	public EEWCommand() { //NO-OP
 	}
 
 	@Override
