@@ -89,10 +89,11 @@ public class EEWCommand extends CommandBase {
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
 									TweetQuakeFileManager.storeAccessToken(TweetQuakeSetup.INSTANCE.getAccessToken(chat));
-									new TweetQuake();
+									EEWRecieverMod.accessToken = TweetQuakeFileManager.loadAccessToken();
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
 									setupSender = null;
-									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを終了します"));
+									new TweetQuake();
+									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitterに接続し、Setupを終了します"));
 								} catch (final TwitterException e) {
 									Reference.logger.error(e);
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));

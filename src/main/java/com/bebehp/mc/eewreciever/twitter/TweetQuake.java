@@ -58,6 +58,7 @@ public class TweetQuake implements IQuake {
 				final long[] list = {214358709L}; //from:eewbot;
 				final FilterQuery query = new FilterQuery(list);
 				this.twitterStream.filter(query);
+				Reference.logger.info("Starting Twitter Stream");
 			} else {
 				Reference.logger.warn("Twitter authentication was not possible!");
 				Reference.logger.info("Plaese try /eew setup");
