@@ -1,10 +1,8 @@
 package com.bebehp.mc.eewreciever.twitter;
 
-import java.io.Serializable;
+public class TweetQuakeKey {
 
-public class TweetQuakeKey implements Serializable {
-
-	private static final long serialVersionUID = 32L;
+	//	private static final long serialVersionUID = 32L;
 
 	private final String key1;
 	private final String key2;
