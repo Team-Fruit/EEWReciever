@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+@Deprecated
 public class ByteUtil {
 
 	public static byte[] joinByte(final byte splitByte, final byte[]... arrays) {
@@ -40,7 +41,7 @@ public class ByteUtil {
 		return list;
 	}
 
-	public static List indexAll(final byte target, final byte[] array) {
+	public static List<Integer> indexAll(final byte target, final byte[] array) {
 		final List<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < array.length; i++) {
 			if (array[i] == target)
