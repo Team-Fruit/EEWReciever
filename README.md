@@ -1,3 +1,6 @@
+[![Latest Tag](https://img.shields.io/github/tag/Team-Fruit/EEWReciever.svg?label=Latest Tag)](https://github.com/Team-Fruit/EEWReciever/tags)
+[![Latest Release](https://img.shields.io/github/release/Team-Fruit/EEWReciever.svg?label=Latest Release)](https://github.com/Team-Fruit/EEWReciever/releases)
+
 # EEWReciever
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.7.10-yellow.svg)
 
