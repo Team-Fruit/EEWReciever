@@ -1,27 +1,28 @@
 package com.bebehp.mc.eewreciever.twitter;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.IOUtils;
 
-import com.bebehp.mc.eewreciever.ByteUtil;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.proxy.CommonProxy;
 
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModContainer;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -30,7 +31,7 @@ import twitter4j.auth.AccessToken;
  */
 public class TweetQuakeFileManager {
 
-	protected static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "Access.dat");
+	protected static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "setting.dat");
 
 	/**
 	 * jarファイル内のfile.eewを読み込みます<br>
@@ -39,25 +40,23 @@ public class TweetQuakeFileManager {
 	 * @return TweetQuakeKey Fileが存在しなかった場合等はnull
 	 */
 	public static TweetQuakeKey loadKey() {
-		final String absolutePath = System.getProperty("java.class.path");
-		final String[] filePath = absolutePath.split(System.getProperty("path.separator"));
-		final File runFile = new File(filePath[0]);
+		final ModContainer c = Loader.instance().getIndexedModList().get(Reference.MODID);
+		final File runFile = c.getSource();
 		final String fileName = "file.eew";
 		JarFile jar = null;
 		try {
-			if (runFile.isDirectory()) {
-				final File keyFile = new File(runFile, fileName);
-				if (keyFile.exists()) {
-					return load(new BufferedInputStream(new FileInputStream(keyFile)));
-				} else {
-					Reference.logger.error("keyFile({}) Not Found", keyFile);
-				}
-			} else {
-				jar = new JarFile(filePath[0]);
+			if (runFile.isFile()) {
+				jar = new JarFile(runFile);
 				final ZipEntry ze = jar.getEntry(fileName);
-				return load(new BufferedInputStream(jar.getInputStream(ze)));
+				if (ze != null)
+					return load(jar.getInputStream(ze));
+			} else {
+				final File keyFile = new File(runFile, fileName);
+				return load(new FileInputStream(keyFile));
 			}
 		} catch (final IOException e) {
+			Reference.logger.error(e);
+		} catch (final ClassNotFoundException e) {
 			Reference.logger.error(e);
 		} finally {
 			IOUtils.closeQuietly(jar);
@@ -67,19 +66,23 @@ public class TweetQuakeFileManager {
 
 	/**
 	 * Keyをloadして利用可能な状態にします
-	 * @param BufferedInputStream
+	 * @param InputStream
 	 * @return TweetQuakeKey
 	 * @throws IOException
+	 * @throws ClassNotFoundException
 	 */
-	private static TweetQuakeKey load(final BufferedInputStream is) throws IOException {
-		final byte[] data = new byte[is.available()];
-		is.read(data);
-		final List<byte[]> list = ByteUtil.splitByte((byte)0x2F, data);
-		final List<String> decodeList = new ArrayList<String>();
-		for (final byte[] line : list)
-			decodeList.add(new String(Base64.decodeBase64(line), "UTF-8"));
-		is.close();
-		return new TweetQuakeKey(decodeList.get(0), decodeList.get(1));
+	private static TweetQuakeKey load(final InputStream is) throws IOException, ClassNotFoundException {
+		final BufferedInputStream bis = new BufferedInputStream(is);
+		final byte[] byteData = new byte[bis.available()];
+		bis.read(byteData);
+		bis.close();
+
+		final ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decodeBase64(byteData));
+		final ObjectInputStream ois = new ObjectInputStream(bais);
+		final TweetQuakeKey tweetQuakeKey = (TweetQuakeKey)ois.readObject();
+		bais.close();
+		ois.close();
+		return tweetQuakeKey;
 	}
 
 	/**

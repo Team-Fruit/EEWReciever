@@ -19,6 +19,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import twitter4j.TwitterException;
+import twitter4j.auth.AccessToken;
 
 public class EEWCommand extends CommandBase {
 
@@ -88,12 +89,13 @@ public class EEWCommand extends CommandBase {
 							final String chat = func_82360_a(icommandsender, astring, 2);
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
-									TweetQuakeFileManager.storeAccessToken(TweetQuakeSetup.INSTANCE.getAccessToken(chat));
-									EEWRecieverMod.accessToken = TweetQuakeFileManager.loadAccessToken();
+									final AccessToken accessToken = TweetQuakeSetup.INSTANCE.getAccessToken(chat);
+									TweetQuakeFileManager.storeAccessToken(accessToken);
+									EEWRecieverMod.accessToken = accessToken;
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
-									setupSender = null;
 									new TweetQuake();
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitterに接続し、Setupを終了します"));
+									setupSender = null;
 								} catch (final TwitterException e) {
 									Reference.logger.error(e);
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
@@ -132,7 +134,7 @@ public class EEWCommand extends CommandBase {
 								setupSender = null;
 								return;
 							}
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson("{\"text\":\"/eew setup pin <Pin>でコードを入力して下さい(クリックで提案)\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/eewreciever setup pin\"}}"));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson("{\"text\":\"/eew setup pin <Pin>でコードを入力して下さい(クリックで提案)\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/eewreciever setup pin \"}}"));
 						} else {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携は設定済みです！").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 						}

@@ -19,22 +19,15 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class TweetQuake implements IQuake {
 	private final List<AbstractQuakeNode> updatequeue = new LinkedList<AbstractQuakeNode>();
-	private final Configuration configuration;
 	private final TwitterStream twitterStream;
-	private final StatusListener listener;
 	private final Twitter twitter;
+	private final StatusListener listener;
 
 	public TweetQuake() {
-		this.configuration = new ConfigurationBuilder()
-				.setOAuthConsumerKey(EEWRecieverMod.tweetQuakeKey.getKey1())
-				.setOAuthAccessTokenSecret(EEWRecieverMod.tweetQuakeKey.getKey2())
-				.build();
-		this.twitterStream = new TwitterStreamFactory(this.configuration).getInstance();
+		this.twitterStream = new TwitterStreamFactory().getInstance();
 		this.twitter = new TwitterFactory().getInstance();
 		this.listener = new StatusAdapter() {
 			@Override
@@ -51,17 +44,24 @@ public class TweetQuake implements IQuake {
 				}
 			}
 		};
+
 		this.twitterStream.addListener(this.listener);
+
 		if (ConfigurationHandler.twitterEnable) {
-			if (EEWRecieverMod.accessToken != null) {
-				this.twitter.setOAuthAccessToken(EEWRecieverMod.accessToken);
-				final long[] list = {214358709L}; //from:eewbot;
-				final FilterQuery query = new FilterQuery(list);
-				this.twitterStream.filter(query);
-				Reference.logger.info("Starting Twitter Stream");
+			if (EEWRecieverMod.tweetQuakeKey != null) {
+				if (EEWRecieverMod.accessToken != null) {
+					this.twitterStream.setOAuthConsumer(EEWRecieverMod.tweetQuakeKey.getKey1(), EEWRecieverMod.tweetQuakeKey.getKey2());
+					this.twitterStream.setOAuthAccessToken(EEWRecieverMod.accessToken);
+					final long[] list = {214358709L}; //from:eewbot;
+					final FilterQuery query = new FilterQuery(list);
+					this.twitterStream.filter(query);
+					Reference.logger.info("Starting Twitter Stream");
+				} else {
+					Reference.logger.info("Twitter authentication was not possible!");
+					Reference.logger.info("Plaese try /eew setup");
+				}
 			} else {
-				Reference.logger.warn("Twitter authentication was not possible!");
-				Reference.logger.info("Plaese try /eew setup");
+				Reference.logger.error("Could not load the necessary file!");
 			}
 		}
 	}
