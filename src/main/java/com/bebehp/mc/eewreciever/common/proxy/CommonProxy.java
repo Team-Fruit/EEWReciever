@@ -1,16 +1,15 @@
-package com.bebehp.mc.eewreciever.proxy;
+package com.bebehp.mc.eewreciever.common.proxy;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
-import com.bebehp.mc.eewreciever.ConfigurationHandler;
-import com.bebehp.mc.eewreciever.EEWCommand;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
-import com.bebehp.mc.eewreciever.Reference;
-import com.bebehp.mc.eewreciever.ping.QuakeMain;
-import com.bebehp.mc.eewreciever.twitter.TweetQuakeFileManager;
+import com.bebehp.mc.eewreciever.common.QuakeMain;
+import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
+import com.bebehp.mc.eewreciever.common.reference.Reference;
+import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeFileManager;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -38,7 +37,6 @@ public abstract class CommonProxy {
 	}
 
 	public void serverLoad(final FMLServerStartingEvent event){
-		event.registerServerCommand(new EEWCommand());
 	}
 
 	public static void createFolders() {

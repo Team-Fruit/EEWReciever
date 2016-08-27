@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.twitter;
+package com.bebehp.mc.eewreciever.common.twitter;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -18,8 +18,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.IOUtils;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
-import com.bebehp.mc.eewreciever.Reference;
-import com.bebehp.mc.eewreciever.proxy.CommonProxy;
+import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
+import com.bebehp.mc.eewreciever.common.reference.Reference;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
@@ -35,8 +35,7 @@ public class TweetQuakeFileManager {
 
 	/**
 	 * jarファイル内のfile.eewを読み込みます<br>
-	 * 但し、クラスパスがディレクトリだった場合、
-	 * そちらを読み込みます(開発用)
+	 * 但し、パスがファイルではなかった場合は、そちらを読み込みます(開発用)
 	 * @return TweetQuakeKey Fileが存在しなかった場合等はnull
 	 */
 	public static TweetQuakeKey loadKey() {

@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.p2pquake;
+package com.bebehp.mc.eewreciever.common.p2pquake;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
-import com.bebehp.mc.eewreciever.Reference;
-import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
-import com.bebehp.mc.eewreciever.ping.MyNumber;
-import com.bebehp.mc.eewreciever.ping.QuakeException;
+import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
+import com.bebehp.mc.eewreciever.common.MyNumber;
+import com.bebehp.mc.eewreciever.common.QuakeException;
+import com.bebehp.mc.eewreciever.common.reference.Reference;
 
 import net.minecraft.util.EnumChatFormatting;
 

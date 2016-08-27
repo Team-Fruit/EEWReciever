@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.p2pquake;
+package com.bebehp.mc.eewreciever.common.p2pquake;
 
 import net.minecraft.util.EnumChatFormatting;
 

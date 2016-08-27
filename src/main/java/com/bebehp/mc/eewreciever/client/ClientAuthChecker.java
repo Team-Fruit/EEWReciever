@@ -1,7 +1,7 @@
-package com.bebehp.mc.eewreciever.twitter.checker;
+package com.bebehp.mc.eewreciever.client;
 
-import com.bebehp.mc.eewreciever.ChatUtil;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.common.ChatUtil;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;

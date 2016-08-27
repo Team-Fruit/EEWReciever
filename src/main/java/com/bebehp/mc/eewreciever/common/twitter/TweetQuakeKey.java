@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.twitter;
+package com.bebehp.mc.eewreciever.common.twitter;
 
 import java.io.Serializable;
 

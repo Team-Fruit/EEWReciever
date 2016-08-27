@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.ping;
+package com.bebehp.mc.eewreciever.common;
 
 import java.math.BigDecimal;
 import java.util.IllegalFormatConversionException;

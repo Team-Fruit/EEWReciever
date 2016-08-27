@@ -1,10 +1,10 @@
-package com.bebehp.mc.eewreciever.twitter;
+package com.bebehp.mc.eewreciever.common.twitter;
 
 import java.util.Arrays;
 
-import com.bebehp.mc.eewreciever.ping.AbstractQuakeNode;
-import com.bebehp.mc.eewreciever.ping.MyNumber;
-import com.bebehp.mc.eewreciever.ping.QuakeException;
+import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
+import com.bebehp.mc.eewreciever.common.MyNumber;
+import com.bebehp.mc.eewreciever.common.QuakeException;
 
 import net.minecraft.util.EnumChatFormatting;
 

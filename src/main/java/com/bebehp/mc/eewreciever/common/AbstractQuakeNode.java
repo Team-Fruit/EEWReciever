@@ -1,10 +1,10 @@
-package com.bebehp.mc.eewreciever.ping;
+package com.bebehp.mc.eewreciever.common;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.bebehp.mc.eewreciever.Reference;
+import com.bebehp.mc.eewreciever.common.reference.Reference;
 
 public abstract class AbstractQuakeNode {
 	/**

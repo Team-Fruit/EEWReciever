@@ -1,11 +1,14 @@
-package com.bebehp.mc.eewreciever.proxy;
+package com.bebehp.mc.eewreciever.client.proxy;
 
-import com.bebehp.mc.eewreciever.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
-import com.bebehp.mc.eewreciever.twitter.checker.ClientAuthChecker;
+import com.bebehp.mc.eewreciever.client.ClientAuthChecker;
+import com.bebehp.mc.eewreciever.client.ClientEEWCommand;
+import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
+import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy {
@@ -17,5 +20,12 @@ public class ClientProxy extends CommonProxy {
 		if (ConfigurationHandler.twitterEnable && EEWRecieverMod.accessToken == null)
 			FMLCommonHandler.instance().bus().register(ClientAuthChecker.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(this);
+	}
+
+	@Override
+	public void serverLoad(final FMLServerStartingEvent event){
+		super.serverLoad(event);
+
+		event.registerServerCommand(new ClientEEWCommand());
 	}
 }

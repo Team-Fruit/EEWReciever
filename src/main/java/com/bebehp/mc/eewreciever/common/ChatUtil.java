@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever;
+package com.bebehp.mc.eewreciever.common;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 

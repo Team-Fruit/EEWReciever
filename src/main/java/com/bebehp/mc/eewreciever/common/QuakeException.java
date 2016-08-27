@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.ping;
+package com.bebehp.mc.eewreciever.common;
 
 /**
  * 地震情報取得例外
