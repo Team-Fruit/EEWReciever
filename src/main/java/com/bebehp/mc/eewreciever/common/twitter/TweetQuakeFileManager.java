@@ -18,8 +18,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.IOUtils;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
-import com.bebehp.mc.eewreciever.common.reference.Reference;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;

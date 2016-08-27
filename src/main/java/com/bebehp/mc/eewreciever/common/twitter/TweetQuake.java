@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.common.IQuake;
 import com.bebehp.mc.eewreciever.common.QuakeException;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
-import com.bebehp.mc.eewreciever.common.reference.Reference;
 
 import twitter4j.FilterQuery;
 import twitter4j.Status;

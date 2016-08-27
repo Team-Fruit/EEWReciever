@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.common.MyNumber;
 import com.bebehp.mc.eewreciever.common.QuakeException;
-import com.bebehp.mc.eewreciever.common.reference.Reference;
 
 import net.minecraft.util.EnumChatFormatting;
 

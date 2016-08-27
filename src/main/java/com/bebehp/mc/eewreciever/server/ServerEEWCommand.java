@@ -8,11 +8,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.ChatUtil;
 import com.bebehp.mc.eewreciever.common.QuakeException;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.common.p2pquake.P2PQuakeNode;
-import com.bebehp.mc.eewreciever.common.reference.Reference;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuake;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeFileManager;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeNode;

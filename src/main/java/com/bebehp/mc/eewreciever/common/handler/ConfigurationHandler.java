@@ -1,8 +1,8 @@
 package com.bebehp.mc.eewreciever.common.handler;
 import java.io.File;
 
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
-import com.bebehp.mc.eewreciever.common.reference.Reference;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

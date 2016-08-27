@@ -3,9 +3,9 @@ package com.bebehp.mc.eewreciever.common;
 import java.util.List;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.common.p2pquake.P2PQuake;
-import com.bebehp.mc.eewreciever.common.reference.Reference;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuake;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

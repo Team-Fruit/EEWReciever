@@ -20,11 +20,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 
+import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.common.IQuake;
 import com.bebehp.mc.eewreciever.common.QuakeException;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
-import com.bebehp.mc.eewreciever.common.reference.Reference;
 
 public class P2PQuake implements IQuake {
 

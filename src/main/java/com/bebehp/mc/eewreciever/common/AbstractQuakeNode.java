@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.bebehp.mc.eewreciever.common.reference.Reference;
+import com.bebehp.mc.eewreciever.Reference;
 
 public abstract class AbstractQuakeNode {
 	/**

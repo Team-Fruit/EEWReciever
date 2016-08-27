@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.common.reference;
+package com.bebehp.mc.eewreciever;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

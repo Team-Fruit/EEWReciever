@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.bebehp.mc.eewreciever.common.ChatUtil;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
-import com.bebehp.mc.eewreciever.common.reference.Reference;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeKey;
 
 import cpw.mods.fml.common.Mod;
