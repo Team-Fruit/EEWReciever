@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.common.MyNumber;
@@ -62,7 +60,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			return String.format("[震源情報]【最大震度%s】%s\n深さ%s%s M%s %td日%tH時%tM分頃発生\n%s",
 					this.strong,
 					this.where,
-					(NumberUtils.isDigits(this.deep) ? "約" : ""),
+					(this.deep.equals("ごく浅い") ? "" : "約"),
 					this.deep,
 					(this.unknownMagnitude ? "不明" : this.magnitude),
 					this.time,
@@ -74,7 +72,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			return String.format("[震源・詳細情報]【最大震度%s】%s\n深さ%s%s M%s %td日%tH時%tM分頃発生\n%s",
 					this.strong,
 					this.where,
-					(NumberUtils.isDigits(this.deep) ? "約" : ""),
+					(this.deep.equals("ごく浅い") ? "" : "約"),
 					this.deep,
 					(this.unknownMagnitude ? "不明" : this.magnitude),
 					this.time,
@@ -86,7 +84,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			return String.format("[震源・詳細震度情報]【最大震度%s】%s\n深さ%s%s M%s %td日%tH時%tM分頃発生\n%s",
 					this.strong,
 					this.where,
-					(NumberUtils.isDigits(this.deep) ? "約" : ""),
+					(this.deep.equals("ごく浅い") ? "" : "約"),
 					this.deep,
 					(this.unknownMagnitude ? "不明" : this.magnitude),
 					this.time,
