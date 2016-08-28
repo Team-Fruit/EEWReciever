@@ -45,14 +45,13 @@ public class P2PQuake implements IQuake {
 			final HttpGet httpPost = new HttpGet(path);
 			final HttpResponse response = this.httpClient.execute(httpPost);
 
-			if (ConfigurationHandler.p2pQuakeEnable)
-				is = response.getEntity().getContent();
+			is = response.getEntity().getContent();
 
 			final InputStreamReader isr = new InputStreamReader(is, "Shift_JIS");
 			final BufferedReader reader = new BufferedReader(isr);
 
 			String line;
-			while ((line = reader.readLine()) != null) {
+			while (ConfigurationHandler.p2pQuakeEnable && (line = reader.readLine()) != null) {
 				list.add(new P2PQuakeNode().parseString(line));
 			}
 		} catch (final SocketTimeoutException e) {

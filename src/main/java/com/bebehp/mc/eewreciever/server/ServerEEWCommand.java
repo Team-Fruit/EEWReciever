@@ -104,6 +104,7 @@ public class ServerEEWCommand extends CommandBase {
 									new TweetQuake();
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitterに接続し、Setupを終了します"));
 									this.setupSender = null;
+									ServerAuthChecker.noiceCount = Integer.MAX_VALUE;
 								} catch (final TwitterException e) {
 									Reference.logger.error(e);
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));

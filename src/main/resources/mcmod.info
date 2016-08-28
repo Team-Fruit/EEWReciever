@@ -3,7 +3,7 @@
   "modid": "EEWReciever",
   "name": "EEW Reciever",
   "description": "Watch EEW Informations.",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "mcversion": "${mcversion}",
   "url": "http://fruit.bebehp.com/eewreciever",
   "updateUrl": "",

@@ -50,6 +50,7 @@ public class TweetQuakeFileManager {
 				if (ze != null)
 					return load(jar.getInputStream(ze));
 			} else {
+				//				Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Reference.MODID));
 				final File keyFile = new File(runFile, fileName);
 				return load(new FileInputStream(keyFile));
 			}
