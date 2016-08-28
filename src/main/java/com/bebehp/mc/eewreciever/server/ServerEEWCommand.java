@@ -104,7 +104,6 @@ public class ServerEEWCommand extends CommandBase {
 									new TweetQuake();
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitterに接続し、Setupを終了します"));
 									this.setupSender = null;
-									ServerAuthChecker.noiceCount = Integer.MAX_VALUE;
 								} catch (final TwitterException e) {
 									Reference.logger.error(e);
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
@@ -122,6 +121,9 @@ public class ServerEEWCommand extends CommandBase {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 							Reference.logger.error(e.getStatusCode());
 						}
+					} else if (StringUtils.equalsIgnoreCase(astring[1], "stop")) {
+						this.setupSender = null;
+						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを中止しました"));
 					} else {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eewreciever setup pin <Pin>"));
 					}
@@ -201,7 +203,7 @@ public class ServerEEWCommand extends CommandBase {
 		} else if ((astring.length <= 2 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
 			return Arrays.asList("37,00,2011/04/03 23:53:51,0,1,NDID,2011/04/03 23:53:21,37.8,142.3,宮城県沖,10,2.5,1,1,0,サンプル");
 		} else if (astring.length <= 2 && StringUtils.equalsIgnoreCase(astring[0], "setup")) {
-			return Arrays.asList("pin", "geturl");
+			return Arrays.asList("pin", "geturl", "stop");
 		} else {
 			return null;
 		}
