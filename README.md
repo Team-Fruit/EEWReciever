@@ -1,10 +1,14 @@
 [![Latest Tag](https://img.shields.io/github/tag/Team-Fruit/EEWReciever.svg?label=Latest Tag)](https://github.com/Team-Fruit/EEWReciever/tags)
 [![Latest Release](https://img.shields.io/github/release/Team-Fruit/EEWReciever.svg?label=Latest Release)](https://github.com/Team-Fruit/EEWReciever/releases)
 
-# EEWReciever [![Powered By Twitter4j](https://gyazo.com/10a912ba681ee9bf4d321f21513f520a)](http://twitter4j.org/)
+# EEWReciever [![Powered By Twitter4j](https://i.gyazo.com/10a912ba681ee9bf4d321f21513f520a.png)](http://twitter4j.org/)
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.7.10-yellow.svg)
 
 緊急地震速報等の地震情報をチャットでお知らせするModです
+
+TwitterAPIの利用に、Twitter4J(Apache License, Version 2.0)を利用しています。
+
+http://www.apache.org/licenses/LICENSE-2.0
 
 このModは、日本国内向けです。
 
