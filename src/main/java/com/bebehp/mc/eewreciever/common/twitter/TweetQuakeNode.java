@@ -2,8 +2,10 @@ package com.bebehp.mc.eewreciever.common.twitter;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
-import com.bebehp.mc.eewreciever.common.MyNumber;
 import com.bebehp.mc.eewreciever.common.QuakeException;
 
 import net.minecraft.util.EnumChatFormatting;
@@ -12,7 +14,7 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 
 	protected boolean canceled;
 	protected boolean announcement;
-	protected MyNumber telegramnumber;
+	protected int telegramnumber;
 	protected boolean finaleew;
 
 	@Override
@@ -23,10 +25,10 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 		this.training = "01".equals(tnode[1]);
 		this.announcement = "7".equals(tnode[3]);
 		this.finaleew = "9".equals(tnode[3]);
-		this.telegramnumber = new MyNumber(tnode[4]);
+		this.telegramnumber = NumberUtils.isNumber(tnode[4]) ? Integer.parseInt(tnode[4]) : -1;
 		this.where = tnode[9];
 		this.deep = tnode[10];
-		this.magnitude = new MyNumber(tnode[11]);
+		this.magnitude = !StringUtils.isEmpty(tnode[11]) ? (Float.parseFloat(tnode[11]) > 0F) ? tnode[11] : "不明" : null;
 		this.strong = tnode[12];
 		this.alarm = "1".equals(tnode[14]);
 		return this;

@@ -4,9 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
-import com.bebehp.mc.eewreciever.common.MyNumber;
 import com.bebehp.mc.eewreciever.common.QuakeException;
 
 import net.minecraft.util.EnumChatFormatting;
@@ -18,7 +19,6 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 	protected int quaketype;
 	protected P2PQuakeNodeTsunami tsunami;
 	protected boolean modified;
-	protected boolean unknownMagnitude;
 
 	@Override
 	public P2PQuakeNode parseString(final String text) throws QuakeException {
@@ -35,8 +35,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			this.quaketype = Integer.parseInt(data[3]);
 			this.where = data[4];
 			this.deep = data[5];
-			this.magnitude = new MyNumber(data[6]);
-			this.unknownMagnitude = "-1.0".equals(data[6]);
+			this.magnitude = !StringUtils.isEmpty(data[6]) ? (Float.parseFloat(data[6]) > 0F) ? data[6] : "不明" : null;
 			this.modified = "1".equals(data[7]);
 		} catch (final ParseException e) {
 			throw new QuakeException("Parse Error", e);
@@ -62,7 +61,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 					this.where,
 					(this.deep.equals("ごく浅い") ? "" : "約"),
 					this.deep,
-					(this.unknownMagnitude ? "不明" : this.magnitude),
+					this.magnitude,
 					this.time,
 					this.time,
 					this.time,
@@ -74,7 +73,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 					this.where,
 					(this.deep.equals("ごく浅い") ? "" : "約"),
 					this.deep,
-					(this.unknownMagnitude ? "不明" : this.magnitude),
+					this.magnitude,
 					this.time,
 					this.time,
 					this.time,
@@ -86,16 +85,16 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 					this.where,
 					(this.deep.equals("ごく浅い") ? "" : "約"),
 					this.deep,
-					(this.unknownMagnitude ? "不明" : this.magnitude),
+					this.magnitude,
 					this.time,
 					this.time,
 					this.time,
 					this.tsunami
 					);
 		case 5:
-			return String.format("[遠地地震情報](気象庁発表) %s M%s%s\n%td日%tH時%tM分頃発生(日本時間)\n%s",
+			return String.format("[遠地地震情報](気象庁発表) %s\nM%s %td日%tH時%tM分頃発生(日本時間)\n%s",
 					this.where,
-					(this.unknownMagnitude ? "不明" : this.magnitude),
+					this.magnitude,
 					this.time,
 					this.time,
 					this.time,

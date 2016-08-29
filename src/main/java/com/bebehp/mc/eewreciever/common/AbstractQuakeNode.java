@@ -34,7 +34,7 @@ public abstract class AbstractQuakeNode {
 	/**
 	 * マグニチュード
 	 */
-	protected MyNumber magnitude;
+	protected String magnitude;
 	/**
 	 * EEW警報
 	 */

@@ -35,9 +35,9 @@ public enum P2PQuakeNodeTsunami {
 		case 2:
 			return TInfo;
 		case 3:
-		default:
 			return TUnknown;
-			//			return TDefault;
+		default:
+			return TDefault;
 		}
 	}
 

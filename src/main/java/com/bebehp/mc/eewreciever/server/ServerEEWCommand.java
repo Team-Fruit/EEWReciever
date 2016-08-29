@@ -196,13 +196,13 @@ public class ServerEEWCommand extends CommandBase {
 	public List<String> addTabCompletionOptions(final ICommandSender icommandsender, final String[] astring) {
 		if (astring.length <= 1 && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
 			return Arrays.asList("p2p", "twitter", "setup", "deletesettings");
-		} else if (astring.length <= 1) {
+		} else if (astring.length == 1) {
 			return Arrays.asList("setup", "deletesettings");
-		} else if ((astring.length <= 2 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
-			return Arrays.asList("00:00:00,QUA,01日00時00分/1/0/4/震央/10km/2.5/0/N35.0/E140.0/サンプル");
-		} else if ((astring.length <= 2 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
+		} else if ((astring.length == 2 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
+			return Arrays.asList("00:00:00,QUA,01日00時00分/1/0/4/宮城県沖/10km/2.5/0/N35.0/E140.0/サンプル");
+		} else if ((astring.length == 2 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
 			return Arrays.asList("37,00,2011/04/03 23:53:51,0,1,NDID,2011/04/03 23:53:21,37.8,142.3,宮城県沖,10,2.5,1,1,0,サンプル");
-		} else if (astring.length <= 2 && StringUtils.equalsIgnoreCase(astring[0], "setup")) {
+		} else if (astring.length == 2 && StringUtils.equalsIgnoreCase(astring[0], "setup")) {
 			return Arrays.asList("pin", "geturl", "stop");
 		} else {
 			return null;
