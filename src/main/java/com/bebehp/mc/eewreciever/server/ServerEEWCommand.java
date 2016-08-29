@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
+import com.bebehp.mc.eewreciever.client.ClientAuthChecker;
 import com.bebehp.mc.eewreciever.common.ChatUtil;
 import com.bebehp.mc.eewreciever.common.QuakeException;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
@@ -131,6 +132,8 @@ public class ServerEEWCommand extends CommandBase {
 					if (this.setupSender == null) {
 						if (EEWRecieverMod.accessToken == null) {
 							this.setupSender = icommandsender;
+							ClientAuthChecker.notification = false;
+							ServerAuthChecker.notification = false;
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("EEWReciever TwitterSetupを開始します"));
 							try {
 								final StringBuilder stb = new StringBuilder();
