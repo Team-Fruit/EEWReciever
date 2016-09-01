@@ -36,7 +36,6 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 
 	@Override
 	public String toString() {
-		//		return String.format("{\"text\":\"%s%s%s%s%s %s %skm %s震度%s%s M%s\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"%s%s 地震発生時刻:%s\"}}",
 		if (this.canceled) {
 			return EnumChatFormatting.RED + "先程の緊急地震速報はキャンセルされました(第" + this.telegramnumber + "報)";
 		} else if (this.alarm) {
