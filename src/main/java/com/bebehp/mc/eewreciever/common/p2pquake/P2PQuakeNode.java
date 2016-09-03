@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
@@ -32,10 +33,10 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			this.time = (time[2] != null) ? dateformat2.parse(time[2]) : null;
 			this.strong = data[1];
 			this.tsunami = P2PQuakeNodeTsunami.parseString(data[2]);
-			this.quaketype = Integer.parseInt(data[3]);
+			this.quaketype = NumberUtils.toInt(data[3], -1);
 			this.where = data[4];
 			this.deep = data[5];
-			this.magnitude = !StringUtils.isEmpty(data[6]) ? (Float.parseFloat(data[6]) > 0F) ? data[6] : "不明" : null;
+			this.magnitude = !StringUtils.isEmpty(data[6]) ? (NumberUtils.toFloat(data[6], -1F) > 0F) ? data[6] : "不明" : null;
 			this.modified = "1".equals(data[7]);
 		} catch (final ParseException e) {
 			throw new QuakeException("Parse Error", e);

@@ -56,8 +56,6 @@ public class TweetQuakeFileManager {
 			}
 		} catch (final IOException e) {
 			Reference.logger.error(e);
-		} catch (final ClassNotFoundException e) {
-			Reference.logger.error(e);
 		} finally {
 			IOUtils.closeQuietly(jar);
 		}
@@ -71,7 +69,7 @@ public class TweetQuakeFileManager {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	private static TweetQuakeKey load(final InputStream is) throws IOException, ClassNotFoundException {
+	private static TweetQuakeKey load(final InputStream is) throws IOException {
 		final BufferedInputStream bis = new BufferedInputStream(is);
 		final byte[] byteData = new byte[bis.available()];
 		bis.read(byteData);
@@ -79,7 +77,12 @@ public class TweetQuakeFileManager {
 
 		final ByteArrayInputStream bais = new ByteArrayInputStream(Base64.decodeBase64(byteData));
 		final ObjectInputStream ois = new ObjectInputStream(bais);
-		final TweetQuakeKey tweetQuakeKey = (TweetQuakeKey)ois.readObject();
+		TweetQuakeKey tweetQuakeKey = null;
+		try {
+			tweetQuakeKey = (TweetQuakeKey)ois.readObject();
+		} catch (final ClassNotFoundException e) {
+			Reference.logger.error(e);
+		}
 		bais.close();
 		ois.close();
 		return tweetQuakeKey;
