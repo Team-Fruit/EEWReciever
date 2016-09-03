@@ -17,13 +17,19 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "3.0.4"
+version = "3.1.0"
 group= "com.bebehp.mc.eewreciever" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "EEWReciever"
 
 minecraft {
     version = "1.7.10-10.13.4.1558-1.7.10"
     runDir = "eclipse"
+}
+
+jar {
+    manifest {
+        attributes 'FMLCorePlugin' : 'com.bebehp.mc.eewreciever.loader.CarrotLoader','FMLCorePluginContainsFMLMod':'true'
+    }
 }
 
 tasks.withType(Jar) {compileJava.options.encoding = 'UTF-8'}
