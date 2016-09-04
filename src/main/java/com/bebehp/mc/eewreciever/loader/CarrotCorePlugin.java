@@ -5,13 +5,12 @@ import java.util.Map;
 import com.bebehp.mc.eewreciever.Reference;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import net.minecraft.launchwrapper.LaunchClassLoader;
 
 @IFMLLoadingPlugin.MCVersion(value = "1.7.10")
 @IFMLLoadingPlugin.Name(value = "CarrotLoader")
-public class CarrotLoader implements IFMLLoadingPlugin {
+public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
-	private final LaunchClassLoader loader = (LaunchClassLoader) CarrotLoader.class.getClassLoader();
+	//	private final LaunchClassLoader loader = (LaunchClassLoader) CarrotCorePlugin.class.getClassLoader();
 
 	@Override
 	public String[] getASMTransformerClass() {
@@ -30,7 +29,10 @@ public class CarrotLoader implements IFMLLoadingPlugin {
 
 	@Override
 	public void injectData(final Map<String, Object> data) {
-
+		final Boolean isDev = (Boolean) data.get("runtimeDeobfuscationEnabled");
+		final CarrotInstaller carrotInstaller = new CarrotInstaller();
+		if (!isDev)
+			carrotInstaller.install();
 	}
 
 	@Override

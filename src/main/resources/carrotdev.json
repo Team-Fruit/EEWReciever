@@ -1,0 +1,14 @@
+[
+	{
+		"remote": "http://central.maven.org/maven2/org/twitter4j/twitter4j-core/4.0.4/twitter4j-core-4.0.4.jar",
+		"local": "twitter4j-core-4.0.4.jar",
+	},
+	{
+		"remote": "http://central.maven.org/maven2/org/twitter4j/twitter4j-stream/4.0.4/twitter4j-stream-4.0.4.jar",
+		"local": "twitter4j-stream-4.0.4.jar",
+	},
+	{
+		"remote": "http://central.maven.org/maven2/org/apache/httpcomponents/httpclient/4.3.3/httpclient-4.3.3.jar",
+		"local": "httpclient-4.3.3.jar",
+	}
+]
