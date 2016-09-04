@@ -7,6 +7,7 @@ import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.ModMetadata;
 
+@Deprecated
 public class CarrotModContainer extends DummyModContainer {
 
 	public CarrotModContainer() {

@@ -1,6 +1,7 @@
 package com.bebehp.mc.eewreciever.loader;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +22,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 
@@ -46,8 +46,12 @@ public class CarrotInstaller {
 	}
 
 	public void install() {
+		Reference.logger.info("Loading");
 		final List<CarrotDev> carrotDev = load("carrotdev.json");
+		if (carrotDev == null)
+			return;
 		for (final CarrotDev line : carrotDev) {
+			Reference.logger.info("Loading file {}", line.local);
 			final File local = new File(this.v_modsDir, line.local);
 			if (!local.exists())
 				download(line);
@@ -56,20 +60,25 @@ public class CarrotInstaller {
 	}
 
 	private List<CarrotDev> load(final String fileName) {
-		final File runFile = Loader.instance().getIndexedModList().get(Reference.MODID).getSource();
-		if (!runFile.isFile())
-			return null;
+		final String absolutePath = System.getProperty("java.class.path");
+		final String[] filePath = absolutePath.split(System.getProperty("path.separator"));
+		final File runFile = new File(filePath[0]);
 		JarFile jar = null;
 		try {
-			jar = new JarFile(runFile);
-			final ZipEntry ze = jar.getEntry(fileName);
-			return read(jar.getInputStream(ze));
+			if (runFile.isDirectory()) {
+				final File carrotDevFile = new File(runFile, fileName);
+				return read(new FileInputStream(carrotDevFile));
+			} else {
+				jar = new JarFile(runFile);
+				final ZipEntry ze = jar.getEntry(fileName);
+				return read(jar.getInputStream(ze));
+			}
 		} catch (final IOException e) {
 			Reference.logger.error(e);
+			return null;
 		} finally {
 			IOUtils.closeQuietly(jar);
 		}
-		return null;
 	}
 
 	private List<CarrotDev> read(final InputStream is) {
@@ -83,7 +92,6 @@ public class CarrotInstaller {
 	private void download(final CarrotDev dev) {
 		File downloadingFile = null;
 		try {
-			Reference.logger.info("Downloading file {}", dev.local);
 			downloadingFile = new File(this.v_modsDir, dev.local);
 			final URL remote = new URL(dev.remote);
 
@@ -98,6 +106,7 @@ public class CarrotInstaller {
 			final InputStream is = connection.getInputStream();
 			final File localFile = new File(this.v_modsDir, dev.local);
 			FileUtils.copyInputStreamToFile(is, localFile);
+			Reference.logger.info("Download complete {}", localFile);
 		} catch (final Exception e) {
 			downloadingFile.delete();
 			throw new RuntimeException("A download error occured", e);

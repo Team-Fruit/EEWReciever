@@ -2,12 +2,9 @@ package com.bebehp.mc.eewreciever.loader;
 
 import java.util.Map;
 
-import com.bebehp.mc.eewreciever.Reference;
-
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.MCVersion(value = "1.7.10")
-@IFMLLoadingPlugin.Name(value = "CarrotLoader")
 public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
 	//	private final LaunchClassLoader loader = (LaunchClassLoader) CarrotCorePlugin.class.getClassLoader();
@@ -19,7 +16,7 @@ public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
 	@Override
 	public String getModContainerClass() {
-		return Reference.MOD_CONTAINER;
+		return null;
 	}
 
 	@Override
