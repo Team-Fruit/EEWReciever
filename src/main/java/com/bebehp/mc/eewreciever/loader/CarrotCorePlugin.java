@@ -7,8 +7,6 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 @IFMLLoadingPlugin.MCVersion(value = "1.7.10")
 public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
-	//	private final LaunchClassLoader loader = (LaunchClassLoader) CarrotCorePlugin.class.getClassLoader();
-
 	@Override
 	public String[] getASMTransformerClass() {
 		return new String[0];

@@ -46,7 +46,6 @@ public class CarrotInstaller {
 	}
 
 	public void install() {
-		Reference.logger.info("Loading");
 		final List<CarrotDev> carrotDev = load("carrotdev.json");
 		if (carrotDev == null)
 			return;
