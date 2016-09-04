@@ -1,9 +1,6 @@
 package com.bebehp.mc.eewreciever.common.proxy;
 
 import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
@@ -48,17 +45,8 @@ public abstract class CommonProxy {
 	}
 
 	public static void checkConfigFile(final File oldConfigFile, final File configDir) {
-		if (oldConfigFile.exists()) {
-			Reference.logger.warn("Found old Config File[{}]", oldConfigFile);
-			try {
-				FileUtils.copyFile(oldConfigFile, configDir);
-				if (!oldConfigFile.delete()) {
-					Reference.logger.warn("Failed to delete the Legacy Config File[{}]", oldConfigFile);
-				}
-			} catch (final IOException e) {
-				Reference.logger.error(e);
-			}
-		}
+		if (oldConfigFile.exists())
+			oldConfigFile.renameTo(configDir);
 	}
 
 }

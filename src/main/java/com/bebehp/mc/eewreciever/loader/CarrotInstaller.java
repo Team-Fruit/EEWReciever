@@ -2,7 +2,7 @@ package com.bebehp.mc.eewreciever.loader;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -11,10 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FileUtils;
 
 import com.bebehp.mc.eewreciever.Reference;
@@ -40,16 +37,25 @@ public class CarrotInstaller {
 			this.v_modsDir.mkdirs();
 	}
 
-	class CarrotDev {
+	class CarrotDep {
 		public String remote;
 		public String local;
 	}
 
 	public void install() {
-		final List<CarrotDev> carrotDev = load("carrotdev.json");
-		if (carrotDev == null)
-			return;
-		for (final CarrotDev line : carrotDev) {
+		final List<CarrotDep> carrotDev = load("carrotdep.json");
+		if (carrotDev != null)
+			install(carrotDev);
+	}
+
+	public void devInstall() {
+		final List<CarrotDep> carrotDev = devLoad("carrotdep.json");
+		if (carrotDev != null)
+			install(carrotDev);
+	}
+
+	private void install(final List<CarrotDep> carrotDev) {
+		for (final CarrotDep line : carrotDev) {
 			Reference.logger.info("Loading file {}", line.local);
 			final File local = new File(this.v_modsDir, line.local);
 			if (!local.exists())
@@ -58,37 +64,31 @@ public class CarrotInstaller {
 		}
 	}
 
-	private List<CarrotDev> load(final String fileName) {
-		final String absolutePath = System.getProperty("java.class.path");
-		final String[] filePath = absolutePath.split(System.getProperty("path.separator"));
-		final File runFile = new File(filePath[0]);
-		JarFile jar = null;
+	private List<CarrotDep> load(final String fileName) {
+		return read(this.getClass().getClassLoader().getResourceAsStream(fileName));
+	}
+
+	private List<CarrotDep> devLoad(final String fileName) {
 		try {
-			if (runFile.isDirectory()) {
-				final File carrotDevFile = new File(runFile, fileName);
-				return read(new FileInputStream(carrotDevFile));
-			} else {
-				jar = new JarFile(runFile);
-				final ZipEntry ze = jar.getEntry(fileName);
-				return read(jar.getInputStream(ze));
-			}
-		} catch (final IOException e) {
-			Reference.logger.error(e);
+			final String absolutePath = System.getProperty("java.class.path");
+			final String[] filePath = absolutePath.split(System.getProperty("path.separator"));
+			final File runFile = new File(filePath[0]);
+			final File carrotDevFile = new File(runFile, fileName);
+			return read(new FileInputStream(carrotDevFile));
+		} catch (final FileNotFoundException e) {
 			return null;
-		} finally {
-			IOUtils.closeQuietly(jar);
 		}
 	}
 
-	private List<CarrotDev> read(final InputStream is) {
+	private List<CarrotDep> read(final InputStream is) {
 		final InputStreamReader isr = new InputStreamReader(is);
 		final JsonReader jsr = new JsonReader(isr);
-		final Type collectionType = new TypeToken<Collection<CarrotDev>>(){}.getType();
-		final List<CarrotDev> carrotDev = new Gson().fromJson(jsr, collectionType);
+		final Type collectionType = new TypeToken<Collection<CarrotDep>>(){}.getType();
+		final List<CarrotDep> carrotDev = new Gson().fromJson(jsr, collectionType);
 		return carrotDev;
 	}
 
-	private void download(final CarrotDev dev) {
+	private void download(final CarrotDep dev) {
 		File downloadingFile = null;
 		try {
 			downloadingFile = new File(this.v_modsDir, dev.local);
