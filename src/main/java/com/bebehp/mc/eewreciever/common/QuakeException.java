@@ -6,23 +6,25 @@ package com.bebehp.mc.eewreciever.common;
  */
 public class QuakeException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	public QuakeException() {
 		super();
 	}
 
-	public QuakeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public QuakeException(final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 
-	public QuakeException(String message, Throwable cause) {
+	public QuakeException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
 
-	public QuakeException(String message) {
+	public QuakeException(final String message) {
 		super(message);
 	}
 
-	public QuakeException(Throwable cause) {
+	public QuakeException(final Throwable cause) {
 		super(cause);
 	}
 
