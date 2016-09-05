@@ -65,7 +65,11 @@ public class CarrotInstaller {
 	}
 
 	private List<CarrotDep> load(final String fileName) {
-		return read(this.getClass().getClassLoader().getResourceAsStream(fileName));
+		final InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
+		if (is != null)
+			return read(is);
+		else
+			return null;
 	}
 
 	private List<CarrotDep> devLoad(final String fileName) {
@@ -103,9 +107,8 @@ public class CarrotInstaller {
 				throw new RuntimeException();
 
 			final InputStream is = connection.getInputStream();
-			final File localFile = new File(this.v_modsDir, dev.local);
-			FileUtils.copyInputStreamToFile(is, localFile);
-			Reference.logger.info("Download complete {}", localFile);
+			FileUtils.copyInputStreamToFile(is, downloadingFile);
+			Reference.logger.info("Download complete {}", downloadingFile);
 		} catch (final Exception e) {
 			downloadingFile.delete();
 			throw new RuntimeException("A download error occured", e);
