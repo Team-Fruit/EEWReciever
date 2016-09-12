@@ -16,5 +16,6 @@
 !/install.bat
 !/build.bat
 !/.gitignore
+!/LICENSE
 
 /src/main/resources/file.eew
