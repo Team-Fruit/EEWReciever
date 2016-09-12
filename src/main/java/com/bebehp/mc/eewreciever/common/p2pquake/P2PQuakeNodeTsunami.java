@@ -1,13 +1,13 @@
 package com.bebehp.mc.eewreciever.common.p2pquake;
 
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public enum P2PQuakeNodeTsunami {
 	TInfo("震源が海底ですと、津波の恐れがあります。今後の情報に注意して下さい。"),
 	TNoTsunami("この地震による津波の心配はありません。"),
-	TTunami(EnumChatFormatting.RED + "[つなみ！にげて！]" + EnumChatFormatting.RESET +
+	TTunami(TextFormatting.RED + "[つなみ！にげて！]" + TextFormatting.RESET +
 			"この地震による津波に関する警報が発表されています！\n警報が発表されている沿岸部にお住いの方は" +
-			EnumChatFormatting.UNDERLINE + "今すぐ避難" + EnumChatFormatting.RESET + "して下さい！"
+			TextFormatting.UNDERLINE + "今すぐ避難" + TextFormatting.RESET + "して下さい！"
 			),
 	TUnknown("津波に関する情報は取得できませんでした。"),
 	TDefault("Unknown");

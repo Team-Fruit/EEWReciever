@@ -1,13 +1,12 @@
 package com.bebehp.mc.eewreciever.server;
 
 import com.bebehp.mc.eewreciever.common.ChatUtil;
-import com.mojang.authlib.GameProfile;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 public class ServerAuthChecker {
 
@@ -16,11 +15,11 @@ public class ServerAuthChecker {
 
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
-		final GameProfile profile =  event.player.getGameProfile();
-		final ServerConfigurationManager configManager = MinecraftServer.getServer().getConfigurationManager();
-		final EntityPlayerMP playerMP = configManager.func_152612_a(profile.getName());
+		final String name =  event.player.getGameProfile().getName();
+		final MinecraftServer mc = FMLCommonHandler.instance().getMinecraftServerInstance();
+		final EntityPlayerMP playerMP = mc.getPlayerList().getPlayerByUsername(name);
 		if (notification) {
-			if (configManager.func_152596_g(profile)) {
+			if (isOP(name)) {
 				playerMP.addChatComponentMessage(ChatUtil.byText("[EEWReciever]Twitter連携認証(緊急地震速報)がされていません！"));
 				playerMP.addChatComponentMessage(ChatUtil.byText("/eew setup でセットアップを開始します"));
 				playerMP.addChatComponentMessage(ChatUtil.byText("Twitter連携を無効にするには、configを変更し再起動して下さい"));
@@ -30,4 +29,12 @@ public class ServerAuthChecker {
 		}
 	}
 
+	private boolean isOP(final String name) {
+		final String[] opPlayers = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getOppedPlayerNames();
+		for (final String line : opPlayers) {
+			if (line == name)
+				return true;
+		}
+		return false;
+	}
 }

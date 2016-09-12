@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,9 +21,12 @@ import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeSetup;
 import com.bebehp.mc.eewreciever.server.ServerAuthChecker;
 
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 
@@ -50,17 +55,14 @@ public abstract class EEWCommandBase extends CommandBase {
 		return "/eewreciever Tipe <Text>";
 	}
 
-	@Override
-	public abstract boolean canCommandSenderUseCommand(final ICommandSender p_71519_1_);
-
 	public abstract boolean limitInDebugMode();
 
 	@Override
-	public void processCommand(final ICommandSender icommandsender, final String[] astring) {
+	public void execute(final MinecraftServer server, final ICommandSender icommandsender, final String[] astring) throws CommandException {
 		if (astring.length >= 1 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) {
 			if (ConfigurationHandler.debugMode || !limitInDebugMode()) {
 				if (astring.length >= 2) {
-					final String chat = func_82360_a(icommandsender, astring, 1);
+					final String chat = getChatComponentFromNthArg(icommandsender, astring, 1).toString();
 					try {
 						EEWRecieverMod.sendServerChat(new P2PQuakeNode().parseString(chat).toString());
 					} catch (final QuakeException e) {
@@ -70,12 +72,12 @@ public abstract class EEWCommandBase extends CommandBase {
 					ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eewreciever p2p <Text>"));
 				}
 			} else {
-				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("For debug mode is disabled, this command is not available").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("For debug mode is disabled, this command is not available").setStyle(new Style().setColor(TextFormatting.RED)));
 			}
 		} else if (astring.length >= 1 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) {
 			if (ConfigurationHandler.debugMode || !limitInDebugMode()) {
 				if (astring.length >= 2) {
-					final String chat = func_82360_a(icommandsender, astring, 1);
+					final String chat = getChatComponentFromNthArg(icommandsender, astring, 1).toString();
 					try {
 						EEWRecieverMod.sendServerChat(new TweetQuakeNode().parseString(chat).toString());
 					} catch (final QuakeException e) {
@@ -85,14 +87,14 @@ public abstract class EEWCommandBase extends CommandBase {
 					ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eewreciever twitter <Text>"));
 				}
 			} else {
-				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("For debug mode is disabled, this command is not available").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("For debug mode is disabled, this command is not available").setStyle(new Style().setColor(TextFormatting.RED)));
 			}
 		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "setup")) {
 			if (ConfigurationHandler.twitterEnable) {
 				if (astring.length >= 2) {
 					if (StringUtils.equalsIgnoreCase(astring[1], "pin")) {
 						if (this.setupSender == null || this.setupSender == icommandsender) {
-							final String chat = func_82360_a(icommandsender, astring, 2);
+							final String chat = getChatComponentFromNthArg(icommandsender, astring, 2).toString();
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
 									final AccessToken accessToken = TweetQuakeSetup.INSTANCE.getAccessToken(chat);
@@ -104,19 +106,19 @@ public abstract class EEWCommandBase extends CommandBase {
 									this.setupSender = null;
 								} catch (final TwitterException e) {
 									Reference.logger.error(e);
-									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証に失敗しました").setStyle(new Style().setColor(TextFormatting.RED)));
 								}
 							} else {
-								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Pinコードが不正です！").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Pinコードが不正です！").setStyle(new Style().setColor(TextFormatting.RED)));
 							}
 						} else {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupは現在利用できません").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupは現在利用できません").setStyle(new Style().setColor(TextFormatting.RED)));
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "geturl")) {
 						try {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(TweetQuakeSetup.INSTANCE.getAuthURL()));
 						} catch (final TwitterException e) {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setStyle(new Style().setColor(TextFormatting.RED)));
 							Reference.logger.error(e.getStatusCode());
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "stop")) {
@@ -140,35 +142,35 @@ public abstract class EEWCommandBase extends CommandBase {
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
 							} catch (final TwitterException e) {
 								Reference.logger.error(e.getStatusCode());
-								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを終了します").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setStyle(new Style().setColor(TextFormatting.RED)));
+								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupを終了します").setStyle(new Style().setColor(TextFormatting.RED)));
 								this.setupSender = null;
 								return;
 							}
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson("{\"text\":\"/eew setup pin <Pin>でコードを入力して下さい(クリックで提案)\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/eewreciever setup pin \"}}"));
 						} else {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携は設定済みです！").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携は設定済みです！").setStyle(new Style().setColor(TextFormatting.RED)));
 						}
 					} else if (this.setupSender == icommandsender){
-						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("あなたは現在Setupを実行中です！").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("あなたは現在Setupを実行中です！").setStyle(new Style().setColor(TextFormatting.RED)));
 					} else {
-						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupは現在利用出来ません").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupは現在利用出来ません").setStyle(new Style().setColor(TextFormatting.RED)));
 					}
 				}
 			} else {
-				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携が無効な為 利用できません").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携が無効な為 利用できません").setStyle(new Style().setColor(TextFormatting.RED)));
 			}
 		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "deletesettings")) {
 			if (astring.length >= 2) {
-				final String chat = func_82360_a(icommandsender, astring, 1);
+				final String chat = getChatComponentFromNthArg(icommandsender, astring, 1).toString();
 				if (StringUtils.equalsIgnoreCase(astring[1], this.randomString)) {
 					if (TweetQuakeFileManager.deleteAccessTokenFile()) {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に成功しました"));
 					} else {
-						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に失敗しました").setStyle(new Style().setColor(TextFormatting.RED)));
 					}
 				} else {
-					ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去キーが違います").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+					ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去キーが違います").setStyle(new Style().setColor(TextFormatting.RED)));
 				}
 			} else {
 				final StringBuilder stb = new StringBuilder();
@@ -183,17 +185,17 @@ public abstract class EEWCommandBase extends CommandBase {
 			if (ConfigurationHandler.debugMode)
 				list.addAll(Arrays.asList("p2p", "twitter"));
 
-			ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("--- Help page ---").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_GREEN)));
+			ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("--- Help page ---").setStyle(new Style().setColor(TextFormatting.DARK_GREEN)));
 			for (final String line : list) {
-				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eew " + EnumChatFormatting.YELLOW + line));
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eew " + TextFormatting.YELLOW + line));
 			}
 		} else {
-			ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Unknown command. Try /eew help for a list of commands").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+			ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Unknown command. Try /eew help for a list of commands").setStyle(new Style().setColor(TextFormatting.RED)));
 		}
 	}
 
 	@Override
-	public List<String> addTabCompletionOptions(final ICommandSender icommandsender, final String[] astring) {
+	public List<String> getTabCompletionOptions(final MinecraftServer server, final ICommandSender sender, final String[] astring, @Nullable final BlockPos pos) {
 		if (astring.length <= 1 && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
 			return Arrays.asList("p2p", "twitter", "setup", "deletesettings");
 		} else if (astring.length == 1) {

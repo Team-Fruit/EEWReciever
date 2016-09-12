@@ -4,10 +4,10 @@ import java.io.File;
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
 
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ConfigurationHandler {
 	public static final ConfigurationHandler INSTANCE = new ConfigurationHandler();
@@ -65,7 +65,7 @@ public class ConfigurationHandler {
 
 	@SubscribeEvent
 	public void onConfigurationChangedEvent(final ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.modID.equalsIgnoreCase(Reference.MODID)) {
+		if (event.getModID().equalsIgnoreCase(Reference.MODID)) {
 			loadConfiguration();
 		}
 	}

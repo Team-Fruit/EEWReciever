@@ -8,7 +8,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.common.QuakeException;
 
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class TweetQuakeNode extends AbstractQuakeNode {
 
@@ -37,22 +37,22 @@ public class TweetQuakeNode extends AbstractQuakeNode {
 	@Override
 	public String toString() {
 		if (this.canceled) {
-			return EnumChatFormatting.RED + "先程の緊急地震速報はキャンセルされました(第" + this.telegramnumber + "報)";
+			return TextFormatting.RED + "先程の緊急地震速報はキャンセルされました(第" + this.telegramnumber + "報)";
 		} else if (this.alarm) {
 			return String.format("%s%s%s %s%s%sで地震 予測震度:%s%s%s %skm M:%s (%s)\n%s強い地震が発生しています。身の安全を確保してください。",
 					(this.training ? "[訓練報]" : ""),
-					EnumChatFormatting.RED,
+					TextFormatting.RED,
 					(this.announcement ? "緊急地震速報(キャンセル取り消し)" : "緊急地震速報"),
-					EnumChatFormatting.AQUA,
+					TextFormatting.AQUA,
 					this.where,
-					EnumChatFormatting.RESET,
-					EnumChatFormatting.LIGHT_PURPLE,
+					TextFormatting.RESET,
+					TextFormatting.LIGHT_PURPLE,
 					this.strong,
-					EnumChatFormatting.RESET,
+					TextFormatting.RESET,
 					this.deep,
 					this.magnitude,
 					(this.finaleew ? "最終報" : "第" + this.telegramnumber + "報"),
-					EnumChatFormatting.YELLOW
+					TextFormatting.YELLOW
 					);
 		} else {
 			return String.format("%s%s %sで地震 予測震度:%s %skm M:%s (%s)",

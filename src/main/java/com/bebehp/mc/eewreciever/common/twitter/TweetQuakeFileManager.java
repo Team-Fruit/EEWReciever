@@ -21,8 +21,8 @@ import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModContainer;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import twitter4j.auth.AccessToken;
 
 /**
@@ -34,7 +34,7 @@ public class TweetQuakeFileManager {
 	protected static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "setting.dat");
 
 	/**
-	 * jarファイル内のfile.eewを読み込みます<br>
+	 * 	 * jarファイル内のfile.eewを読み込みます<br>
 	 * 但し、パスがファイルではなかった場合は、そちらを読み込みます(開発用)
 	 * @return TweetQuakeKey Fileが存在しなかった場合等はnull
 	 */

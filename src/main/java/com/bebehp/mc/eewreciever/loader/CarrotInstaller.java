@@ -19,8 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-import cpw.mods.fml.relauncher.FMLInjectionData;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import net.minecraftforge.fml.relauncher.FMLInjectionData;
 
 public class CarrotInstaller {
 

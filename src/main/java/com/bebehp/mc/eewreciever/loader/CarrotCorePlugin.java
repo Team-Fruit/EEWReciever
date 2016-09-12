@@ -2,7 +2,7 @@ package com.bebehp.mc.eewreciever.loader;
 
 import java.util.Map;
 
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.MCVersion(value = "1.7.10")
 public class CarrotCorePlugin implements IFMLLoadingPlugin {

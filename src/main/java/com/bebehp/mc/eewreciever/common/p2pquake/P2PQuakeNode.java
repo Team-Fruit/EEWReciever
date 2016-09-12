@@ -11,7 +11,7 @@ import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.AbstractQuakeNode;
 import com.bebehp.mc.eewreciever.common.QuakeException;
 
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 public class P2PQuakeNode extends AbstractQuakeNode {
 	//	private static final SimpleDateFormat dateformat1 = new SimpleDateFormat("HH:mm:ss");
@@ -105,7 +105,7 @@ public class P2PQuakeNode extends AbstractQuakeNode {
 			return "[EEWReciever]気象庁の情報更新を受信しました";
 		default:
 			Reference.logger.warn("受信した情報は想定外です: " + this.quaketype);
-			return EnumChatFormatting.GRAY + "[EEWReciever]サポートしていない情報を受信しました";
+			return TextFormatting.GRAY + "[EEWReciever]サポートしていない情報を受信しました";
 		}
 	}
 }

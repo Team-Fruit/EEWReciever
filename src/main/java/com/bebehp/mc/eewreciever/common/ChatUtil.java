@@ -4,46 +4,52 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.google.gson.JsonParseException;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.SyntaxErrorException;
-import net.minecraft.server.management.ServerConfigurationManager;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class ChatUtil {
-	public static void sendPlayerChat(final ICommandSender target, final IChatComponent... components) {
-		for (final IChatComponent line : components) {
+	public static void sendPlayerChat(final ICommandSender target, final ITextComponent... components) {
+		for (final ITextComponent line : components) {
 			target.addChatMessage(line);
 		}
 	}
 
-	public static void sendServerChat(final IChatComponent... components) {
-		final ServerConfigurationManager sender = FMLCommonHandler.instance().getMinecraftServerInstance()
-				.getConfigurationManager();
+	public static void sendServerChat(final ITextComponent... components) {
+		final MinecraftServer mc = FMLCommonHandler.instance().getMinecraftServerInstance();
 
-		for (final IChatComponent line : components) {
-			sender.sendChatMsg(line);
+		for (final ITextComponent line : components) {
+			mc.addChatMessage(line);
 		}
 	}
 
-	public static IChatComponent byText(final String text) {
-		return new ChatComponentText(text);
+	public static ITextComponent byText(final String text) {
+		return new TextComponentString(text);
 	}
 
-	public static IChatComponent byTranslation(final String text, final Object... args) {
-		return new ChatComponentTranslation(text, args);
+	public static ITextComponent byTranslation(final String text, final Object... args) {
+		return new TextComponentTranslation(text, args);
 	}
 
-	public static IChatComponent byJson(final String json) {
+	public static ITextComponent byJson(final String json) throws SyntaxErrorException {
 		try {
-			return IChatComponent.Serializer.func_150699_a(json);
+			return ITextComponent.Serializer.jsonToComponent(json);
 		}
-		catch (final JsonParseException jsonparseexception)
-		{
-			final Throwable throwable = ExceptionUtils.getRootCause(jsonparseexception);
-			throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] {throwable == null ? "" : throwable.getMessage()});
+		catch (final JsonParseException e) {
+			final Throwable throwable = ExceptionUtils.getRootCause(e);
+			String s = "";
+
+			if (throwable != null) {
+				s = throwable.getMessage();
+
+				if (s.contains("setLenient"))
+					s = s.substring(s.indexOf("to accept ") + 10);
+			}
+			throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] {s});
 		}
 	}
 }
