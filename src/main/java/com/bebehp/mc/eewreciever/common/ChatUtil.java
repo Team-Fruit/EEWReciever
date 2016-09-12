@@ -6,7 +6,7 @@ import com.google.gson.JsonParseException;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.SyntaxErrorException;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -20,10 +20,10 @@ public abstract class ChatUtil {
 	}
 
 	public static void sendServerChat(final ITextComponent... components) {
-		final MinecraftServer mc = FMLCommonHandler.instance().getMinecraftServerInstance();
+		final PlayerList player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList();
 
 		for (final ITextComponent line : components) {
-			mc.addChatMessage(line);
+			player.sendChatMsg(line);
 		}
 	}
 

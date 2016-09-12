@@ -62,7 +62,7 @@ public abstract class EEWCommandBase extends CommandBase {
 		if (astring.length >= 1 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) {
 			if (ConfigurationHandler.debugMode || !limitInDebugMode()) {
 				if (astring.length >= 2) {
-					final String chat = getChatComponentFromNthArg(icommandsender, astring, 1).toString();
+					final String chat = buildString(astring, 1);
 					try {
 						EEWRecieverMod.sendServerChat(new P2PQuakeNode().parseString(chat).toString());
 					} catch (final QuakeException e) {
@@ -77,7 +77,7 @@ public abstract class EEWCommandBase extends CommandBase {
 		} else if (astring.length >= 1 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) {
 			if (ConfigurationHandler.debugMode || !limitInDebugMode()) {
 				if (astring.length >= 2) {
-					final String chat = getChatComponentFromNthArg(icommandsender, astring, 1).toString();
+					final String chat = buildString(astring, 1);
 					try {
 						EEWRecieverMod.sendServerChat(new TweetQuakeNode().parseString(chat).toString());
 					} catch (final QuakeException e) {
@@ -94,7 +94,7 @@ public abstract class EEWCommandBase extends CommandBase {
 				if (astring.length >= 2) {
 					if (StringUtils.equalsIgnoreCase(astring[1], "pin")) {
 						if (this.setupSender == null || this.setupSender == icommandsender) {
-							final String chat = getChatComponentFromNthArg(icommandsender, astring, 2).toString();
+							final String chat = buildString(astring, 2);
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
 									final AccessToken accessToken = TweetQuakeSetup.INSTANCE.getAccessToken(chat);
@@ -162,7 +162,7 @@ public abstract class EEWCommandBase extends CommandBase {
 			}
 		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "deletesettings")) {
 			if (astring.length >= 2) {
-				final String chat = getChatComponentFromNthArg(icommandsender, astring, 1).toString();
+				final String chat = buildString(astring, 1);
 				if (StringUtils.equalsIgnoreCase(astring[1], this.randomString)) {
 					if (TweetQuakeFileManager.deleteAccessTokenFile()) {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去に成功しました"));
