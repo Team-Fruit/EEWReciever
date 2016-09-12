@@ -43,13 +43,13 @@ public class CarrotInstaller {
 	}
 
 	public void install() {
-		final List<CarrotDep> carrotDev = load("carrotdep.json");
+		final List<CarrotDep> carrotDev = load("carrotdep.info");
 		if (carrotDev != null)
 			install(carrotDev);
 	}
 
 	public void devInstall() {
-		final List<CarrotDep> carrotDev = devLoad("carrotdep.json");
+		final List<CarrotDep> carrotDev = devLoad("carrotdep.info");
 		if (carrotDev != null)
 			install(carrotDev);
 	}
