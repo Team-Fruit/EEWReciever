@@ -3,6 +3,11 @@
 
 # EEWReciever [![Powered By Twitter4j](https://i.gyazo.com/10a912ba681ee9bf4d321f21513f520a.png)](http://twitter4j.org/)
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.7.10-yellow.svg)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.7.10-yellow.svg)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.7.10-yellow.svg)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.7.10-yellow.svg)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.7.10-yellow.svg)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.7.10-yellow.svg)
 
 緊急地震速報等の地震情報をチャットでお知らせするModです
 
