@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.io.FileUtils;
 
 import com.bebehp.mc.eewreciever.Reference;
@@ -64,6 +66,7 @@ public class CarrotInstaller {
 		}
 	}
 
+	@Nullable
 	private List<CarrotDep> load(final String fileName) {
 		final InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
 		if (is != null)
@@ -72,6 +75,7 @@ public class CarrotInstaller {
 			return null;
 	}
 
+	@Nullable
 	private List<CarrotDep> devLoad(final String fileName) {
 		try {
 			final String absolutePath = System.getProperty("java.class.path");

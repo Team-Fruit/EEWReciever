@@ -17,7 +17,11 @@ public class TweetQuakeSetup {
 
 	public TweetQuakeSetup() {
 		this.twitter = TwitterFactory.getSingleton();
+	}
+
+	public TweetQuakeSetup setOAuthConsumer() {
 		this.twitter.setOAuthConsumer(EEWRecieverMod.tweetQuakeKey.getKey1(), EEWRecieverMod.tweetQuakeKey.getKey2());
+		return this;
 	}
 
 	public String getAuthURL() throws TwitterException {
