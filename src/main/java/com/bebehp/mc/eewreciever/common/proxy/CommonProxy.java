@@ -29,7 +29,7 @@ public abstract class CommonProxy {
 	}
 
 	public void init(final FMLInitializationEvent event) {
-		FMLCommonHandler.instance().bus().register(new QuakeMain());
+		FMLCommonHandler.instance().bus().register(QuakeMain.INSTANCE);
 		FMLCommonHandler.instance().bus().register(ConfigurationHandler.INSTANCE);
 	}
 
