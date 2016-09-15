@@ -12,11 +12,20 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public class QuakeMain {
+	public static final QuakeMain INSTANCE = new QuakeMain();
 
-	final IQuake p2pQuake = new P2PQuake();
-	final IQuake tweetQuake = new TweetQuake();
+	private IQuake p2pQuake = new P2PQuake();
+	private IQuake tweetQuake = new TweetQuake();
 
 	long lasttime;
+
+	public void setP2PQuake(final P2PQuake p2pQuake) {
+		this.p2pQuake = p2pQuake;
+	}
+
+	public void setTweetQuake(final TweetQuake tweetQuake) {
+		this.tweetQuake = tweetQuake;
+	}
 
 	@SubscribeEvent
 	public void onServerTick(final ServerTickEvent event) {

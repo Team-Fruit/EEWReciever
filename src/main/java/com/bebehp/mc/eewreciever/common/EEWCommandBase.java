@@ -101,7 +101,7 @@ public abstract class EEWCommandBase extends CommandBase {
 									TweetQuakeFileManager.storeAccessToken(accessToken);
 									EEWRecieverMod.accessToken = accessToken;
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
-									new TweetQuake();
+									QuakeMain.INSTANCE.setTweetQuake(new TweetQuake());
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitterに接続し、Setupを終了します"));
 									this.setupSender = null;
 								} catch (final TwitterException e) {
@@ -116,7 +116,7 @@ public abstract class EEWCommandBase extends CommandBase {
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "geturl")) {
 						try {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(TweetQuakeSetup.INSTANCE.getAuthURL()));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(TweetQuakeSetup.INSTANCE.setOAuthConsumer().getAuthURL()));
 						} catch (final TwitterException e) {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setStyle(new Style().setColor(TextFormatting.RED)));
 							Reference.logger.error(e.getStatusCode());
@@ -201,7 +201,7 @@ public abstract class EEWCommandBase extends CommandBase {
 		} else if (astring.length == 1) {
 			return Arrays.asList("setup", "deletesettings");
 		} else if ((astring.length == 2 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
-			return Arrays.asList("00:00:00,QUA,01日00時00分/1/0/4/宮城県沖/10km/2.5/0/N35.0/E140.0/サンプル");
+			return Arrays.asList("00:00:00,QUA,01日00時00分/1/0/4/宮城県沖/10km/3.5/0/N35.0/E140.0/サンプル");
 		} else if ((astring.length == 2 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
 			return Arrays.asList("37,00,2011/04/03 23:53:51,0,1,NDID,2011/04/03 23:53:21,37.8,142.3,宮城県沖,10,2.5,1,1,0,サンプル");
 		} else if (astring.length == 2 && StringUtils.equalsIgnoreCase(astring[0], "setup")) {

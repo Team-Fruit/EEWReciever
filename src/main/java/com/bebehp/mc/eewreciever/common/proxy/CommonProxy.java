@@ -1,6 +1,7 @@
 package com.bebehp.mc.eewreciever.common.proxy;
 
 import java.io.File;
+import java.util.Map;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
@@ -8,10 +9,12 @@ import com.bebehp.mc.eewreciever.common.QuakeMain;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeFileManager;
 
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkCheckHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class CommonProxy {
 
@@ -29,11 +32,18 @@ public abstract class CommonProxy {
 	}
 
 	public void init(final FMLInitializationEvent event) {
-		FMLCommonHandler.instance().bus().register(new QuakeMain());
-		FMLCommonHandler.instance().bus().register(ConfigurationHandler.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(this);
+
+		MinecraftForge.EVENT_BUS.register(QuakeMain.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(ConfigurationHandler.INSTANCE);
 	}
 
 	public void serverLoad(final FMLServerStartingEvent event){
+	}
+
+	@NetworkCheckHandler
+	public boolean netCheckHandler(final Map<String, String> mods, final Side side) {
+		return true;
 	}
 
 	public static void createFolders() {

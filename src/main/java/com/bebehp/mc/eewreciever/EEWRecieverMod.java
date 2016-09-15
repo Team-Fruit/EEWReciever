@@ -1,7 +1,6 @@
 package com.bebehp.mc.eewreciever;
 
 import java.io.File;
-import java.util.Map;
 
 import com.bebehp.mc.eewreciever.common.ChatUtil;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
@@ -13,8 +12,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkCheckHandler;
-import net.minecraftforge.fml.relauncher.Side;
 import twitter4j.auth.AccessToken;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
@@ -40,11 +37,6 @@ public class EEWRecieverMod {
 	@EventHandler
 	public void serverLoad(final FMLServerStartingEvent event){
 		proxy.serverLoad(event);
-	}
-
-	@NetworkCheckHandler
-	public boolean netCheckHandler(final Map<String, String> mods, final Side side) {
-		return true;
 	}
 
 	public static void sendServerChat(final String msg) {
