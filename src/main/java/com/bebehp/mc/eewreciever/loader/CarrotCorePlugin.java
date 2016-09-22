@@ -6,6 +6,7 @@ import com.bebehp.mc.eewreciever.Reference;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
+@IFMLLoadingPlugin.Name(value = Reference.MODID)
 @IFMLLoadingPlugin.MCVersion(value = Reference.MINECRAFT)
 public class CarrotCorePlugin implements IFMLLoadingPlugin {
 

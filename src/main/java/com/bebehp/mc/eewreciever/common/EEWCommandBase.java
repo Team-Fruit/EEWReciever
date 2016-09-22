@@ -50,9 +50,6 @@ public abstract class EEWCommandBase extends CommandBase {
 		return "/eewreciever Tipe <Text>";
 	}
 
-	@Override
-	public abstract boolean canCommandSenderUseCommand(final ICommandSender p_71519_1_);
-
 	public abstract boolean limitInDebugMode();
 
 	@Override

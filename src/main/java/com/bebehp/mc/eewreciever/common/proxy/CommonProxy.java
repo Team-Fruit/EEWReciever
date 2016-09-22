@@ -1,7 +1,6 @@
 package com.bebehp.mc.eewreciever.common.proxy;
 
 import java.io.File;
-import java.util.Map;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
@@ -12,8 +11,6 @@ import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeFileManager;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkCheckHandler;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.MinecraftForge;
 
 public abstract class CommonProxy {
@@ -39,11 +36,6 @@ public abstract class CommonProxy {
 	}
 
 	public void serverLoad(final FMLServerStartingEvent event){
-	}
-
-	@NetworkCheckHandler
-	public boolean netCheckHandler(final Map<String, String> mods, final Side side) {
-		return true;
 	}
 
 	public static void createFolders() {
