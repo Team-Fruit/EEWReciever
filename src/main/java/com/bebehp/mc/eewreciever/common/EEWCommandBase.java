@@ -29,9 +29,6 @@ public abstract class EEWCommandBase extends CommandBase {
 	public ICommandSender setupSender;
 	private final String randomString = RandomStringUtils.randomAlphabetic(10);
 
-	public EEWCommandBase() { //NO-OP
-	}
-
 	@Override
 	public String getCommandName() {
 		return "eewreciever";
@@ -132,7 +129,7 @@ public abstract class EEWCommandBase extends CommandBase {
 							try {
 								final StringBuilder stb = new StringBuilder();
 								stb.append("{\"text\":\"Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く)\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"");
-								stb.append(TweetQuakeSetup.INSTANCE.getAuthURL());
+								stb.append(TweetQuakeSetup.INSTANCE.setOAuthConsumer().getAuthURL());
 								stb.append("\"}}");
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
 							} catch (final TwitterException e) {
