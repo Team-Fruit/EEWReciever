@@ -20,6 +20,7 @@ import com.bebehp.mc.eewreciever.server.ServerAuthChecker;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import twitter4j.TwitterException;
@@ -108,7 +109,7 @@ public abstract class EEWCommandBase extends CommandBase {
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "geturl")) {
 						try {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(TweetQuakeSetup.INSTANCE.setOAuthConsumer().getAuthURL()));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(TweetQuakeSetup.INSTANCE.getAuthURL()));
 						} catch (final TwitterException e) {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 							Reference.logger.error(e.getStatusCode());
@@ -127,11 +128,8 @@ public abstract class EEWCommandBase extends CommandBase {
 							ServerAuthChecker.notification = false;
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("EEWReciever TwitterSetupを開始します"));
 							try {
-								final StringBuilder stb = new StringBuilder();
-								stb.append("{\"text\":\"Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く)\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"");
-								stb.append(TweetQuakeSetup.INSTANCE.setOAuthConsumer().getAuthURL());
-								stb.append("\"}}");
-								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
+								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く)")
+										.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD).setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, TweetQuakeSetup.INSTANCE.getAuthURL()))));
 							} catch (final TwitterException e) {
 								Reference.logger.error(e.getStatusCode());
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
@@ -139,7 +137,8 @@ public abstract class EEWCommandBase extends CommandBase {
 								this.setupSender = null;
 								return;
 							}
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson("{\"text\":\"/eew setup pin <Pin>でコードを入力して下さい(クリックで提案)\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/eewreciever setup pin \"}}"));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eew setup pin <Pin>でコードを入力して下さい(クリックで提案)")
+									.setChatStyle(new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/eewreciever setup pin "))));
 						} else {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携は設定済みです！").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 						}
@@ -165,12 +164,8 @@ public abstract class EEWCommandBase extends CommandBase {
 					ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("消去キーが違います").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 				}
 			} else {
-				final StringBuilder stb = new StringBuilder();
-				stb.append("{\"text\":\"本当に消去しますか？実行するにはチャットをクリックして下さい\",\"color\":\"light_purple\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"");
-				stb.append("/eewreciever deletesettings ");
-				stb.append(this.randomString);
-				stb.append("\"}}");
-				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byJson(new String(stb)));
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("本当に消去しますか？実行するにはチャットをクリックして下さい")
+						.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever deletesettings " + this.randomString))));
 			}
 		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "help")) {
 			final List<String> list = new LinkedList<String>(Arrays.asList("setup", "deletesettings"));

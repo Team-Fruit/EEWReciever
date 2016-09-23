@@ -6,6 +6,8 @@ import com.bebehp.mc.eewreciever.common.ChatUtil;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -14,6 +16,7 @@ public class ClientAuthChecker {
 	public static final ClientAuthChecker INSTANCE = new ClientAuthChecker();
 	public static boolean notification = true;
 
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onTick(final ClientTickEvent event) {
 		if (EEWRecieverMod.accessToken == null && notification && event.phase == Phase.END && Minecraft.getMinecraft().thePlayer != null) {

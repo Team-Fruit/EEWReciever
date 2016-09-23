@@ -5,6 +5,8 @@ import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 
@@ -13,6 +15,7 @@ public class ServerAuthChecker {
 	public static final ServerAuthChecker INSTANCE = new ServerAuthChecker();
 	public static boolean notification = true;
 
+	@SideOnly(Side.SERVER)
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
 		if (notification) {
