@@ -27,8 +27,14 @@ import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 
 public abstract class EEWCommandBase extends CommandBase {
+
 	public ICommandSender setupSender;
 	private final String randomString = RandomStringUtils.randomAlphabetic(10);
+	private final TweetQuakeSetup tweetQuakeSetup;
+
+	public EEWCommandBase(final TweetQuakeSetup tweetQuakeSetup) {
+		this.tweetQuakeSetup = tweetQuakeSetup;
+	}
 
 	@Override
 	public String getCommandName() {
@@ -90,7 +96,7 @@ public abstract class EEWCommandBase extends CommandBase {
 							final String chat = func_82360_a(icommandsender, astring, 2);
 							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
 								try {
-									final AccessToken accessToken = TweetQuakeSetup.INSTANCE.getAccessToken(chat);
+									final AccessToken accessToken = this.tweetQuakeSetup.getAccessToken(chat);
 									TweetQuakeFileManager.storeAccessToken(accessToken);
 									EEWRecieverMod.accessToken = accessToken;
 									ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("認証が完了しました"));
@@ -109,10 +115,11 @@ public abstract class EEWCommandBase extends CommandBase {
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "geturl")) {
 						try {
-							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(TweetQuakeSetup.INSTANCE.getAuthURL()));
+							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText(this.tweetQuakeSetup.getAuthURL()));
 						} catch (final TwitterException e) {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 							Reference.logger.error(e.getStatusCode());
+							Reference.logger.error(e);
 						}
 					} else if (StringUtils.equalsIgnoreCase(astring[1], "stop")) {
 						this.setupSender = null;
@@ -129,7 +136,7 @@ public abstract class EEWCommandBase extends CommandBase {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("EEWReciever TwitterSetupを開始します"));
 							try {
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitterと連携設定をし、Pinコードを入手して下さい(クリックでURLを開く)")
-										.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD).setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, TweetQuakeSetup.INSTANCE.getAuthURL()))));
+										.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD).setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, this.tweetQuakeSetup.getAuthURL()))));
 							} catch (final TwitterException e) {
 								Reference.logger.error(e.getStatusCode());
 								ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("URLの生成に失敗しました").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
@@ -184,15 +191,15 @@ public abstract class EEWCommandBase extends CommandBase {
 	@Override
 	public List<String> addTabCompletionOptions(final ICommandSender icommandsender, final String[] astring) {
 		if (astring.length <= 1 && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
-			return Arrays.asList("p2p", "twitter", "setup", "deletesettings");
+			return getListOfStringsMatchingLastWord(astring, "p2p", "twitter", "setup", "deletesettings");
 		} else if (astring.length == 1) {
-			return Arrays.asList("setup", "deletesettings");
+			return getListOfStringsMatchingLastWord(astring, "setup", "deletesettings");
 		} else if ((astring.length == 2 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
 			return Arrays.asList("00:00:00,QUA,01日00時00分/1/0/4/宮城県沖/10km/3.5/0/N35.0/E140.0/サンプル");
 		} else if ((astring.length == 2 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
 			return Arrays.asList("37,00,2011/04/03 23:53:51,0,1,NDID,2011/04/03 23:53:21,37.8,142.3,宮城県沖,10,2.5,1,1,0,サンプル");
 		} else if (astring.length == 2 && StringUtils.equalsIgnoreCase(astring[0], "setup")) {
-			return Arrays.asList("pin", "geturl", "stop");
+			return getListOfStringsMatchingLastWord(astring, "pin", "geturl", "stop");
 		} else {
 			return null;
 		}

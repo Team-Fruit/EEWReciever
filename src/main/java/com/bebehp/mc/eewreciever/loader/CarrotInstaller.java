@@ -114,7 +114,8 @@ public class CarrotInstaller {
 			FileUtils.copyInputStreamToFile(is, downloadingFile);
 			Reference.logger.info("Download complete {}", downloadingFile);
 		} catch (final Exception e) {
-			downloadingFile.delete();
+			if (downloadingFile != null)
+				downloadingFile.delete();
 			throw new RuntimeException("A download error occured", e);
 		}
 	}

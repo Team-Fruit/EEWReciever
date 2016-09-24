@@ -5,6 +5,7 @@ import com.bebehp.mc.eewreciever.client.ClientAuthChecker;
 import com.bebehp.mc.eewreciever.client.ClientEEWCommand;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
+import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeSetup;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -24,6 +25,6 @@ public class ClientProxy extends CommonProxy {
 	public void serverLoad(final FMLServerStartingEvent event){
 		super.serverLoad(event);
 
-		event.registerServerCommand(new ClientEEWCommand());
+		event.registerServerCommand(new ClientEEWCommand(new TweetQuakeSetup()));
 	}
 }
