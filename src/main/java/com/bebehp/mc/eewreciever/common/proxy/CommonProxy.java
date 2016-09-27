@@ -1,7 +1,6 @@
 package com.bebehp.mc.eewreciever.common.proxy;
 
 import java.io.File;
-import java.util.Map;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
@@ -40,12 +39,7 @@ public abstract class CommonProxy {
 
 	public void serverLoad(final FMLServerStartingEvent event){
 	}
-
-	@NetworkCheckHandler
-	public boolean netCheckHandler(final Map<String, String> mods, final Side side) {
-		return true;
-	}
-
+	
 	public static void createFolders() {
 		if (!EEWRecieverMod.folderDir.exists()) {
 			if (!EEWRecieverMod.folderDir.mkdirs()) {

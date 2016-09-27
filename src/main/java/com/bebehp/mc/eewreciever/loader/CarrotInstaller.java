@@ -103,8 +103,8 @@ public class CarrotInstaller {
 			final URL remote = new URL(dev.remote);
 
 			final HttpURLConnection connection = (HttpURLConnection) remote.openConnection();
-			connection.setConnectTimeout(5000);
-			connection.setReadTimeout(5000);
+			connection.setConnectTimeout(10000);
+			connection.setReadTimeout(10000);
 			connection.setRequestProperty("User-Agent", Reference.MODID + " Downloader");
 
 			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
@@ -114,7 +114,8 @@ public class CarrotInstaller {
 			FileUtils.copyInputStreamToFile(is, downloadingFile);
 			Reference.logger.info("Download complete {}", downloadingFile);
 		} catch (final Exception e) {
-			downloadingFile.delete();
+			if (downloadingFile != null)
+				downloadingFile.delete();
 			throw new RuntimeException("A download error occured", e);
 		}
 	}

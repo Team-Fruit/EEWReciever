@@ -27,6 +27,9 @@ public class QuakeMain {
 		this.tweetQuake = tweetQuake;
 	}
 
+	private QuakeMain() {
+	}
+
 	@SubscribeEvent
 	public void onServerTick(final ServerTickEvent event) {
 		try {

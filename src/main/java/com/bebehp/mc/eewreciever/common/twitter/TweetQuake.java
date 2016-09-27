@@ -66,8 +66,6 @@ public class TweetQuake implements IQuake {
 		}
 	}
 
-
-
 	@Override
 	public List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException {
 		if (this.updatequeue.isEmpty())

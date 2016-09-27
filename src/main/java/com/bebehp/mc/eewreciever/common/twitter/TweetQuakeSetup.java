@@ -9,7 +9,6 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 public class TweetQuakeSetup {
-	public static final TweetQuakeSetup INSTANCE = new TweetQuakeSetup();
 
 	private final Twitter twitter;
 	private AccessToken accessToken;
@@ -17,11 +16,8 @@ public class TweetQuakeSetup {
 
 	public TweetQuakeSetup() {
 		this.twitter = TwitterFactory.getSingleton();
-	}
-
-	public TweetQuakeSetup setOAuthConsumer() {
-		this.twitter.setOAuthConsumer(EEWRecieverMod.tweetQuakeKey.getKey1(), EEWRecieverMod.tweetQuakeKey.getKey2());
-		return this;
+		if (EEWRecieverMod.tweetQuakeKey != null)
+			this.twitter.setOAuthConsumer(EEWRecieverMod.tweetQuakeKey.getKey1(), EEWRecieverMod.tweetQuakeKey.getKey2());
 	}
 
 	public String getAuthURL() throws TwitterException {

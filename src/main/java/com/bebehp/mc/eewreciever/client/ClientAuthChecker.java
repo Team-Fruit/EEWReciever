@@ -8,12 +8,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ClientAuthChecker {
 
 	public static final ClientAuthChecker INSTANCE = new ClientAuthChecker();
 	public static boolean notification = true;
 
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onTick(final ClientTickEvent event) {
 		if (EEWRecieverMod.accessToken == null && notification && event.phase == Phase.END && Minecraft.getMinecraft().thePlayer != null) {

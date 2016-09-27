@@ -65,7 +65,7 @@ public class P2PQuake implements IQuake {
 	public final HttpClient httpClient = getHttpClient();
 	public static HttpClient getHttpClient() {
 		// request configuration
-		final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(5000).build();
+		final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000).setSocketTimeout(10000).build();
 		// headers
 		final List<Header> headers = new ArrayList<Header>();
 		headers.add(new BasicHeader("Accept-Charset", "Shift_JIS"));

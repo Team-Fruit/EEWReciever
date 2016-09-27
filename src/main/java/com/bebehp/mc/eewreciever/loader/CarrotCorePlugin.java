@@ -6,6 +6,7 @@ import com.bebehp.mc.eewreciever.Reference;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
+@IFMLLoadingPlugin.Name(value = Reference.MODID)
 @IFMLLoadingPlugin.MCVersion(value = Reference.MINECRAFT)
 public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
@@ -26,7 +27,7 @@ public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
 	@Override
 	public void injectData(final Map<String, Object> data) {
-		final Boolean isDev = !(Boolean) data.get("runtimeDeobfuscationEnabled");
+		final boolean isDev = !(Boolean) data.get("runtimeDeobfuscationEnabled");
 		final CarrotInstaller carrotInstaller = new CarrotInstaller();
 		if (isDev)
 			carrotInstaller.devInstall();

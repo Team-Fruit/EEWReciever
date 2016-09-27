@@ -5,12 +5,15 @@ import com.bebehp.mc.eewreciever.common.ChatUtil;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ServerAuthChecker {
 
 	public static final ServerAuthChecker INSTANCE = new ServerAuthChecker();
 	public static boolean notification = true;
 
+	@SideOnly(Side.SERVER)
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
 		final String name =  event.player.getGameProfile().getName();
