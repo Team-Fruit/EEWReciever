@@ -19,7 +19,8 @@ public class ClientAuthChecker {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onTick(final ClientTickEvent event) {
-		if (EEWRecieverMod.accessToken == null && notification && event.phase == Phase.END && Minecraft.getMinecraft().thePlayer != null) {
+		final Minecraft mc = Minecraft.getMinecraft();
+		if (EEWRecieverMod.accessToken == null && notification && mc.isSingleplayer() && event.phase == Phase.END && mc.thePlayer != null) {
 			final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			player.addChatComponentMessage(ChatUtil.byText("[EEWReciever]Twitter連携認証(緊急地震速報)がされていません！"));
 			player.addChatComponentMessage(ChatUtil.byText("/eew setup でセットアップを開始します"));

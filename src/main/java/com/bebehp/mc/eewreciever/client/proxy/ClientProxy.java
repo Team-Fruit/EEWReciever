@@ -25,6 +25,6 @@ public class ClientProxy extends CommonProxy {
 	public void serverLoad(final FMLServerStartingEvent event){
 		super.serverLoad(event);
 
-		event.registerServerCommand(new ClientEEWCommand(new TweetQuakeSetup()));
+		event.registerServerCommand(new ClientEEWCommand(new TweetQuakeSetup(EEWRecieverMod.tweetQuakeKey)));
 	}
 }
