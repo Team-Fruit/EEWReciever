@@ -1,6 +1,7 @@
 package com.bebehp.mc.eewreciever.common.proxy;
 
 import java.io.File;
+import java.io.IOException;
 
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
@@ -11,16 +12,18 @@ import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeFileManager;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.server.FMLServerHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 public abstract class CommonProxy {
 
 	public void preInit(final FMLPreInitializationEvent event) {
 		Reference.logger = event.getModLog();
-		EEWRecieverMod.folderDir = new File(event.getModConfigurationDirectory(), Reference.MODID);
-		final File configFileDir = new File(EEWRecieverMod.folderDir, Reference.MODID + ".cfg");
-		// EEWReciever.cfgの移動に伴うファイル移動
-		checkConfigFile(event.getSuggestedConfigurationFile(), configFileDir);
+
+		final File dataDir = new File(event.getModConfigurationDirectory(), Reference.MODID);
+		if (dataDir.exists())
+			dataDir.mkdirs();
+		final File configFileDir = new File(dataDir, Reference.MODID + ".cfg");
 		ConfigurationHandler.init(configFileDir);
 
 		Reference.logger.info("Loading the files...");
@@ -38,17 +41,14 @@ public abstract class CommonProxy {
 	public void serverLoad(final FMLServerStartingEvent event){
 	}
 
-	public static void createFolders() {
-		if (!EEWRecieverMod.folderDir.exists()) {
-			if (!EEWRecieverMod.folderDir.mkdirs()) {
-				Reference.logger.warn("Could not create EEWReciever directory [{}]!", EEWRecieverMod.folderDir.getAbsolutePath());
-			}
+	public static File getModDataDir() {
+		final File mcDataDir = FMLServerHandler.instance().getSavesDirectory();
+		try {
+			return new File(mcDataDir.getCanonicalFile(), "config/" + Reference.MODID);
+		} catch (final IOException e) {
+			Reference.logger.error("Could not canonize path!", e);
+			return new File(mcDataDir, "config/" + Reference.MODID);
 		}
-	}
-
-	public static void checkConfigFile(final File oldConfigFile, final File configDir) {
-		if (oldConfigFile.exists())
-			oldConfigFile.renameTo(configDir);
 	}
 
 }

@@ -2,7 +2,6 @@ package com.bebehp.mc.eewreciever.common.handler;
 import java.io.File;
 
 import com.bebehp.mc.eewreciever.Reference;
-import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -32,7 +31,6 @@ public class ConfigurationHandler {
 
 	public static void init(final File configFile) {
 		if (configuration == null) {
-			CommonProxy.createFolders();
 			configuration = new Configuration(configFile, VERSION);
 			loadConfiguration();
 		}

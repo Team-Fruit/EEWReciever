@@ -1,6 +1,5 @@
 package com.bebehp.mc.eewreciever;
 
-import java.io.File;
 import java.util.Map;
 
 import com.bebehp.mc.eewreciever.common.ChatUtil;
@@ -24,7 +23,6 @@ public class EEWRecieverMod {
 	@SidedProxy(serverSide = Reference.PROXY_SERVER, clientSide = Reference.PROXY_CLIENT)
 	public static CommonProxy proxy;
 
-	public static File folderDir;
 	public static TweetQuakeKey tweetQuakeKey;
 	public static AccessToken accessToken;
 

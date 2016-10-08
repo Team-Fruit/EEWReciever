@@ -17,7 +17,6 @@ import java.util.zip.ZipEntry;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
-import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
 
@@ -31,7 +30,7 @@ import twitter4j.auth.AccessToken;
  */
 public class TweetQuakeFileManager {
 
-	protected static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "setting.dat");
+	public static final File accessTokenFile = new File(CommonProxy.getModDataDir(), "setting.dat");
 
 	/**
 	 * jarファイル内のfile.eewを読み込みます<br>
@@ -93,7 +92,6 @@ public class TweetQuakeFileManager {
 	 * @param accessToken
 	 */
 	public static void storeAccessToken(final AccessToken accessToken) {
-		CommonProxy.createFolders();
 		ObjectOutputStream outputStream = null;
 		try {
 			outputStream = new ObjectOutputStream(new FileOutputStream(accessTokenFile));

@@ -44,14 +44,9 @@ public class CarrotInstaller {
 		public String local;
 	}
 
-	public void install() {
-		final List<CarrotDep> carrotDep = load("carrotdep.info");
-		if (carrotDep != null)
-			install(carrotDep);
-	}
-
-	public void devInstall() {
-		final List<CarrotDep> carrotDep = devLoad("carrotdep.info");
+	public void install(final boolean isDev) {
+		final String fileName = "carrotdep.info";
+		final List<CarrotDep> carrotDep = !isDev ? load(fileName) : devLoad(fileName);
 		if (carrotDep != null)
 			install(carrotDep);
 	}
