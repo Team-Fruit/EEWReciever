@@ -2,7 +2,6 @@ package com.bebehp.mc.eewreciever;
 
 import java.util.Map;
 
-import com.bebehp.mc.eewreciever.common.ChatUtil;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeKey;
 

@@ -1,6 +1,6 @@
 package com.bebehp.mc.eewreciever.server;
 
-import com.bebehp.mc.eewreciever.common.ChatUtil;
+import com.bebehp.mc.eewreciever.ChatUtil;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

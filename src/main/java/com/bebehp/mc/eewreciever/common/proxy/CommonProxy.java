@@ -9,10 +9,10 @@ import com.bebehp.mc.eewreciever.common.QuakeMain;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeFileManager;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.server.FMLServerHandler;
 import net.minecraftforge.common.MinecraftForge;
 
 public abstract class CommonProxy {
@@ -23,7 +23,7 @@ public abstract class CommonProxy {
 		final File dataDir = new File(event.getModConfigurationDirectory(), Reference.MODID);
 		if (dataDir.exists())
 			dataDir.mkdirs();
-		final File configFileDir = new File(dataDir, Reference.MODID + ".cfg");
+		final File configFileDir = new File(dataDir, Reference.MODID+".cfg");
 		ConfigurationHandler.init(configFileDir);
 
 		Reference.logger.info("Loading the files...");
@@ -38,16 +38,16 @@ public abstract class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(ConfigurationHandler.INSTANCE);
 	}
 
-	public void serverLoad(final FMLServerStartingEvent event){
+	public void serverLoad(final FMLServerStartingEvent event) {
 	}
 
 	public static File getModDataDir() {
-		final File mcDataDir = FMLServerHandler.instance().getSavesDirectory();
+		final File configDir = Loader.instance().getConfigDir();
 		try {
-			return new File(mcDataDir.getCanonicalFile(), "config/" + Reference.MODID);
+			return new File(configDir.getCanonicalFile(), Reference.MODID);
 		} catch (final IOException e) {
 			Reference.logger.error("Could not canonize path!", e);
-			return new File(mcDataDir, "config/" + Reference.MODID);
+			return new File(configDir, "config/"+Reference.MODID);
 		}
 	}
 

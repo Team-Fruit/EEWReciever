@@ -26,6 +26,8 @@ public class TweetQuake implements IQuake {
 	private final Twitter twitter;
 	private final StatusListener listener;
 
+	private boolean status;
+
 	public TweetQuake() {
 		this.twitterStream = new TwitterStreamFactory().getInstance();
 		this.twitter = new TwitterFactory().getInstance();
@@ -33,7 +35,8 @@ public class TweetQuake implements IQuake {
 			@Override
 			public void onStatus(final Status status) {
 				try {
-					if (status.getInReplyToScreenName() == null && (!status.isRetweet() || ConfigurationHandler.debugMode)) {
+					if (status.getInReplyToScreenName()==null&&
+							(!status.isRetweet()||ConfigurationHandler.debugMode)&&TweetQuake.this.status) {
 						final String str = new String(status.getText().getBytes("UTF-8"), "UTF-8").intern();
 						TweetQuake.this.updatequeue.add(new TweetQuakeNode().parseString(str));
 					}
@@ -48,13 +51,11 @@ public class TweetQuake implements IQuake {
 		this.twitterStream.addListener(this.listener);
 
 		if (ConfigurationHandler.twitterEnable) {
-			if (EEWRecieverMod.tweetQuakeKey != null) {
-				if (EEWRecieverMod.accessToken != null) {
+			if (EEWRecieverMod.tweetQuakeKey!=null) {
+				if (EEWRecieverMod.accessToken!=null) {
 					this.twitterStream.setOAuthConsumer(EEWRecieverMod.tweetQuakeKey.getKey1(), EEWRecieverMod.tweetQuakeKey.getKey2());
 					this.twitterStream.setOAuthAccessToken(EEWRecieverMod.accessToken);
-					final long[] list = {214358709L}; //from:eewbot;
-					final FilterQuery query = new FilterQuery(list);
-					this.twitterStream.filter(query);
+					this.twitterStream.filter(new FilterQuery(214358709L)); //@eewbot
 					Reference.logger.info("Starting Twitter Stream");
 				} else {
 					Reference.logger.info("Twitter authentication was not possible!");
@@ -74,5 +75,10 @@ public class TweetQuake implements IQuake {
 		final List<AbstractQuakeNode> ret = new LinkedList<AbstractQuakeNode>(this.updatequeue);
 		this.updatequeue.clear();
 		return ret;
+	}
+
+	@Override
+	public void setStatus(final boolean enabled) {
+		this.status = enabled;
 	}
 }

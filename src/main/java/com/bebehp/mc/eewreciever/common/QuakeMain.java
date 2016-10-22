@@ -14,10 +14,22 @@ import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 public class QuakeMain {
 	public static final QuakeMain INSTANCE = new QuakeMain();
 
+	private boolean status = true;
 	private IQuake p2pQuake = new P2PQuake();
 	private IQuake tweetQuake = new TweetQuake();
 
-	long lasttime;
+	private QuakeMain() {
+	}
+
+	public void setStatus(final boolean enabled) {
+		this.status = enabled;
+		this.p2pQuake.setStatus(enabled);
+		this.tweetQuake.setStatus(enabled);
+	}
+
+	public boolean getStatus() {
+		return this.status;
+	}
 
 	public void setP2PQuake(final P2PQuake p2pQuake) {
 		this.p2pQuake = p2pQuake;
@@ -27,21 +39,22 @@ public class QuakeMain {
 		this.tweetQuake = tweetQuake;
 	}
 
-	private QuakeMain() {
-	}
-
 	@SubscribeEvent
 	public void onServerTick(final ServerTickEvent event) {
-		try {
-			final List<AbstractQuakeNode> p2pQuakeNode = this.p2pQuake.getQuakeUpdate();
-			if (ConfigurationHandler.p2pQuakeEnable)
-				checkUpdate(p2pQuakeNode);
+		if (this.status) {
+			try {
+				final List<AbstractQuakeNode> p2pQuakeNode = this.p2pQuake.getQuakeUpdate();
+				if (ConfigurationHandler.p2pQuakeEnable) {
+					checkUpdate(p2pQuakeNode);
+				}
 
-			final List<AbstractQuakeNode> tweetQuakeNode = this.tweetQuake.getQuakeUpdate();
-			if (ConfigurationHandler.twitterEnable)
-				checkUpdate(tweetQuakeNode);
-		} catch (final QuakeException e) {
-			Reference.logger.error(e);
+				final List<AbstractQuakeNode> tweetQuakeNode = this.tweetQuake.getQuakeUpdate();
+				if (ConfigurationHandler.twitterEnable) {
+					checkUpdate(tweetQuakeNode);
+				}
+			} catch (final QuakeException e) {
+				Reference.logger.error(e);
+			}
 		}
 	}
 
@@ -50,7 +63,7 @@ public class QuakeMain {
 			if (ConfigurationHandler.debugMode) {
 				EEWRecieverMod.sendServerChat(up.toString());
 			} else if (!up.isTraining()) {
-				if (ConfigurationHandler.forceLevel || up.isAlarm())
+				if (ConfigurationHandler.forceLevel||up.isAlarm())
 					EEWRecieverMod.sendServerChat(up.toString());
 			}
 		}

@@ -46,10 +46,10 @@ public class TweetQuakeFileManager {
 			if (runFile.isFile()) {
 				jar = new JarFile(runFile);
 				final ZipEntry ze = jar.getEntry(fileName);
-				if (ze != null)
+				if (ze!=null)
 					return load(jar.getInputStream(ze));
 			} else {
-				//				Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Reference.MODID));
+				//								Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Reference.MODID));
 				final File keyFile = new File(runFile, fileName);
 				return load(new FileInputStream(keyFile));
 			}
@@ -78,7 +78,7 @@ public class TweetQuakeFileManager {
 		final ObjectInputStream ois = new ObjectInputStream(bais);
 		TweetQuakeKey tweetQuakeKey = null;
 		try {
-			tweetQuakeKey = (TweetQuakeKey)ois.readObject();
+			tweetQuakeKey = (TweetQuakeKey) ois.readObject();
 		} catch (final ClassNotFoundException e) {
 			Reference.logger.error(e);
 		}
@@ -111,7 +111,7 @@ public class TweetQuakeFileManager {
 		ObjectInputStream inputStream = null;
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream(accessTokenFile));
-			return (AccessToken)inputStream.readObject();
+			return (AccessToken) inputStream.readObject();
 		} catch (final FileNotFoundException e) {
 			try {
 				if (!accessTokenFile.createNewFile())

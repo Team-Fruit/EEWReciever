@@ -12,6 +12,8 @@ public interface IQuake {
 	 * 地震情報の差分を取得します。
 	 * @return 地震情報
 	 */
-	public List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException;
+	List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException;
+
+	void setStatus(boolean enabled);
 
 }

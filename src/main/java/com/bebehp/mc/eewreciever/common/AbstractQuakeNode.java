@@ -1,10 +1,8 @@
 package com.bebehp.mc.eewreciever.common;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-
-import com.bebehp.mc.eewreciever.Reference;
 
 public abstract class AbstractQuakeNode {
 	/**
@@ -56,21 +54,21 @@ public abstract class AbstractQuakeNode {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+		result = prime*result+((this.id==null) ? 0 : this.id.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj)
+		if (this==obj)
 			return true;
-		if (obj == null)
+		if (obj==null)
 			return false;
 		if (!(obj instanceof AbstractQuakeNode))
 			return false;
 		final AbstractQuakeNode other = (AbstractQuakeNode) obj;
-		if (this.id == null) {
-			if (other.id != null)
+		if (this.id==null) {
+			if (other.id!=null)
 				return false;
 		} else if (!this.id.equals(other.id))
 			return false;
@@ -79,14 +77,14 @@ public abstract class AbstractQuakeNode {
 
 	@Override
 	public String toString() {
-		return Reference.NAME;
+		return this.id;
 	}
 
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
 
 	public static List<AbstractQuakeNode> getUpdate(final List<AbstractQuakeNode> older,
 			final List<AbstractQuakeNode> newer) {
-		final ArrayList<AbstractQuakeNode> list = new ArrayList<AbstractQuakeNode>(newer);
+		final List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>(newer);
 		list.removeAll(older);
 
 		return list;

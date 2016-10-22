@@ -6,8 +6,8 @@ import com.bebehp.mc.eewreciever.Reference;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
-@IFMLLoadingPlugin.Name(value = Reference.MODID)
-@IFMLLoadingPlugin.MCVersion(value = Reference.MINECRAFT)
+@IFMLLoadingPlugin.Name(value = "EEWReciever")
+@IFMLLoadingPlugin.MCVersion(value = "1.7.10")
 public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
 	@Override
@@ -27,6 +27,7 @@ public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
 	@Override
 	public void injectData(final Map<String, Object> data) {
+		Reference.logger.info("Core Load... EEWReciever");
 		final boolean isDev = !(Boolean) data.get("runtimeDeobfuscationEnabled");
 		new CarrotInstaller().install(isDev);
 	}
