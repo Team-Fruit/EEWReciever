@@ -47,7 +47,7 @@ public abstract class CommonProxy {
 			return new File(configDir.getCanonicalFile(), Reference.MODID);
 		} catch (final IOException e) {
 			Reference.logger.error("Could not canonize path!", e);
-			return new File(configDir, "config/"+Reference.MODID);
+			return new File(configDir, Reference.MODID);
 		}
 	}
 
