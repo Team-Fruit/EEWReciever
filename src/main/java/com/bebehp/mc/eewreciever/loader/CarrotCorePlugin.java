@@ -27,12 +27,9 @@ public class CarrotCorePlugin implements IFMLLoadingPlugin {
 
 	@Override
 	public void injectData(final Map<String, Object> data) {
+		Reference.logger.info("Core Load... EEWReciever");
 		final boolean isDev = !(Boolean) data.get("runtimeDeobfuscationEnabled");
-		final CarrotInstaller carrotInstaller = new CarrotInstaller();
-		if (isDev)
-			carrotInstaller.devInstall();
-		else
-			carrotInstaller.install();
+		new CarrotInstaller().install(isDev);
 	}
 
 	@Override

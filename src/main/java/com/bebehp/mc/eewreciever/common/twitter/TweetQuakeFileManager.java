@@ -17,7 +17,6 @@ import java.util.zip.ZipEntry;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
-import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.common.proxy.CommonProxy;
 
@@ -31,7 +30,7 @@ import twitter4j.auth.AccessToken;
  */
 public class TweetQuakeFileManager {
 
-	protected static final File accessTokenFile = new File(EEWRecieverMod.folderDir, "setting.dat");
+	public static final File accessTokenFile = new File(CommonProxy.getModDataDir(), "setting.dat");
 
 	/**
 	 * 	 * jarファイル内のfile.eewを読み込みます<br>
@@ -47,10 +46,10 @@ public class TweetQuakeFileManager {
 			if (runFile.isFile()) {
 				jar = new JarFile(runFile);
 				final ZipEntry ze = jar.getEntry(fileName);
-				if (ze != null)
+				if (ze!=null)
 					return load(jar.getInputStream(ze));
 			} else {
-				//				Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Reference.MODID));
+				//								Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Reference.MODID));
 				final File keyFile = new File(runFile, fileName);
 				return load(new FileInputStream(keyFile));
 			}
@@ -79,7 +78,7 @@ public class TweetQuakeFileManager {
 		final ObjectInputStream ois = new ObjectInputStream(bais);
 		TweetQuakeKey tweetQuakeKey = null;
 		try {
-			tweetQuakeKey = (TweetQuakeKey)ois.readObject();
+			tweetQuakeKey = (TweetQuakeKey) ois.readObject();
 		} catch (final ClassNotFoundException e) {
 			Reference.logger.error(e);
 		}
@@ -93,7 +92,6 @@ public class TweetQuakeFileManager {
 	 * @param accessToken
 	 */
 	public static void storeAccessToken(final AccessToken accessToken) {
-		CommonProxy.createFolders();
 		ObjectOutputStream outputStream = null;
 		try {
 			outputStream = new ObjectOutputStream(new FileOutputStream(accessTokenFile));
@@ -113,7 +111,7 @@ public class TweetQuakeFileManager {
 		ObjectInputStream inputStream = null;
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream(accessTokenFile));
-			return (AccessToken)inputStream.readObject();
+			return (AccessToken) inputStream.readObject();
 		} catch (final FileNotFoundException e) {
 			try {
 				if (!accessTokenFile.createNewFile())

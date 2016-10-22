@@ -1,6 +1,6 @@
 package com.bebehp.mc.eewreciever.server;
 
-import com.bebehp.mc.eewreciever.common.ChatUtil;
+import com.bebehp.mc.eewreciever.ChatUtil;
 
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

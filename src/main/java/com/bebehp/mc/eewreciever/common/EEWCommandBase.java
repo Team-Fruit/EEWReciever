@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.bebehp.mc.eewreciever.ChatUtil;
 import com.bebehp.mc.eewreciever.EEWRecieverMod;
 import com.bebehp.mc.eewreciever.Reference;
 import com.bebehp.mc.eewreciever.client.ClientAuthChecker;
@@ -62,9 +63,9 @@ public abstract class EEWCommandBase extends CommandBase {
 
 	@Override
 	public void execute(final MinecraftServer server, final ICommandSender icommandsender, final String[] astring) throws CommandException {
-		if (astring.length >= 1 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) {
-			if (ConfigurationHandler.debugMode || !limitInDebugMode()) {
-				if (astring.length >= 2) {
+		if (astring.length>=1&&(StringUtils.equalsIgnoreCase(astring[0], "p2p")||StringUtils.equalsIgnoreCase(astring[0], "p"))) {
+			if (ConfigurationHandler.debugMode||!limitInDebugMode()) {
+				if (astring.length>=2) {
 					final String chat = buildString(astring, 1);
 					try {
 						EEWRecieverMod.sendServerChat(new P2PQuakeNode().parseString(chat).toString());
@@ -77,9 +78,9 @@ public abstract class EEWCommandBase extends CommandBase {
 			} else {
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("For debug mode is disabled, this command is not available").setStyle(new Style().setColor(TextFormatting.RED)));
 			}
-		} else if (astring.length >= 1 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) {
-			if (ConfigurationHandler.debugMode || !limitInDebugMode()) {
-				if (astring.length >= 2) {
+		} else if (astring.length>=1&&(StringUtils.equalsIgnoreCase(astring[0], "twitter")||StringUtils.equalsIgnoreCase(astring[0], "t"))) {
+			if (ConfigurationHandler.debugMode||!limitInDebugMode()) {
+				if (astring.length>=2) {
 					final String chat = buildString(astring, 1);
 					try {
 						EEWRecieverMod.sendServerChat(new TweetQuakeNode().parseString(chat).toString());
@@ -92,13 +93,13 @@ public abstract class EEWCommandBase extends CommandBase {
 			} else {
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("For debug mode is disabled, this command is not available").setStyle(new Style().setColor(TextFormatting.RED)));
 			}
-		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "setup")) {
+		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "setup")) {
 			if (ConfigurationHandler.twitterEnable) {
-				if (astring.length >= 2) {
+				if (astring.length>=2) {
 					if (StringUtils.equalsIgnoreCase(astring[1], "pin")) {
-						if (this.setupSender == null || this.setupSender == icommandsender) {
+						if (this.setupSender==null||this.setupSender==icommandsender) {
 							final String chat = buildString(astring, 2);
-							if (StringUtils.isNumeric(chat) && chat.length() == 7) {
+							if (StringUtils.isNumeric(chat)&&chat.length()==7) {
 								try {
 									final AccessToken accessToken = this.tweetQuakeSetup.getAccessToken(chat);
 									TweetQuakeFileManager.storeAccessToken(accessToken);
@@ -132,8 +133,8 @@ public abstract class EEWCommandBase extends CommandBase {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eewreciever setup pin <Pin>"));
 					}
 				} else {
-					if (this.setupSender == null) {
-						if (EEWRecieverMod.accessToken == null) {
+					if (this.setupSender==null) {
+						if (EEWRecieverMod.accessToken==null) {
 							this.setupSender = icommandsender;
 							ClientAuthChecker.notification = false;
 							ServerAuthChecker.notification = false;
@@ -153,7 +154,7 @@ public abstract class EEWCommandBase extends CommandBase {
 						} else {
 							ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携は設定済みです！").setStyle(new Style().setColor(TextFormatting.RED)));
 						}
-					} else if (this.setupSender == icommandsender){
+					} else if (this.setupSender==icommandsender) {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("あなたは現在Setupを実行中です！").setStyle(new Style().setColor(TextFormatting.RED)));
 					} else {
 						ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Setupは現在利用出来ません").setStyle(new Style().setColor(TextFormatting.RED)));
@@ -162,8 +163,8 @@ public abstract class EEWCommandBase extends CommandBase {
 			} else {
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Twitter連携が無効な為 利用できません").setStyle(new Style().setColor(TextFormatting.RED)));
 			}
-		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "deletesettings")) {
-			if (astring.length >= 2) {
+		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "deletesettings")) {
+			if (astring.length>=2) {
 				final String chat = buildString(astring, 1);
 				if (StringUtils.equalsIgnoreCase(astring[1], this.randomString)) {
 					if (TweetQuakeFileManager.deleteAccessTokenFile()) {
@@ -176,16 +177,30 @@ public abstract class EEWCommandBase extends CommandBase {
 				}
 			} else {
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("本当に消去しますか？実行するにはチャットをクリックして下さい")
-						.setStyle(new Style().setColor(TextFormatting.LIGHT_PURPLE).setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever deletesettings " + this.randomString))));
+						.setStyle(new Style().setColor(TextFormatting.LIGHT_PURPLE).setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever deletesettings "+this.randomString))));
 			}
-		} else if (astring.length >= 1 && StringUtils.equalsIgnoreCase(astring[0], "help")) {
+		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "enabled")) {
+			if (!QuakeMain.INSTANCE.getStatus()) {
+				QuakeMain.INSTANCE.setStatus(true);
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("[EEWReciever] Enabled"));
+			} else {
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("EEWRecieverはすでに有効です。").setStyle(new Style().setColor(TextFormatting.RED)));
+			}
+		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "disabled")) {
+			if (QuakeMain.INSTANCE.getStatus()) {
+				QuakeMain.INSTANCE.setStatus(false);
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("[EEWReciever] Disabled"));
+			} else {
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("EEWRecieverはすでに無効です。").setStyle(new Style().setColor(TextFormatting.RED)));
+			}
+		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "help")) {
 			final List<String> list = new LinkedList<String>(Arrays.asList("setup", "deletesettings"));
 			if (ConfigurationHandler.debugMode)
 				list.addAll(Arrays.asList("p2p", "twitter"));
 
 			ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("--- Help page ---").setStyle(new Style().setColor(TextFormatting.DARK_GREEN)));
 			for (final String line : list) {
-				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eew " + TextFormatting.YELLOW + line));
+				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("/eew "+TextFormatting.YELLOW+line));
 			}
 		} else {
 			ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("Unknown command. Try /eew help for a list of commands").setStyle(new Style().setColor(TextFormatting.RED)));
@@ -194,15 +209,15 @@ public abstract class EEWCommandBase extends CommandBase {
 
 	@Override
 	public List<String> getTabCompletionOptions(final MinecraftServer server, final ICommandSender sender, final String[] astring, @Nullable final BlockPos pos) {
-		if (astring.length <= 1 && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
+		if (astring.length<=1&&(ConfigurationHandler.debugMode||!limitInDebugMode())) {
 			return getListOfStringsMatchingLastWord(astring, "p2p", "twitter", "setup", "deletesettings");
-		} else if (astring.length == 1) {
+		} else if (astring.length==1) {
 			return getListOfStringsMatchingLastWord(astring, "setup", "deletesettings");
-		} else if ((astring.length == 2 && (StringUtils.equalsIgnoreCase(astring[0], "p2p") || StringUtils.equalsIgnoreCase(astring[0], "p"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
+		} else if ((astring.length==2&&(StringUtils.equalsIgnoreCase(astring[0], "p2p")||StringUtils.equalsIgnoreCase(astring[0], "p")))&&(ConfigurationHandler.debugMode||!limitInDebugMode())) {
 			return Arrays.asList("00:00:00,QUA,01日00時00分/1/0/4/宮城県沖/10km/3.5/0/N35.0/E140.0/サンプル");
-		} else if ((astring.length == 2 && (StringUtils.equalsIgnoreCase(astring[0], "twitter") || StringUtils.equalsIgnoreCase(astring[0], "t"))) && (ConfigurationHandler.debugMode || !limitInDebugMode())) {
+		} else if ((astring.length==2&&(StringUtils.equalsIgnoreCase(astring[0], "twitter")||StringUtils.equalsIgnoreCase(astring[0], "t")))&&(ConfigurationHandler.debugMode||!limitInDebugMode())) {
 			return Arrays.asList("37,00,2011/04/03 23:53:51,0,1,NDID,2011/04/03 23:53:21,37.8,142.3,宮城県沖,10,2.5,1,1,0,サンプル");
-		} else if (astring.length == 2 && StringUtils.equalsIgnoreCase(astring[0], "setup")) {
+		} else if (astring.length==2&&StringUtils.equalsIgnoreCase(astring[0], "setup")) {
 			return getListOfStringsMatchingLastWord(astring, "pin", "geturl", "stop");
 		} else {
 			return null;

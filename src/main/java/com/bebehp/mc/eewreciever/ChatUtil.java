@@ -1,4 +1,4 @@
-package com.bebehp.mc.eewreciever.common;
+package com.bebehp.mc.eewreciever;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -38,18 +38,17 @@ public abstract class ChatUtil {
 	public static ITextComponent byJson(final String json) throws SyntaxErrorException {
 		try {
 			return ITextComponent.Serializer.jsonToComponent(json);
-		}
-		catch (final JsonParseException e) {
+		} catch (final JsonParseException e) {
 			final Throwable throwable = ExceptionUtils.getRootCause(e);
 			String s = "";
 
-			if (throwable != null) {
+			if (throwable!=null) {
 				s = throwable.getMessage();
 
 				if (s.contains("setLenient"))
-					s = s.substring(s.indexOf("to accept ") + 10);
+					s = s.substring(s.indexOf("to accept ")+10);
 			}
-			throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] {s});
+			throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] { s });
 		}
 	}
 }

@@ -29,16 +29,20 @@ import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
 public class P2PQuake implements IQuake {
 
 	public static final String API_PATH = "http://api.p2pquake.net/userquake";
-	public static long WaitMilliSeconds = 1000 * 15;
+	public static long WaitMilliSeconds = 1000*15;
 
 	private static List<AbstractQuakeNode> empty = new LinkedList<AbstractQuakeNode>();
 
+	private boolean status;
+
 	public String getURL() {
 		final SimpleDateFormat format = new SimpleDateFormat("M/d");
-		return API_PATH + "?date=" + format.format(new Date());
+		return API_PATH+"?date="+format.format(new Date());
 	}
 
 	public List<AbstractQuakeNode> dlData(final String path) throws IOException, QuakeException {
+		if (!this.status)
+			return empty;
 		final List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>();
 		InputStream is = null;
 		try {
@@ -51,7 +55,7 @@ public class P2PQuake implements IQuake {
 			final BufferedReader reader = new BufferedReader(isr);
 
 			String line;
-			while (ConfigurationHandler.p2pQuakeEnable && (line = reader.readLine()) != null) {
+			while (ConfigurationHandler.p2pQuakeEnable&&(line = reader.readLine())!=null) {
 				list.add(new P2PQuakeNode().parseString(line));
 			}
 		} catch (final SocketTimeoutException e) {
@@ -63,6 +67,7 @@ public class P2PQuake implements IQuake {
 	}
 
 	public final HttpClient httpClient = getHttpClient();
+
 	public static HttpClient getHttpClient() {
 		// request configuration
 		final RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(10000).setSocketTimeout(10000).build();
@@ -90,16 +95,21 @@ public class P2PQuake implements IQuake {
 	public List<AbstractQuakeNode> getQuakeUpdate() throws QuakeException {
 		List<AbstractQuakeNode> update = empty;
 
-		final long nowtime = new Date().getTime();
-		if (nowtime - this.lasttime > WaitMilliSeconds) {
+		final long nowtime = System.currentTimeMillis();
+		if (nowtime-this.lasttime>WaitMilliSeconds) {
 			this.lasttime = nowtime;
 			final List<AbstractQuakeNode> now = getQuake();
-			if (now != null) {
-				if (this.before != null)
+			if (now!=null) {
+				if (this.before!=null)
 					update = AbstractQuakeNode.getUpdate(this.before, now);
 				this.before = now;
 			}
 		}
 		return update;
+	}
+
+	@Override
+	public void setStatus(final boolean enabled) {
+		this.status = enabled;
 	}
 }
