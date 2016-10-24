@@ -39,7 +39,7 @@ public class EEWRecieverMod {
 	}
 
 	@EventHandler
-	public void serverLoad(final FMLServerStartingEvent event){
+	public void serverLoad(final FMLServerStartingEvent event) {
 		proxy.serverLoad(event);
 	}
 
