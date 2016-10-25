@@ -33,7 +33,7 @@ public class P2PQuake implements IQuake {
 
 	private static List<AbstractQuakeNode> empty = new LinkedList<AbstractQuakeNode>();
 
-	private boolean status;
+	private boolean status = true;
 
 	public String getURL() {
 		final SimpleDateFormat format = new SimpleDateFormat("M/d");

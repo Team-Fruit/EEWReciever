@@ -26,7 +26,7 @@ public class TweetQuake implements IQuake {
 	private final Twitter twitter;
 	private final StatusListener listener;
 
-	private boolean status;
+	private boolean status = true;
 
 	public TweetQuake() {
 		this.twitterStream = new TwitterStreamFactory().getInstance();
