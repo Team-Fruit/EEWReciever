@@ -175,14 +175,14 @@ public abstract class EEWCommandBase extends CommandBase {
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("本当に消去しますか？実行するにはチャットをクリックして下さい")
 						.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever deletesettings "+this.randomString))));
 			}
-		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "enabled")) {
+		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "enable")) {
 			if (!QuakeMain.INSTANCE.getStatus()) {
 				QuakeMain.INSTANCE.setStatus(true);
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("[EEWReciever] Enabled"));
 			} else {
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("EEWRecieverはすでに有効です。").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 			}
-		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "disabled")) {
+		} else if (astring.length>=1&&StringUtils.equalsIgnoreCase(astring[0], "disable")) {
 			if (QuakeMain.INSTANCE.getStatus()) {
 				QuakeMain.INSTANCE.setStatus(false);
 				ChatUtil.sendPlayerChat(icommandsender, ChatUtil.byText("[EEWReciever] Disabled"));
@@ -206,7 +206,7 @@ public abstract class EEWCommandBase extends CommandBase {
 	@Override
 	public List<String> addTabCompletionOptions(final ICommandSender icommandsender, final String[] astring) {
 		if (astring.length<=1&&(ConfigurationHandler.debugMode||!limitInDebugMode())) {
-			return getListOfStringsMatchingLastWord(astring, "p2p", "twitter", "setup", "deletesettings", "enabled", "disabled");
+			return getListOfStringsMatchingLastWord(astring, "p2p", "twitter", "setup", "deletesettings", "enable", "disable");
 		} else if (astring.length==1) {
 			return getListOfStringsMatchingLastWord(astring, "setup", "deletesettings", "enabled", "disabled");
 		} else if ((astring.length==2&&(StringUtils.equalsIgnoreCase(astring[0], "p2p")||StringUtils.equalsIgnoreCase(astring[0], "p")))&&(ConfigurationHandler.debugMode||!limitInDebugMode())) {

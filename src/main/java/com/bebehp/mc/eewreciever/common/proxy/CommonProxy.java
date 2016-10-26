@@ -9,6 +9,7 @@ import com.bebehp.mc.eewreciever.common.QuakeMain;
 import com.bebehp.mc.eewreciever.common.handler.ConfigurationHandler;
 import com.bebehp.mc.eewreciever.common.twitter.TweetQuakeFileManager;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -34,8 +35,8 @@ public abstract class CommonProxy {
 	public void init(final FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
 
-		MinecraftForge.EVENT_BUS.register(QuakeMain.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(ConfigurationHandler.INSTANCE);
+		FMLCommonHandler.instance().bus().register(QuakeMain.INSTANCE);
+		FMLCommonHandler.instance().bus().register(ConfigurationHandler.INSTANCE);
 	}
 
 	public void serverLoad(final FMLServerStartingEvent event) {

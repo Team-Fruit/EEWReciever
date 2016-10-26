@@ -42,7 +42,7 @@ public class P2PQuake implements IQuake {
 
 	public List<AbstractQuakeNode> dlData(final String path) throws IOException, QuakeException {
 		if (!this.status)
-			return empty;
+			return null;
 		final List<AbstractQuakeNode> list = new LinkedList<AbstractQuakeNode>();
 		InputStream is = null;
 		try {
