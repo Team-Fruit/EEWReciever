@@ -1,13 +1,13 @@
 [
 {
-  "modid": "EEWReciever",
-  "name": "EEW Reciever",
+  "modid": "EEWReciever2",
+  "name": "EEWReciever2",
   "description": "Watch EEW Informations.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://fruit.bebehp.com/eewreciever",
+  "url": "https://github.com/Team-Fruit/EEWReciever",
   "updateUrl": "",
-  "authorList": ["sjcl", "Kamesuta"],
+  "authorList": ["sjcl"],
   "credits": "Copyright (C) 2016 TeamFruit",
   "logoFile": "mcicon.png",
   "screenshots": [],
