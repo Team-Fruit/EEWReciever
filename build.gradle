@@ -96,7 +96,7 @@ jar {
     }
     classifier = project.hasProperty('extra_classifier') ? project.extra_classifier : ''
     manifest {
-      attributes 'FMLCorePlugin' : 'com.bebehp.mc.eewreciever.loader.CarrotCorePlugin','FMLCorePluginContainsFMLMod':'true'
+      attributes 'FMLCorePlugin' : project.coreplugin,'FMLCorePluginContainsFMLMod':'true'
       commonManifest
     }
 }
