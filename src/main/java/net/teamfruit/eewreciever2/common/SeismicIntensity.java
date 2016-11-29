@@ -12,13 +12,13 @@ public enum SeismicIntensity {
 	SIX_MINUS(55, "6弱", 5.5F, 6F),
 	SIX_PLUS(60, "6強", 6F, 6.5F),
 	SEVEN(70, "7", 6.5F, Float.MAX_VALUE),
-	;
+	UNKNOWN(-1, "不明", Float.NaN, Float.NaN);
 	/*@formatter:on*/
 
-	private int p2pIntensity;
-	private String jpIntensity;
-	private float minMeasured;
-	private float maxMeasured;
+	private final int p2pIntensity;
+	private final String jpIntensity;
+	private final float minMeasured;
+	private final float maxMeasured;
 
 	private SeismicIntensity(final int p2pIntensity, final String jpIntensity, final float minMeasured, final float maxMeasured) {
 		this.p2pIntensity = p2pIntensity;
@@ -29,7 +29,7 @@ public enum SeismicIntensity {
 
 	/**
 	 * P2P地震情報 JSON APIの震度表現
-	 * @return 0~70
+	 * @return 0~70<br>UNKNOWNは-1
 	 */
 	public int getIntensity() {
 		return this.p2pIntensity;
@@ -37,10 +37,15 @@ public enum SeismicIntensity {
 
 	/**
 	 * 日本の震度階級
-	 * @return 0~7
+	 * @return 0~7<br>UNKNOWNは"不明"
 	 */
 	public String getJPNIntensity() {
 		return this.jpIntensity;
+	}
+
+	@Override
+	public String toString() {
+		return getJPNIntensity();
 	}
 
 	/**
@@ -52,7 +57,7 @@ public enum SeismicIntensity {
 		for (final SeismicIntensity line : SeismicIntensity.values())
 			if (line.getIntensity()==p2pIntensity)
 				return line;
-		return null;
+		return SeismicIntensity.UNKNOWN;
 	}
 
 	/**
@@ -64,7 +69,7 @@ public enum SeismicIntensity {
 		for (final SeismicIntensity line : SeismicIntensity.values())
 			if (line.getJPNIntensity().equals(jpIntensity))
 				return line;
-		return null;
+		return SeismicIntensity.UNKNOWN;
 	}
 
 	/**
@@ -76,6 +81,6 @@ public enum SeismicIntensity {
 		for (final SeismicIntensity line : SeismicIntensity.values())
 			if (line.minMeasured<=measuredIntensity&&line.maxMeasured>measuredIntensity)
 				return line;
-		return null;
+		return SeismicIntensity.UNKNOWN;
 	}
 }

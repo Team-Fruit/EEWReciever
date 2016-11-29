@@ -2,7 +2,7 @@ package net.teamfruit.eewreciever2.common;
 
 import cpw.mods.fml.common.eventhandler.Event;
 
-public abstract class QuakeEvent extends Event {
+public class QuakeEvent extends Event {
 
 	public static enum Type {
 		EEW, INFO, TSUNAMI;
