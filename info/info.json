@@ -3,8 +3,8 @@
         "1.7.10": {
         	"version": "0.0.1",
         	"remote": "",
-            "local": "EEWReciever2-1.7.10-0.0.1.jar", 
-            "message": "" 
+        	"local": "EEWReciever2-1.7.10-0.0.1.jar",
+        	"message": ""
         }
     },
 	"apis": {
