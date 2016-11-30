@@ -19,5 +19,6 @@
 !/.gitignore
 !/LICENSE
 !/info
+!/info/
 
 /src/main/resources/file.eew
