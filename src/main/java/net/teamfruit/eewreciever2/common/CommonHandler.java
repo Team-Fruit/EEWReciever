@@ -8,7 +8,7 @@ import net.teamfruit.eewreciever2.common.twitter.TweetQuakeClient;
 
 public class CommonHandler {
 	public static File modConfigDir;
-	public static QuakeMain main = new QuakeMain();
+	public static QuakeEventExecutor main = new QuakeEventExecutor();
 	public static TweetQuakeClient twitter = new TweetQuakeClient();
 
 	@SubscribeEvent

@@ -3,7 +3,7 @@ package net.teamfruit.eewreciever2.common.twitter;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class TweetQuakeKey implements Serializable {
+public final class TweetQuakeKey implements Serializable {
 	private static final char destroy = 0;
 
 	private final char[] key1;

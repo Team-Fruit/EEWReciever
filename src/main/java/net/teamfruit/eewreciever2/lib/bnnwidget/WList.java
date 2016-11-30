@@ -7,10 +7,10 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.teamfruit.eewreciever2.lib.NotifyCollections.IModCount;
 import net.teamfruit.eewreciever2.lib.bnnwidget.position.Area;
 import net.teamfruit.eewreciever2.lib.bnnwidget.position.Point;
 import net.teamfruit.eewreciever2.lib.bnnwidget.position.R;
+import net.teamfruit.eewreciever2.util.NotifyCollections.IModCount;
 
 public abstract class WList<T, W extends WCommon> extends WTypedPanel<W> {
 	protected IModCount<T> check;
