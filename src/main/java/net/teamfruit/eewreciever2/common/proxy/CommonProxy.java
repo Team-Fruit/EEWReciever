@@ -13,21 +13,18 @@ import net.teamfruit.eewreciever2.Reference;
 import net.teamfruit.eewreciever2.common.CommonHandler;
 
 public class CommonProxy {
-	public static File modConfigDir;
 
 	public void preInit(final FMLPreInitializationEvent event) {
 		Reference.logger = event.getModLog();
 
-		modConfigDir = new File(event.getModConfigurationDirectory(), Reference.MODID.toLowerCase());
-		if (!modConfigDir.exists())
-			if (!modConfigDir.mkdir())
-				Reference.logger.warn("Could not create Condiguration Directory[{}]!", modConfigDir);
+		CommonHandler.modConfigDir = new File(event.getModConfigurationDirectory(), Reference.MODID.toLowerCase());
+		if (!CommonHandler.modConfigDir.exists())
+			if (!CommonHandler.modConfigDir.mkdir())
+				Reference.logger.warn("Could not create Condiguration Directory[{}]!", CommonHandler.modConfigDir);
 
-		try {
-			checkLegacy(event.getModConfigurationDirectory());
-		} catch (final IOException e) {
-			Reference.logger.error("Failed to reuse Legacy.");
-		}
+		checkLegacy(event.getModConfigurationDirectory());
+
+		CommonHandler.twitter.init();
 	}
 
 	public void init(final FMLInitializationEvent event) {
@@ -38,13 +35,17 @@ public class CommonProxy {
 
 	}
 
-	public void checkLegacy(final File modConfigurationDirectory) throws IOException {
+	public void checkLegacy(final File modConfigurationDirectory) {
 		final File legacy = new File(modConfigurationDirectory, "EEWReciever");
 		if (legacy.exists()) {
 			Reference.logger.info("This directory is not currently in use[{}]", legacy);
 			final File legacySetting = new File(legacy, "setting.dat");
 			if (legacySetting.exists())
-				FileUtils.copyFileToDirectory(legacySetting, modConfigDir);
+				try {
+					FileUtils.copyFileToDirectory(legacySetting, CommonHandler.modConfigDir);
+				} catch (final IOException e) {
+					Reference.logger.error("Failed to reuse Legacy.");
+				}
 		}
 	}
 }
