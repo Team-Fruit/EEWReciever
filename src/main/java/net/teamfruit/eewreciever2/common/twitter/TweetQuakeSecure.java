@@ -31,6 +31,7 @@ import twitter4j.auth.AccessToken;
 
 public class TweetQuakeSecure {
 	public static final TweetQuakeSecure instance = new TweetQuakeSecure();
+	private static final String SUSHI = "4e6e4a4d4933524962475636543156714d57467a64413d3d";
 
 	private TweetQuakeKey tweetQuakeKey;
 	private AccessToken accessToken;
@@ -111,7 +112,7 @@ public class TweetQuakeSecure {
 			final byte[] iv = new byte[16];
 			fis.read(iv);
 
-			final byte[] keyarray = Base64.decodeBase64(Hex.decodeHex(Reference.Api.SUSHI.toCharArray()));
+			final byte[] keyarray = Base64.decodeBase64(Hex.decodeHex(SUSHI.toCharArray()));
 			final Key key = new SecretKeySpec(keyarray, "AES");
 			final IvParameterSpec ivspec = new IvParameterSpec(iv);
 			final Cipher cipher = Cipher.getInstance("AES/PCBC/PKCS5Padding");
