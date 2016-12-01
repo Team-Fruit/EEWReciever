@@ -1,5 +1,10 @@
 package net.teamfruit.eewreciever2.common;
 
+/**
+ * 地震情報取得例外
+ * @author b7n
+ *
+ */
 public class QuakeException extends Exception {
 
 	public QuakeException() {

@@ -11,6 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.teamfruit.eewreciever2.Reference;
 import net.teamfruit.eewreciever2.common.CommonHandler;
+import net.teamfruit.eewreciever2.common.twitter.TweetQuakeSecure;
 
 public class CommonProxy {
 
@@ -24,7 +25,7 @@ public class CommonProxy {
 
 		checkLegacy(event.getModConfigurationDirectory());
 
-		CommonHandler.twitter.init();
+		TweetQuakeSecure.instance.init(event);
 	}
 
 	public void init(final FMLInitializationEvent event) {

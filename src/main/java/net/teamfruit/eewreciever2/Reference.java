@@ -13,7 +13,9 @@ public class Reference {
 	public static final String PROXY_CLIENT = "net.teamfruit.eewreciever2.client.proxy.ClientProxy";
 	//	public static final String GUI_FACTORY = "";
 
-	public static final String TEAM_FRUIT = "ayNVMjRhdGhpYXctb2VAaXV2aTNqJGF0MWwjdmk9WDU=";
-
 	public static Logger logger = LogManager.getLogger(Reference.MODID);
+
+	public static class Api {
+		public static final String SUSHI = "4e6e4a4d4933524962475636543156714d57467a64413d3d";
+	}
 }

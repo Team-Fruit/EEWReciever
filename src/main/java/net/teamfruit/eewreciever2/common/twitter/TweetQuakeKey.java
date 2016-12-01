@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public final class TweetQuakeKey implements Serializable {
+	private static final long serialVersionUID = -7063613724826185974L;
+
 	private static final char destroy = 0;
 
-	private final char[] key1;
-	private final char[] key2;
+	private char[] key1;
+	private char[] key2;
 
-	public TweetQuakeKey(final String key1, final String key2) {
-		this.key1 = key1.toCharArray();
-		this.key2 = key2.toCharArray();
+	private TweetQuakeKey() {
 	}
 
 	public String getKey1() {
