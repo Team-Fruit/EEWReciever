@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.util;
+package net.teamfruit.eewreciever2.common.util;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
