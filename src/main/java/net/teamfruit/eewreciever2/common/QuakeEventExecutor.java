@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.teamfruit.eewreciever2.Reference;
 
 public class QuakeEventExecutor {
@@ -25,12 +25,18 @@ public class QuakeEventExecutor {
 	public void onServerTick(final ServerTickEvent event) {
 		try {
 			for (final IQuake quake : this.quakes) {
-				final List<AbstractQuakeNode> nodes = quake.getQuakeUpdate();
-				for (final AbstractQuakeNode node : nodes)
-					MinecraftForge.EVENT_BUS.post(node.getEvent());
+				final List<IQuakeNode> nodes = quake.getQuakeUpdate();
+				for (final IQuakeNode node : nodes)
+					FMLCommonHandler.instance().bus().post(node.getEvent());
 			}
 		} catch (final QuakeException e) {
 			Reference.logger.error(e.getMessage(), e);
 		}
+	}
+
+	public static List<IQuakeNode> getUpdate(final List<IQuakeNode> older, final List<IQuakeNode> newer) {
+		final List<IQuakeNode> list = Lists.newLinkedList(newer);
+		list.removeAll(older);
+		return list;
 	}
 }

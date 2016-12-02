@@ -31,6 +31,5 @@ public class CommonProxy {
 	}
 
 	public void postInit(final FMLPostInitializationEvent event) {
-
 	}
 }

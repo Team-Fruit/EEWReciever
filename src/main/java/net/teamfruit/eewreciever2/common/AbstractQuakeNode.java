@@ -1,10 +1,8 @@
 package net.teamfruit.eewreciever2.common;
 
 import java.util.Date;
-import java.util.List;
 
-import com.google.common.collect.Lists;
-
+@Deprecated
 public abstract class AbstractQuakeNode {
 
 	/**
@@ -59,9 +57,4 @@ public abstract class AbstractQuakeNode {
 
 	public abstract AbstractQuakeNode parseString(String source) throws QuakeException;
 
-	public static List<AbstractQuakeNode> getUpdate(final List<AbstractQuakeNode> older, final List<AbstractQuakeNode> newer) {
-		final List<AbstractQuakeNode> list = Lists.newLinkedList(newer);
-		list.removeAll(older);
-		return list;
-	}
 }
