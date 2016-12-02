@@ -23,7 +23,7 @@ public class CommonProxy {
 
 		EEWReciever2.locations.checkLegacy(event.getModConfigurationDirectory());
 
-		TweetQuakeSecure.instance.init(event);
+		TweetQuakeSecure.instance.init();
 	}
 
 	public void init(final FMLInitializationEvent event) {

@@ -1,9 +1,6 @@
 package net.teamfruit.eewreciever2.common;
 
 import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
 
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.teamfruit.eewreciever2.Reference;
@@ -25,11 +22,7 @@ public class Locations {
 			Reference.logger.info("This directory is not currently in use[{}]", legacy);
 			final File legacySetting = new File(legacy, "setting.dat");
 			if (legacySetting.exists())
-				try {
-					FileUtils.copyFileToDirectory(legacySetting, this.modCfgDir);
-				} catch (final IOException e) {
-					Reference.logger.error("Failed to reuse Legacy.");
-				}
+				legacySetting.renameTo(new File(this.modCfgDir, "setting.dat"));
 		}
 	}
 }
