@@ -11,12 +11,15 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
+import net.teamfruit.eewreciever2.common.Locations;
 import net.teamfruit.eewreciever2.common.proxy.CommonProxy;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
 public class EEWReciever2 {
 	@Instance(Reference.MODID)
 	public static EEWReciever2 instance;
+
+	public static Locations locations;
 
 	@SidedProxy(serverSide = Reference.PROXY_SERVER, clientSide = Reference.PROXY_CLIENT)
 	public static CommonProxy proxy;

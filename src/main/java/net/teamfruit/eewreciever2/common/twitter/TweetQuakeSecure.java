@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.security.Key;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -25,8 +26,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.IOUtils;
 
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.teamfruit.eewreciever2.EEWReciever2;
 import net.teamfruit.eewreciever2.Reference;
-import net.teamfruit.eewreciever2.common.CommonHandler;
 import twitter4j.auth.AccessToken;
 
 public class TweetQuakeSecure {
@@ -64,11 +65,15 @@ public class TweetQuakeSecure {
 			this.tweetQuakeKey = decodeTweetQuakeKey(getResourceInputStream(event, "file.eew"));
 			this.accessToken = loadAccessToken(getConfigResourceInputStream(event, "setting.dat"));
 		} catch (final TweetQuakeSecureException e) {
-			Reference.logger.error(e.getMessage(), e);
+			Reference.logger.error("Decode Error", e);
+		} catch (final FileNotFoundException e) {
+			Reference.logger.error("File not found", e);
+		} catch (final IOException e) {
+			Reference.logger.error("IO Error", e);
 		}
 	}
 
-	public static InputStream getResourceInputStream(final FMLPreInitializationEvent event, final String fileName) throws TweetQuakeSecureException {
+	public static InputStream getResourceInputStream(final FMLPreInitializationEvent event, final String fileName) throws FileNotFoundException, IOException {
 		final File sourceFile = event.getSourceFile();
 		JarFile jf = null;
 		try {
@@ -77,29 +82,25 @@ public class TweetQuakeSecure {
 				final ZipEntry ze = jf.getEntry(fileName);
 				if (ze!=null)
 					return jf.getInputStream(ze);
-				else
-					throw new TweetQuakeSecureException(String.format("File not found: %s", fileName));
 			} else {
 				final File resource = new File(sourceFile, fileName);
 				if (resource.exists()&&resource.isFile())
 					return new FileInputStream(resource);
-				else
-					throw new TweetQuakeSecureException(String.format("The file couldn't be found or it's not a file: %s", resource.toString()));
 			}
-		} catch (final IOException e) {
-			throw new TweetQuakeSecureException(e);
 		} finally {
 			IOUtils.closeQuietly(jf);
 		}
+		return null;
 	}
 
-	public static InputStream getConfigResourceInputStream(final FMLPreInitializationEvent event, final String fileName) throws TweetQuakeSecureException {
-		final File resource = new File(CommonHandler.modConfigDir, fileName);
-		try {
-			return new FileInputStream(resource);
-		} catch (final FileNotFoundException e) {
-			throw new TweetQuakeSecureException(e);
-		}
+	public static InputStream getConfigResourceInputStream(final FMLPreInitializationEvent event, final String fileName) throws FileNotFoundException {
+		final File resource = new File(EEWReciever2.locations.modCfgDir, fileName);
+		return new FileInputStream(resource);
+	}
+
+	public static OutputStream getConfigResourceOutputStream(final FMLPreInitializationEvent event, final String fileName) throws FileNotFoundException {
+		final File resource = new File(EEWReciever2.locations.modCfgDir, fileName);
+		return new FileOutputStream(resource);
 	}
 
 	private TweetQuakeKey decodeTweetQuakeKey(final InputStream is) throws TweetQuakeSecureException {
@@ -128,7 +129,7 @@ public class TweetQuakeSecure {
 			ois = new ObjectInputStream(bais);
 			return (TweetQuakeKey) ois.readObject();
 		} catch (final Exception e) {
-			throw new TweetQuakeSecureException("Decode Error", e);
+			throw new TweetQuakeSecureException(e.getMessage(), e);
 		} finally {
 			IOUtils.closeQuietly(cis);
 			IOUtils.closeQuietly(bais);
@@ -149,21 +150,17 @@ public class TweetQuakeSecure {
 		}
 	}
 
-	public void storeAccessToken(final AccessToken token) throws TweetQuakeSecureException {
-		storeAccessToken(token, false);
+	public void storeAccessToken(final OutputStream os, final AccessToken token) throws TweetQuakeSecureException {
+		storeAccessToken(os, token, false);
 	}
 
-	public void storeAccessToken(final AccessToken token, final boolean overwrite) throws TweetQuakeSecureException {
-		final File tokenfile = new File(CommonHandler.modConfigDir, "setting.dat");
-		if (!overwrite&&tokenfile.exists())
-			throw new TweetQuakeSecureException("The access token file already exists.");
-
+	public void storeAccessToken(final OutputStream os, final AccessToken token, final boolean overwrite) throws TweetQuakeSecureException {
 		ObjectOutputStream outputStream = null;
 		try {
-			outputStream = new ObjectOutputStream(new FileOutputStream(tokenfile));
+			outputStream = new ObjectOutputStream(os);
 			outputStream.writeObject(this.accessToken);
 		} catch (final IOException e) {
-			Reference.logger.error(e);
+			throw new TweetQuakeSecureException(e);
 		} finally {
 			IOUtils.closeQuietly(outputStream);
 		}

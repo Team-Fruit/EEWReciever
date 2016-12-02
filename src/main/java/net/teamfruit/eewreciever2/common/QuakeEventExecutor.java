@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.teamfruit.eewreciever2.Reference;
@@ -20,6 +21,7 @@ public class QuakeEventExecutor {
 		this.quakes.remove(quake);
 	}
 
+	@SubscribeEvent
 	public void onServerTick(final ServerTickEvent event) {
 		try {
 			for (final IQuake quake : this.quakes) {
