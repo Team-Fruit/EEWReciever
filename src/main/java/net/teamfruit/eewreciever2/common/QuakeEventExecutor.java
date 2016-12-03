@@ -1,6 +1,7 @@
 package net.teamfruit.eewreciever2.common;
 
 import java.util.List;
+import java.util.Queue;
 
 import com.google.common.collect.Lists;
 
@@ -11,7 +12,7 @@ import net.teamfruit.eewreciever2.Reference;
 
 public class QuakeEventExecutor {
 
-	private final List<IQuake> quakes = Lists.newLinkedList();
+	private final List<IQuake> quakes = Lists.newArrayList();
 
 	public void register(final IQuake quake) {
 		this.quakes.add(quake);
@@ -25,15 +26,17 @@ public class QuakeEventExecutor {
 	public void onServerTick(final ServerTickEvent event) {
 		try {
 			for (final IQuake quake : this.quakes) {
-				final List<IQuakeNode> nodes = quake.getQuakeUpdate();
-				for (final IQuakeNode node : nodes)
-					FMLCommonHandler.instance().bus().post(node.getEvent());
+				final Queue<IQuakeNode> nodes = quake.getQuakeUpdate();
+				IQuakeNode line;
+				while ((line = nodes.poll())!=null)
+					FMLCommonHandler.instance().bus().post(line.getEvent());
 			}
 		} catch (final QuakeException e) {
 			Reference.logger.error(e.getMessage(), e);
 		}
 	}
 
+	@Deprecated
 	public static List<IQuakeNode> getUpdate(final List<IQuakeNode> older, final List<IQuakeNode> newer) {
 		final List<IQuakeNode> list = Lists.newLinkedList(newer);
 		list.removeAll(older);

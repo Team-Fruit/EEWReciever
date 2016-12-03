@@ -1,7 +1,7 @@
 package net.teamfruit.eewreciever2.common;
 
-import java.util.List;
+import java.util.Queue;
 
 public interface IQuake {
-	List<IQuakeNode> getQuakeUpdate() throws QuakeException;
+	Queue<IQuakeNode> getQuakeUpdate() throws QuakeException;
 }

@@ -1,6 +1,7 @@
 package net.teamfruit.eewreciever2.common.p2pquake;
 
 import java.util.List;
+import java.util.Queue;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -22,7 +23,7 @@ public class P2PQuake implements IQuake, Runnable {
 	}
 
 	@Override
-	public List<IQuakeNode> getQuakeUpdate() throws QuakeException {
+	public Queue<IQuakeNode> getQuakeUpdate() throws QuakeException {
 
 		return null;
 	}
