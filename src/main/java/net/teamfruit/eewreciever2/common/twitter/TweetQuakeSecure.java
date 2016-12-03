@@ -29,7 +29,7 @@ import net.teamfruit.eewreciever2.EEWReciever2;
 import net.teamfruit.eewreciever2.Reference;
 import twitter4j.auth.AccessToken;
 
-//TODO: 要refactoring
+//TODO 要refactoring
 public class TweetQuakeSecure {
 	public static final TweetQuakeSecure instance = new TweetQuakeSecure();
 	private static final String SUSHI = "4e6e4a4d4933524962475636543156714d57467a64413d3d";

@@ -1,22 +1,17 @@
 [
 	{
-		"remote": "http://repo1.maven.org/maven2/org/twitter4j/twitter4j-core/4.0.4/twitter4j-core-4.0.4.jar",
-		"local": "twitter4j-core-4.0.4.jar"
-	},
-	{
-		"remote": "http://repo1.maven.org/maven2/org/twitter4j/twitter4j-stream/4.0.4/twitter4j-stream-4.0.4.jar",
-		"local": "twitter4j-stream-4.0.4.jar"
-	},
-	{
 		"remote": "http://repo1.maven.org/maven2/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar",
-		"local": "commons-logging-1.1.3.jar"
+		"local": "commons-logging-1.1.3.jar".
+		"mainclass": "org.apache.commons.logging.Log"
 	},
 	{
 		"remote": "http://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.3.2/httpcore-4.3.2.jar",
-		"local": "httpcore-4.3.2.jar"
+		"local": "httpcore-4.3.2.jar",
+		"mainclass": "org.apache.http.HttpMessage"
 	},
 	{
 		"remote": "http://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.3.3/httpclient-4.3.3.jar",
-		"local": "httpclient-4.3.3.jar"
+		"local": "httpclient-4.3.3.jar",
+		"mainclass": "org.apache.http.client.HttpClient"
 	}
 ]

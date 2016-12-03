@@ -24,7 +24,7 @@ public abstract class QuakeEvent extends Event {
 
 	abstract public IQuakeNode getNode();
 
-	public static class EEWEvent extends QuakeEvent {
+	public static final class EEWEvent extends QuakeEvent {
 		private final TweetQuakeNode node;
 
 		public EEWEvent(final TweetQuakeNode node) {
@@ -38,7 +38,7 @@ public abstract class QuakeEvent extends Event {
 		}
 	}
 
-	public static class QuakeInfoEvent extends QuakeEvent {
+	public static final class QuakeInfoEvent extends QuakeEvent {
 		private final P2PQuakeQuakeInfoNode node;
 
 		public QuakeInfoEvent(final P2PQuakeQuakeInfoNode node) {
@@ -52,7 +52,7 @@ public abstract class QuakeEvent extends Event {
 		}
 	}
 
-	public static class TsunamiWarnEvent extends QuakeEvent {
+	public static final class TsunamiWarnEvent extends QuakeEvent {
 		private final P2PQuakeTsunamiInfoNode node;
 
 		public TsunamiWarnEvent(final P2PQuakeTsunamiInfoNode node) {
@@ -66,7 +66,7 @@ public abstract class QuakeEvent extends Event {
 		}
 	}
 
-	public static class QuakeSensingEvent extends QuakeEvent {
+	public static final class QuakeSensingEvent extends QuakeEvent {
 		private final P2PQuakeSensingInfoNode node;
 
 		public QuakeSensingEvent(final P2PQuakeSensingInfoNode node) {

@@ -2,12 +2,16 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            name = 'forge'
+            url = 'http://files.minecraftforge.net/maven'
         }
         maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+            name = 'sonatype'
+            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+        maven {
+            name = 'twitter4j'
+            url = 'http://twitter4j.org/maven2'
         }
     }
     dependencies {
@@ -17,6 +21,7 @@ buildscript {
 
 apply plugin: 'forge'
 
+// ext.build = System.getenv().BUILD_NUMBER ?: 'git'
 ext.modversion = "${project.version_major}.${project.version_minor}.${project.version_micro}"
 
 group = project.group
@@ -36,6 +41,8 @@ configurations {
 }
 
 minecraft {
+    srgExtra "PK: twitter4j twitter4j"
+
     version = "${project.version_minecraft}-${project.version_forge}"
 
     if (project.hasProperty('version_mappings'))
@@ -77,14 +84,15 @@ processResources {
     }
 }
 
+dependencies {
+    shade('org.twitter4j:twitter4j-core:4.0.4'){transitive=false}
+    shade('org.twitter4j:twitter4j-stream:4.0.4'){transitive=false}
+}
+
 def commonManifest = {
     if (project.hasProperty('extra_fmlat')) {
         attributes 'FMLAT': project.extra_fmlat
     }
-}
-
-dependencies {
-	compile fileTree(dir: 'lib', includes: ['*.jar'])
 }
 
 jar {
@@ -94,11 +102,8 @@ jar {
             exclude 'META-INF', 'META-INF/**'
         }
     }
-    classifier = project.hasProperty('extra_classifier') ? project.extra_classifier : ''
-    manifest {
-      attributes 'FMLCorePlugin' : project.coreplugin,'FMLCorePluginContainsFMLMod':'true'
-      commonManifest
-    }
+    classifier = project.hasProperty('extra_classifier') ? project.extra_classifier : 'universal'
+    manifest commonManifest
 }
 
 task devJar(dependsOn: 'classes', type: Jar) {
@@ -181,5 +186,3 @@ task release(dependsOn: 'signJars', type: Copy) {
         return project.release_location != '.'
     }
 }
-
-// tasks.withType(Jar) {compileJava.options.encoding = 'UTF-8'}

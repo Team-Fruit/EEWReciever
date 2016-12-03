@@ -14,6 +14,7 @@ import java.util.zip.ZipEntry;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -56,6 +57,13 @@ public class Loader {
 					/*@formatter:on*/
 					final List<Dep> list = gson.fromJson(new JsonReader(isr), type);
 					for (final Dep line : list) {
+						if (StringUtils.isNotBlank(line.mainclass)) {
+							try {
+								Class.forName(line.mainclass);
+								return;
+							} catch (final ClassNotFoundException e) {
+							}
+						}
 						File downloadingFile = null;
 						InputStream is = null;
 						try {
@@ -98,5 +106,6 @@ public class Loader {
 	public static class Dep {
 		public String remote;
 		public String local;
+		public String mainclass;
 	}
 }

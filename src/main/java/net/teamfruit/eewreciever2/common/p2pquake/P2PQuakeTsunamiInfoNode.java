@@ -4,11 +4,10 @@ import net.teamfruit.eewreciever2.common.IQuakeNode;
 import net.teamfruit.eewreciever2.common.QuakeEvent;
 import net.teamfruit.eewreciever2.common.QuakeException;
 
-public class P2PQuakeTsunamiInfoNode implements IQuakeNode {
+public class P2PQuakeTsunamiInfoNode extends P2PQuakeJson.TsunamiInfo implements IQuakeNode {
 	@Override
 	public String getId() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return String.valueOf(this.code);
 	}
 
 	@Override
