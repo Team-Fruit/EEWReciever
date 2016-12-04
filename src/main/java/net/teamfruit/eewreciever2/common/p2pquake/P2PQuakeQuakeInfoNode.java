@@ -4,11 +4,11 @@ import net.teamfruit.eewreciever2.common.IQuakeNode;
 import net.teamfruit.eewreciever2.common.QuakeEvent;
 import net.teamfruit.eewreciever2.common.QuakeException;
 
-public class P2PQuakeQuakeInfoNode extends P2PQuakeJson.QuakeInfo implements IQuakeNode {
+public class P2PQuakeQuakeInfoNode implements IQuakeNode {
 
 	@Override
 	public String getId() {
-		return String.valueOf(this.code);
+		return null;
 	}
 
 	@Override

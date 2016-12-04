@@ -66,16 +66,17 @@ public class P2PQuake implements IQuake {
 			final Type type = new TypeToken<Collection<P2PQuakeJson>>(){}.getType();
 			/*@formatter:on*/
 			final List<P2PQuakeJson> now = gson.fromJson(this.result, type);
-			for (final P2PQuakeJson line : getUpdate(this.before, now)) {
-				switch (line.code) {
-					case 551:
-						nodes.add(new P2PQuakeQuakeInfoNode().parseString(this.result));
-					case 552:
-						nodes.add(new P2PQuakeTsunamiInfoNode().parseString(this.result));
-					case 5610:
-						nodes.add(new P2PQuakeSensingInfoNode().parseString(this.result));
+			if (this.before!=null)
+				for (final P2PQuakeJson line : getUpdate(this.before, now)) {
+					switch (line.code) {
+						case 551:
+							nodes.add(new P2PQuakeQuakeInfoNode().parseString(this.result));
+						case 552:
+							nodes.add(new P2PQuakeTsunamiInfoNode().parseString(this.result));
+						case 5610:
+							nodes.add(new P2PQuakeSensingInfoNode().parseString(this.result));
+					}
 				}
-			}
 			this.result = null;
 			this.before = now;
 			return nodes;
@@ -99,8 +100,6 @@ public class P2PQuake implements IQuake {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
 
 	public static List<P2PQuakeJson> getUpdate(final List<P2PQuakeJson> older, final List<P2PQuakeJson> newer) throws QuakeException {
-		if (older==null)
-			return newer;
 		if (older.size()<=0)
 			return newer;
 
