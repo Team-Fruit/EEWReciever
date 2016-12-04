@@ -2,8 +2,10 @@ package net.teamfruit.eewreciever2.common;
 
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -12,7 +14,7 @@ import net.teamfruit.eewreciever2.Reference;
 
 public class QuakeEventExecutor {
 
-	private final List<IQuake> quakes = Lists.newArrayList();
+	private final Set<IQuake> quakes = Sets.newHashSet();
 
 	public void register(final IQuake quake) {
 		this.quakes.add(quake);
