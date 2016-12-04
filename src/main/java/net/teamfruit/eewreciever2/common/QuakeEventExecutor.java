@@ -1,10 +1,8 @@
 package net.teamfruit.eewreciever2.common;
 
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -13,8 +11,16 @@ import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.teamfruit.eewreciever2.Reference;
 
 public class QuakeEventExecutor {
+	private static final QuakeEventExecutor INSTANCE = new QuakeEventExecutor();
 
 	private final Set<IQuake> quakes = Sets.newHashSet();
+
+	private QuakeEventExecutor() {
+	}
+
+	public static QuakeEventExecutor instance() {
+		return INSTANCE;
+	}
 
 	public void register(final IQuake quake) {
 		this.quakes.add(quake);
@@ -36,12 +42,5 @@ public class QuakeEventExecutor {
 		} catch (final QuakeException e) {
 			Reference.logger.error(e.getMessage(), e);
 		}
-	}
-
-	@Deprecated
-	public static List<IQuakeNode> getUpdate(final List<IQuakeNode> older, final List<IQuakeNode> newer) {
-		final List<IQuakeNode> list = Lists.newLinkedList(newer);
-		list.removeAll(older);
-		return list;
 	}
 }

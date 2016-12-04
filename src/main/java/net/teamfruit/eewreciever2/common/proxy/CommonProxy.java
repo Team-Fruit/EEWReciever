@@ -8,6 +8,7 @@ import net.teamfruit.eewreciever2.EEWReciever2;
 import net.teamfruit.eewreciever2.Reference;
 import net.teamfruit.eewreciever2.common.Locations;
 import net.teamfruit.eewreciever2.common.QuakeEventExecutor;
+import net.teamfruit.eewreciever2.common.p2pquake.P2PQuake;
 import net.teamfruit.eewreciever2.common.twitter.TweetQuakeSecure;
 
 public class CommonProxy {
@@ -27,7 +28,9 @@ public class CommonProxy {
 	}
 
 	public void init(final FMLInitializationEvent event) {
-		FMLCommonHandler.instance().bus().register(new QuakeEventExecutor());
+		FMLCommonHandler.instance().bus().register(QuakeEventExecutor.instance());
+
+		QuakeEventExecutor.instance().register(new P2PQuake());
 	}
 
 	public void postInit(final FMLPostInitializationEvent event) {

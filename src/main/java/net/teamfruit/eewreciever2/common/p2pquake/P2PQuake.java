@@ -21,6 +21,7 @@ import org.apache.http.client.methods.HttpGet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
 import net.teamfruit.eewreciever2.common.IQuake;
@@ -61,25 +62,29 @@ public class P2PQuake implements IQuake {
 	@Override
 	public Queue<IQuakeNode> getQuakeUpdate() throws QuakeException {
 		if (this.result!=null) {
-			final Queue<IQuakeNode> nodes = Queues.newArrayDeque();
+			try {
+				final Queue<IQuakeNode> nodes = Queues.newArrayDeque();
 			/*@formatter:off*/
 			final Type type = new TypeToken<Collection<P2PQuakeJson>>(){}.getType();
 			/*@formatter:on*/
-			final List<P2PQuakeJson> now = gson.fromJson(this.result, type);
-			if (this.before!=null)
-				for (final P2PQuakeJson line : getUpdate(this.before, now)) {
-					switch (line.code) {
-						case 551:
-							nodes.add(new P2PQuakeQuakeInfoNode().parseString(this.result));
-						case 552:
-							nodes.add(new P2PQuakeTsunamiInfoNode().parseString(this.result));
-						case 5610:
-							nodes.add(new P2PQuakeSensingInfoNode().parseString(this.result));
+				final List<P2PQuakeJson> now = gson.fromJson(this.result, type);
+				if (this.before!=null)
+					for (final P2PQuakeJson line : getUpdate(this.before, now)) {
+						switch (line.code) {
+							case 551:
+								nodes.add(new P2PQuakeQuakeInfoNode().parseString(this.result));
+							case 552:
+								nodes.add(new P2PQuakeTsunamiInfoNode().parseString(this.result));
+							case 5610:
+								nodes.add(new P2PQuakeSensingInfoNode().parseString(this.result));
+						}
 					}
-				}
-			this.result = null;
-			this.before = now;
-			return nodes;
+				this.result = null;
+				this.before = now;
+				return nodes;
+			} catch (final JsonParseException e) {
+				throw new QuakeException("Parse Error", e);
+			}
 		} else if (this.error!=null) {
 			final QuakeException e = new QuakeException(this.error);
 			this.error = null;
@@ -115,7 +120,7 @@ public class P2PQuake implements IQuake {
 			}
 			return list;
 		} catch (final ParseException e) {
-			throw new QuakeException(e);
+			throw new QuakeException("Parse Error", e);
 		}
 	}
 
