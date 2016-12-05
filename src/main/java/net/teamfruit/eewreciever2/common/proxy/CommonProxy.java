@@ -39,5 +39,6 @@ public class CommonProxy {
 	}
 
 	public void postInit(final FMLPostInitializationEvent event) {
+		ConfigHandler.instance.save();
 	}
 }

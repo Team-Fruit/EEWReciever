@@ -14,10 +14,15 @@ public class ConfigHandler extends Configuration {
 
 	private final File configFile;
 
+	public final ConfigProperty<Boolean> chatQuakeInfo = ConfigProperty.propertyBoolean(this, get("Server", "SendQuakeInfoChat", true));
+	public final ConfigProperty<Boolean> chatTsunamiWarn = ConfigProperty.propertyBoolean(this, get("Server", "SendTsunamiWarnChat", true));
+	public final ConfigProperty<Boolean> chatQuakeSensing = ConfigProperty.propertyBoolean(this, get("Server", "SendQuakeSensingChat", false));
+
 	public ConfigHandler(final File configFile) {
 		super(configFile);
 		this.configFile = configFile;
 
+		addCustomCategoryComment("Server", "Setting items when using on server");
 	}
 
 	@Override
