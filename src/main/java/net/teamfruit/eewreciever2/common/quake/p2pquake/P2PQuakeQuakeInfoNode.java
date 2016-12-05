@@ -1,12 +1,12 @@
-package net.teamfruit.eewreciever2.common.p2pquake;
+package net.teamfruit.eewreciever2.common.quake.p2pquake;
 
 import com.google.gson.JsonParseException;
 
-import net.teamfruit.eewreciever2.common.IQuakeNode;
-import net.teamfruit.eewreciever2.common.QuakeEvent;
-import net.teamfruit.eewreciever2.common.QuakeEvent.QuakeInfoEvent;
-import net.teamfruit.eewreciever2.common.QuakeException;
-import net.teamfruit.eewreciever2.common.p2pquake.P2PQuakeJson.QuakeInfo;
+import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
+import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
+import net.teamfruit.eewreciever2.common.quake.QuakeException;
+import net.teamfruit.eewreciever2.common.quake.QuakeEvent.QuakeInfoEvent;
+import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.QuakeInfo;
 
 public class P2PQuakeQuakeInfoNode implements IQuakeNode {
 
@@ -34,6 +34,12 @@ public class P2PQuakeQuakeInfoNode implements IQuakeNode {
 	@Override
 	public QuakeEvent getEvent() {
 		return new QuakeInfoEvent(this);
+	}
+
+	@Override
+	public String getChatFormat() {
+
+		return null;
 	}
 
 }

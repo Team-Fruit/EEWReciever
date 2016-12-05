@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common;
+package net.teamfruit.eewreciever2.common.quake;
 
 /**
  * 地震情報取得例外

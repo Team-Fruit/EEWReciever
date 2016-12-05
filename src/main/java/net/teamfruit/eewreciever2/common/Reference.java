@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2;
+package net.teamfruit.eewreciever2.common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

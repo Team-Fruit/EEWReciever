@@ -1,12 +1,12 @@
-package net.teamfruit.eewreciever2.common.p2pquake;
+package net.teamfruit.eewreciever2.common.quake.p2pquake;
 
 import com.google.gson.JsonParseException;
 
-import net.teamfruit.eewreciever2.common.IQuakeNode;
-import net.teamfruit.eewreciever2.common.QuakeEvent;
-import net.teamfruit.eewreciever2.common.QuakeEvent.TsunamiWarnEvent;
-import net.teamfruit.eewreciever2.common.QuakeException;
-import net.teamfruit.eewreciever2.common.p2pquake.P2PQuakeJson.TsunamiInfo;
+import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
+import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
+import net.teamfruit.eewreciever2.common.quake.QuakeException;
+import net.teamfruit.eewreciever2.common.quake.QuakeEvent.TsunamiWarnEvent;
+import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.TsunamiInfo;
 
 public class P2PQuakeTsunamiInfoNode implements IQuakeNode {
 
@@ -34,5 +34,11 @@ public class P2PQuakeTsunamiInfoNode implements IQuakeNode {
 	@Override
 	public QuakeEvent getEvent() {
 		return new TsunamiWarnEvent(this);
+	}
+
+	@Override
+	public String getChatFormat() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 }

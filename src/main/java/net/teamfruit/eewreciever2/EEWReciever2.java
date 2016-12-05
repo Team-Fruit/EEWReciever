@@ -12,6 +12,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.teamfruit.eewreciever2.common.Locations;
+import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.proxy.CommonProxy;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)

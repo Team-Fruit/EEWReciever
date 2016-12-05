@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common.twitter;
+package net.teamfruit.eewreciever2.common.quake.twitter;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,7 +26,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.IOUtils;
 
 import net.teamfruit.eewreciever2.EEWReciever2;
-import net.teamfruit.eewreciever2.Reference;
+import net.teamfruit.eewreciever2.common.Reference;
 import twitter4j.auth.AccessToken;
 
 //TODO 要refactoring

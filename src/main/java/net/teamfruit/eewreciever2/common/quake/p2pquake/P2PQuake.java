@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common.p2pquake;
+package net.teamfruit.eewreciever2.common.quake.p2pquake;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,9 +24,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
-import net.teamfruit.eewreciever2.common.IQuake;
-import net.teamfruit.eewreciever2.common.IQuakeNode;
-import net.teamfruit.eewreciever2.common.QuakeException;
+import net.teamfruit.eewreciever2.common.quake.IQuake;
+import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
+import net.teamfruit.eewreciever2.common.quake.QuakeException;
 import net.teamfruit.eewreciever2.common.util.Downloader;
 
 public class P2PQuake implements IQuake {

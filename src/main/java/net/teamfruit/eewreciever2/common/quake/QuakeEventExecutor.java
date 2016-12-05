@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common;
+package net.teamfruit.eewreciever2.common.quake;
 
 import java.util.Queue;
 import java.util.Set;
@@ -8,7 +8,7 @@ import com.google.common.collect.Sets;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
-import net.teamfruit.eewreciever2.Reference;
+import net.teamfruit.eewreciever2.common.Reference;
 
 public class QuakeEventExecutor {
 	private static final QuakeEventExecutor INSTANCE = new QuakeEventExecutor();

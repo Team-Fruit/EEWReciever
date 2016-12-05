@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common.twitter;
+package net.teamfruit.eewreciever2.common.quake.twitter;
 
 import java.io.Serializable;
 import java.util.Arrays;

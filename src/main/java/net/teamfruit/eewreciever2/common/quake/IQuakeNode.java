@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common;
+package net.teamfruit.eewreciever2.common.quake;
 
 public interface IQuakeNode {
 	/**
@@ -20,4 +20,6 @@ public interface IQuakeNode {
 	 * @throws QuakeException
 	 */
 	IQuakeNode parseString(String source) throws QuakeException;
+
+	String getChatFormat();
 }

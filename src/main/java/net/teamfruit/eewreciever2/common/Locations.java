@@ -3,7 +3,6 @@ package net.teamfruit.eewreciever2.common;
 import java.io.File;
 
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import net.teamfruit.eewreciever2.Reference;
 
 public class Locations {
 	public File cfgDir;

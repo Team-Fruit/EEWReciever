@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.teamfruit.eewreciever2.Reference;
+import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.lib.OpenGL;
 import net.teamfruit.eewreciever2.lib.bnnwidget.position.Area;
 

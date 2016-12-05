@@ -1,8 +1,8 @@
-package net.teamfruit.eewreciever2.common.twitter;
+package net.teamfruit.eewreciever2.common.quake.twitter;
 
-import net.teamfruit.eewreciever2.common.IQuakeNode;
-import net.teamfruit.eewreciever2.common.QuakeEvent;
-import net.teamfruit.eewreciever2.common.QuakeException;
+import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
+import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
+import net.teamfruit.eewreciever2.common.quake.QuakeException;
 
 public class TweetQuakeNode implements IQuakeNode {
 
@@ -20,6 +20,12 @@ public class TweetQuakeNode implements IQuakeNode {
 
 	@Override
 	public IQuakeNode parseString(final String source) throws QuakeException {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	@Override
+	public String getChatFormat() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}

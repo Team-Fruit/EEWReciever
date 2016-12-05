@@ -28,7 +28,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 
-import net.teamfruit.eewreciever2.Reference;
+import net.teamfruit.eewreciever2.common.Reference;
 
 public class Downloader {
 	public static Downloader downloader = new Downloader();

@@ -23,7 +23,7 @@ import com.google.gson.stream.JsonReader;
 
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import net.minecraft.launchwrapper.LaunchClassLoader;
-import net.teamfruit.eewreciever2.Reference;
+import net.teamfruit.eewreciever2.common.Reference;
 
 public class Loader {
 	public static final String DEPINFO_FILENAME = "carrotdep.info";

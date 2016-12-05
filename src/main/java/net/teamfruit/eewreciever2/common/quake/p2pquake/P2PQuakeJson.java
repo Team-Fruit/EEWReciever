@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common.p2pquake;
+package net.teamfruit.eewreciever2.common.quake.p2pquake;
 
 import java.util.List;
 
