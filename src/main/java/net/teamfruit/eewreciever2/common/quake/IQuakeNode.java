@@ -21,5 +21,7 @@ public interface IQuakeNode {
 	 */
 	IQuakeNode parseString(String source) throws QuakeException;
 
+	boolean canChat();
+
 	String getChatFormat();
 }

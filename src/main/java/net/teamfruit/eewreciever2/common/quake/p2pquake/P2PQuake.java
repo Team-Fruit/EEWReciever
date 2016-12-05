@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Queue;
 
 import org.apache.commons.io.IOUtils;
@@ -111,7 +112,12 @@ public class P2PQuake implements IQuake {
 		try {
 			final Date olderDate = dateFormat.parse(older.get(0).time);
 
-			final List<P2PQuakeJson> list = Lists.newArrayList(newer);
+			final List<P2PQuakeJson> list = Lists.newArrayList();
+			for (final ListIterator<P2PQuakeJson> it = newer.listIterator(); it.hasPrevious();) {
+				final P2PQuakeJson json = it.previous();
+				list.add(json);
+			}
+
 			for (final Iterator<P2PQuakeJson> it = list.iterator(); it.hasNext();) {
 				final P2PQuakeJson line = it.next();
 				final Date newerDate = dateFormat.parse(line.time);

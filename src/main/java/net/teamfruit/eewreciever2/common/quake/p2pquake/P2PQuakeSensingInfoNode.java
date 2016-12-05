@@ -4,8 +4,8 @@ import com.google.gson.JsonParseException;
 
 import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
-import net.teamfruit.eewreciever2.common.quake.QuakeException;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent.QuakeSensingEvent;
+import net.teamfruit.eewreciever2.common.quake.QuakeException;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.QuakeSensingInfo;
 
 public class P2PQuakeSensingInfoNode implements IQuakeNode {
@@ -40,6 +40,11 @@ public class P2PQuakeSensingInfoNode implements IQuakeNode {
 	public String getChatFormat() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
+	}
+
+	@Override
+	public boolean canChat() {
+		return true;
 	}
 
 }

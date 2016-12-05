@@ -30,4 +30,9 @@ public class TweetQuakeNode implements IQuakeNode {
 		return null;
 	}
 
+	@Override
+	public boolean canChat() {
+		return true;
+	}
+
 }
