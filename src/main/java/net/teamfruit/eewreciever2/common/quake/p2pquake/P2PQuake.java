@@ -103,7 +103,7 @@ public class P2PQuake implements IQuake {
 		return empty;
 	}
 
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
 
 	public static List<P2PQuakeJson> getUpdate(final List<P2PQuakeJson> older, final List<P2PQuakeJson> newer) throws QuakeException {
 		if (older.size()<=0)

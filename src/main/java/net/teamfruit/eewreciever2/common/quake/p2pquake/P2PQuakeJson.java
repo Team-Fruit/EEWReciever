@@ -1,8 +1,7 @@
 package net.teamfruit.eewreciever2.common.quake.p2pquake;
 
 import java.util.List;
-
-import com.sun.javafx.collections.MappingChange.Map;
+import java.util.Map;
 
 public class P2PQuakeJson {
 	public String time;
@@ -56,7 +55,7 @@ public class P2PQuakeJson {
 	}
 
 	public static class QuakeSensingInfo extends P2PQuakeJson {
-		int count;
+		public int count;
 		public Map<String, Integer> areas;
 		public Map<String, Integer> prefs;
 		public Map<String, Integer> regions;

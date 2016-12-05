@@ -24,4 +24,6 @@ public interface IQuakeNode {
 	boolean canChat();
 
 	String getChatFormat();
+
+	boolean isValid();
 }
