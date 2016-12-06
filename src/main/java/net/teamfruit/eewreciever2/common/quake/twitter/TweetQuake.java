@@ -63,9 +63,10 @@ public class TweetQuake implements IQuake {
 			Reference.logger.warn("Because there was a problem, we could not connect to Twitter.");
 	}
 
-	protected void setAccessToken(final AccessToken token, final boolean overwrite) throws IOException {
-		this.secure.setAccessToken(token).storeAccessToken(token, overwrite);
-		init();
+	protected void setAccessToken(final AccessToken token) throws IOException {
+		this.secure.setAccessToken(token).storeAccessToken(token);
+		if (this.isAuthRequired)
+			init();
 	}
 
 	@Override

@@ -165,15 +165,10 @@ public final class TweetQuakeSecure {
 	}
 
 	public void storeAccessToken(final AccessToken token) throws IOException {
-		storeAccessToken(token, false);
-	}
 
-	public void storeAccessToken(final AccessToken token, final boolean overwrite) throws IOException {
-		if (overwrite) {
-			final File file = getConfigResourceFile("setting.dat");
-			if (file.exists()&&file.isFile())
-				Files.delete(file.toPath());
-		}
+		final File file = getConfigResourceFile("setting.dat");
+		if (file.exists()&&file.isFile())
+			Files.delete(file.toPath());
 
 		ObjectOutputStream outputStream = null;
 		try {
