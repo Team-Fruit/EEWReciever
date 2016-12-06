@@ -32,7 +32,7 @@ import net.teamfruit.eewreciever2.common.util.Downloader;
 
 public class P2PQuake implements IQuake {
 	public static Gson gson = new Gson();
-	public static long WaitMilliSeconds = 1000*15;
+	public static long WaitMilliSeconds = 1000*20;
 
 	private static Queue<IQuakeNode> empty = Queues.newArrayDeque();
 

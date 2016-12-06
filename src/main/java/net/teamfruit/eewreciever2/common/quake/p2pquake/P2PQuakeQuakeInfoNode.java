@@ -38,4 +38,9 @@ public class P2PQuakeQuakeInfoNode extends P2PQuakeNode<P2PQuakeJson.QuakeInfo> 
 		return null;
 	}
 
+	@Override
+	public boolean canChat() {
+		return super.canChat();
+	}
+
 }

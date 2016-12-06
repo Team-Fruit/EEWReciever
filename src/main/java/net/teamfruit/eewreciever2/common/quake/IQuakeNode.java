@@ -21,9 +21,15 @@ public interface IQuakeNode {
 	 */
 	IQuakeNode parseString(String source) throws QuakeException;
 
+	/**
+	 * チャットにフォーマット可能かどうか
+	 * @return フォーマット可能な場合はtrue<br>それ以外はfalse
+	 */
 	boolean canChat();
 
+	/**
+	 * チャット出力用の形式
+	 * @return String
+	 */
 	String getChatFormat();
-
-	boolean isValid();
 }

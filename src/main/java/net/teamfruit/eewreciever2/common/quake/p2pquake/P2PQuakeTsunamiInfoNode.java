@@ -16,8 +16,17 @@ import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.TsunamiInfo
 
 public class P2PQuakeTsunamiInfoNode extends P2PQuakeNode<P2PQuakeJson.TsunamiInfo> {
 
-	public String issue;
+	/**
+	 * 発表種類を表します。津波予報は focus または Focus です。
+	 */
+	public String type;
+	/**
+	 * 津波予報の解除かどうかを表します。
+	 */
 	public boolean cancell;
+	/**
+	 * 津波予報の予報区ごとの情報を表します。
+	 */
 	public List<Area> areas;
 
 	@Override
@@ -27,7 +36,7 @@ public class P2PQuakeTsunamiInfoNode extends P2PQuakeNode<P2PQuakeJson.TsunamiIn
 
 			this.date = dateFormat.parse(this.data.time);
 			this.code = this.data.code;
-			this.issue = this.data.issue.type;
+			this.type = this.data.issue.type;
 			this.cancell = this.data.cancelled;
 			this.areas = this.data.areas;
 		} catch (final JsonParseException e) {
@@ -45,7 +54,7 @@ public class P2PQuakeTsunamiInfoNode extends P2PQuakeNode<P2PQuakeJson.TsunamiIn
 
 	@Override
 	public String getChatFormat() {
-		if (!this.issue.equalsIgnoreCase("Focus"))
+		if (!this.type.equalsIgnoreCase("Focus"))
 			return "[EEWReciever2] 不明な情報を受信しました。";
 		if (this.data.cancelled)
 			return "[津波情報] 発表されていた津波予報は全て解除されました。";
@@ -94,6 +103,6 @@ public class P2PQuakeTsunamiInfoNode extends P2PQuakeNode<P2PQuakeJson.TsunamiIn
 
 	@Override
 	public boolean canChat() {
-		return super.canChat()&&this.issue.equalsIgnoreCase("Focus")&&!this.areas.isEmpty();
+		return super.canChat()&&this.type.equalsIgnoreCase("Focus")&&!this.areas.isEmpty();
 	}
 }

@@ -12,9 +12,21 @@ import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.QuakeSensin
 
 public class P2PQuakeSensingInfoNode extends P2PQuakeNode<P2PQuakeJson.QuakeSensingInfo> {
 
+	/**
+	 * 	集計件数を表します。
+	 */
 	public int count;
+	/**
+	 * K:P2P地震情報が定める地域単位での集計結果を持ちます。<br>V:その地域から発信された地震感知情報の件数を表します。
+	 */
 	public Map<String, Integer> areas;
+	/**
+	 * K:都道府県単位での集計結果を持ちます。<br>V:その都道府県から発信された地震感知情報の件数を表します。
+	 */
 	public Map<String, Integer> prefs;
+	/**
+	 * K:地方単位での集計結果を持ちます。<br>V:その地方から発信された地震感知情報の件数を表します。
+	 */
 	public Map<String, Integer> regions;
 
 	@Override

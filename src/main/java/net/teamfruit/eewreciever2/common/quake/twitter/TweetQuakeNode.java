@@ -35,10 +35,4 @@ public class TweetQuakeNode implements IQuakeNode {
 		return true;
 	}
 
-	@Override
-	public boolean isValid() {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
-	}
-
 }
