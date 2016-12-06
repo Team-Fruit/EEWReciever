@@ -4,7 +4,7 @@ public enum P2PQuakeNodeIssue {
 	/*@formatter:off*/
 	SCALEPROMPT("地震速報"),
 	DESTINATION("震源情報"),
-	SCALEANDDESTINATION("震源・震度情報"),
+	SCALEANDDESTINATION("地震情報"),
 	DETAILSCALE("各地の震度情報"),
 	FOREGIN("遠地地震情報"),
 	OTHER("不明な地震情報")
