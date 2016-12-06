@@ -14,6 +14,9 @@ public class ConfigHandler extends Configuration {
 
 	private final File configFile;
 
+	public final ConfigProperty<Boolean> p2pquake = ConfigProperty.propertyBoolean(this, get("Api", "P2PQuakeEnable", true).setRequiresMcRestart(true));
+	public final ConfigProperty<Boolean> tweetquake = ConfigProperty.propertyBoolean(this, get("Api", "TwitterEnable", true).setRequiresMcRestart(true));
+
 	public final ConfigProperty<Boolean> chatQuakeInfo = ConfigProperty.propertyBoolean(this, get("Server", "SendQuakeInfoChat", true));
 	public final ConfigProperty<Boolean> chatTsunamiWarn = ConfigProperty.propertyBoolean(this, get("Server", "SendTsunamiWarnChat", true));
 	public final ConfigProperty<Boolean> chatQuakeSensing = ConfigProperty.propertyBoolean(this, get("Server", "SendQuakeSensingChat", false));
@@ -22,7 +25,8 @@ public class ConfigHandler extends Configuration {
 		super(configFile);
 		this.configFile = configFile;
 
-		addCustomCategoryComment("Server", "Setting items when using on server");
+		addCustomCategoryComment("Api", "Changing this item stops using this Mod or Api function.");
+		addCustomCategoryComment("Server", "Setting items when using on server.");
 	}
 
 	@Override

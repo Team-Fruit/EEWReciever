@@ -29,16 +29,12 @@ import net.teamfruit.eewreciever2.EEWReciever2;
 import net.teamfruit.eewreciever2.common.Reference;
 import twitter4j.auth.AccessToken;
 
-//TODO 要refactoring
-public class TweetQuakeSecure {
-	public static final TweetQuakeSecure instance = new TweetQuakeSecure();
+public final class TweetQuakeSecure {
+	private static boolean doneInit;
 	private static final String SUSHI = "4e6e4a4d4933524962475636543156714d57467a64413d3d";
 
 	private TweetQuakeKey tweetQuakeKey;
 	private AccessToken accessToken;
-
-	private TweetQuakeSecure() {
-	}
 
 	public boolean isKeyValid() {
 		return this.tweetQuakeKey!=null;
@@ -56,11 +52,14 @@ public class TweetQuakeSecure {
 		return this.accessToken;
 	}
 
-	public void setAccessToken(final AccessToken accessToken) {
+	public TweetQuakeSecure setAccessToken(final AccessToken accessToken) {
 		this.accessToken = accessToken;
+		return this;
 	}
 
-	public void init() {
+	public TweetQuakeSecure init() {
+		if (doneInit)
+			throw new IllegalStateException();
 		try {
 			this.tweetQuakeKey = decodeTweetQuakeKey(getResourceInputStream("file.eew"));
 			this.accessToken = loadAccessToken(getConfigResourceInputStream("setting.dat"));
@@ -71,6 +70,8 @@ public class TweetQuakeSecure {
 		} catch (final IOException e) {
 			Reference.logger.error(e.getMessage(), e);
 		}
+		doneInit = true;
+		return this;
 	}
 
 	public static InputStream getResourceInputStream(final String fileName) throws IOException {
@@ -177,7 +178,7 @@ public class TweetQuakeSecure {
 		ObjectOutputStream outputStream = null;
 		try {
 			outputStream = new ObjectOutputStream(getConfigResourceOutputStream("setting.dat"));
-			outputStream.writeObject(this.accessToken);
+			outputStream.writeObject(token);
 		} finally {
 			IOUtils.closeQuietly(outputStream);
 		}

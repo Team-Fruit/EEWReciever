@@ -31,6 +31,7 @@ import net.teamfruit.eewreciever2.common.quake.QuakeException;
 import net.teamfruit.eewreciever2.common.util.Downloader;
 
 public class P2PQuake implements IQuake {
+	public static final P2PQuake INSTANCE = new P2PQuake();
 	public static Gson gson = new Gson();
 	public static long WaitMilliSeconds = 1000*20;
 
@@ -41,7 +42,7 @@ public class P2PQuake implements IQuake {
 	private String result;
 	private Throwable error;
 
-	public P2PQuake() {
+	private P2PQuake() {
 		this.callback = new IP2PCallback() {
 			@Override
 			public void onDone(final String json) {

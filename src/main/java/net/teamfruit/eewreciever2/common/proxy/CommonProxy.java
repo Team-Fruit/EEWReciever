@@ -12,7 +12,7 @@ import net.teamfruit.eewreciever2.common.Locations;
 import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.quake.QuakeEventExecutor;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuake;
-import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeSecure;
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuake;
 
 public class CommonProxy {
 
@@ -28,14 +28,17 @@ public class CommonProxy {
 		EEWReciever2.locations.checkLegacy(event.getModConfigurationDirectory());
 
 		ConfigHandler.instance = new ConfigHandler(new File(EEWReciever2.locations.modCfgDir, Reference.MODID+".cfg"));
-		TweetQuakeSecure.instance.init();
 	}
 
 	public void init(final FMLInitializationEvent event) {
+
 		FMLCommonHandler.instance().bus().register(ConfigHandler.instance);
 		FMLCommonHandler.instance().bus().register(QuakeEventExecutor.instance());
 
-		QuakeEventExecutor.instance().register(new P2PQuake());
+		if (ConfigHandler.instance.p2pquake.get())
+			QuakeEventExecutor.instance().register(P2PQuake.INSTANCE);
+		if (ConfigHandler.instance.tweetquake.get())
+			QuakeEventExecutor.instance().register(TweetQuake.INSTANCE);
 	}
 
 	public void postInit(final FMLPostInitializationEvent event) {

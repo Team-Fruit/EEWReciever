@@ -165,5 +165,4 @@ public class P2PQuakeQuakeInfoNode extends P2PQuakeNode<P2PQuakeJson.QuakeInfo> 
 	public boolean canChat() {
 		return super.canChat()&&this.type!=P2PQuakeNodeIssue.DETAILSCALE&&this.type!=P2PQuakeNodeIssue.OTHER;
 	}
-
 }
