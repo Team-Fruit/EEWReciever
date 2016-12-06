@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.client.gui;
+package net.teamfruit.eewreciever2.client.gui.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.teamfruit.eewreciever2.common.ConfigHandler;
 import net.teamfruit.eewreciever2.common.Reference;
 
-public class GuiModConfig extends GuiConfig {
+public class ConfigGui extends GuiConfig {
 
-	public GuiModConfig(final GuiScreen parent) {
+	public ConfigGui(final GuiScreen parent) {
 		super(parent, getConfigElements(), Reference.MODID, false, false, GuiConfig.getAbridgedConfigPath(ConfigHandler.instance.getFilePath()));
 	}
 
