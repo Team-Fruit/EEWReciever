@@ -15,7 +15,7 @@ import net.teamfruit.eewreciever2.common.Locations;
 import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.proxy.CommonProxy;
 
-@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY)
 public class EEWReciever2 {
 	@Instance(Reference.MODID)
 	public static EEWReciever2 instance;
