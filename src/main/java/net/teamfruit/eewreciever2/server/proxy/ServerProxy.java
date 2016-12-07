@@ -1,9 +1,9 @@
 package net.teamfruit.eewreciever2.server.proxy;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.teamfruit.eewreciever2.common.proxy.CommonProxy;
-import net.teamfruit.eewreciever2.server.ServerHandler;
+import net.teamfruit.eewreciever2.server.QuakeHandler;
 
 public class ServerProxy extends CommonProxy {
 
@@ -11,6 +11,6 @@ public class ServerProxy extends CommonProxy {
 	public void init(final FMLInitializationEvent event) {
 		super.init(event);
 
-		MinecraftForge.EVENT_BUS.register(new ServerHandler());
+		FMLCommonHandler.instance().bus().register(new QuakeHandler());
 	}
 }
