@@ -73,21 +73,23 @@ public class P2PQuakeQuakeInfoNode extends P2PQuakeNode<P2PQuakeJson.QuakeInfo> 
 	@Override
 	public IQuakeNode parseString(final String source) throws QuakeException {
 		try {
-			this.data = P2PQuake.gson.fromJson(source, QuakeInfo.class);
+			final QuakeInfo data = P2PQuake.gson.fromJson(source, QuakeInfo.class);
 
-			this.date = dateFormat.parse(this.data.time);
-			this.code = this.data.code;
-			this.source = this.data.issue.source;
-			this.type = P2PQuakeNodeIssue.valueOf(this.data.issue.type.toUpperCase());
-			this.time = dateformat2.parse(this.data.earthquake.time);
-			this.name = this.data.earthquake.hypocenter.name;
-			this.lat = NumberUtils.toFloat(StringUtils.substring(this.data.earthquake.hypocenter.latitude, 1));
-			this.lon = NumberUtils.toFloat(StringUtils.substring(this.data.earthquake.hypocenter.longitude, 1));
-			this.depth = StringUtils.equals(this.data.earthquake.hypocenter.depth, "ごく浅い") ? 0 : NumberUtils.toInt(this.data.earthquake.hypocenter.depth);
-			this.magnitude = NumberUtils.toFloat(this.data.earthquake.hypocenter.magnitude, -1.0f);
-			this.scale = SeismicIntensity.getP2PfromIntensity(this.data.earthquake.maxScale);
-			this.tsunami = EnumUtils.getEnum(P2PQuakeNodeTsunami.class, StringUtils.upperCase(this.data.earthquake.domesticTsunami));
-			this.points = this.data.points;
+			this.date = dateFormat.parse(data.time);
+			this.code = data.code;
+			this.source = data.issue.source;
+			this.type = P2PQuakeNodeIssue.valueOf(data.issue.type.toUpperCase());
+			this.time = dateformat2.parse(data.earthquake.time);
+			this.name = data.earthquake.hypocenter.name;
+			this.lat = NumberUtils.toFloat(StringUtils.substring(data.earthquake.hypocenter.latitude, 1));
+			this.lon = NumberUtils.toFloat(StringUtils.substring(data.earthquake.hypocenter.longitude, 1));
+			this.depth = StringUtils.equals(data.earthquake.hypocenter.depth, "ごく浅い") ? 0 : NumberUtils.toInt(data.earthquake.hypocenter.depth);
+			this.magnitude = NumberUtils.toFloat(data.earthquake.hypocenter.magnitude, -1.0f);
+			this.scale = SeismicIntensity.getP2PfromIntensity(data.earthquake.maxScale);
+			this.tsunami = EnumUtils.getEnum(P2PQuakeNodeTsunami.class, StringUtils.upperCase(data.earthquake.domesticTsunami));
+			this.points = data.points;
+
+			this.data = data;
 		} catch (final JsonParseException e) {
 			throw new QuakeException("Parse Error", e);
 		} catch (final ParseException e) {

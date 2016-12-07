@@ -12,7 +12,7 @@ public enum SeismicIntensity {
 	SIX_MINUS("6弱", 5.5F, 6F),
 	SIX_PLUS("6強", 6F, 6.5F),
 	SEVEN("7", 6.5F, Float.MAX_VALUE),
-	UNKNOWN_FIVE_MINUS_UP("5弱以上と推定", Float.NaN, Float.NaN),
+	UNKNOWN_FIVE_MINUS_UP("5弱以上", Float.NaN, Float.NaN),
 	UNKNOWN("不明", Float.NaN, Float.NaN);
 	/*@formatter:on*/
 

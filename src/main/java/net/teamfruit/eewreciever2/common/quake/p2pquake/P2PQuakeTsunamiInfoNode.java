@@ -32,13 +32,15 @@ public class P2PQuakeTsunamiInfoNode extends P2PQuakeNode<P2PQuakeJson.TsunamiIn
 	@Override
 	public IQuakeNode parseString(final String source) throws QuakeException {
 		try {
-			this.data = P2PQuake.gson.fromJson(source, TsunamiInfo.class);
+			final TsunamiInfo data = P2PQuake.gson.fromJson(source, TsunamiInfo.class);
 
-			this.date = dateFormat.parse(this.data.time);
-			this.code = this.data.code;
-			this.type = this.data.issue.type;
-			this.cancell = this.data.cancelled;
-			this.areas = this.data.areas;
+			this.date = dateFormat.parse(data.time);
+			this.code = data.code;
+			this.type = data.issue.type;
+			this.cancell = data.cancelled;
+			this.areas = data.areas;
+
+			this.data = data;
 		} catch (final JsonParseException e) {
 			throw new QuakeException("Parse Error", e);
 		} catch (final ParseException e) {

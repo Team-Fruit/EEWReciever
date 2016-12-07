@@ -32,14 +32,16 @@ public class P2PQuakeSensingInfoNode extends P2PQuakeNode<P2PQuakeJson.QuakeSens
 	@Override
 	public IQuakeNode parseString(final String source) throws QuakeException {
 		try {
-			this.data = P2PQuake.gson.fromJson(source, QuakeSensingInfo.class);
+			final QuakeSensingInfo data = P2PQuake.gson.fromJson(source, QuakeSensingInfo.class);
 
-			this.date = dateFormat.parse(this.data.time);
-			this.code = this.data.code;
-			this.count = this.data.count;
-			this.areas = this.data.areas;
-			this.prefs = this.data.prefs;
-			this.regions = this.data.regions;
+			this.date = dateFormat.parse(data.time);
+			this.code = data.code;
+			this.count = data.count;
+			this.areas = data.areas;
+			this.prefs = data.prefs;
+			this.regions = data.regions;
+
+			this.data = data;
 		} catch (final JsonParseException e) {
 			throw new QuakeException("Parse Error", e);
 		} catch (final ParseException e) {

@@ -42,7 +42,7 @@ public abstract class P2PQuakeNode<E extends P2PQuakeJson> implements IQuakeNode
 
 	@Override
 	public boolean canChat() {
-		return this.data!=null&&this.date!=null&&this.code!=0;
+		return this.data!=null&&this.code!=0;
 	}
 
 	@Override
