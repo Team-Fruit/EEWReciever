@@ -9,8 +9,8 @@ import com.google.gson.JsonParseException;
 import net.minecraft.util.EnumChatFormatting;
 import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
-import net.teamfruit.eewreciever2.common.quake.QuakeEvent.TsunamiWarnEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeException;
+import net.teamfruit.eewreciever2.common.quake.QuakeEvent.TsunamiWarnEvent;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.TsunamiInfo;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.TsunamiInfo.Area;
 

@@ -17,9 +17,9 @@ import com.google.gson.JsonParseException;
 
 import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
-import net.teamfruit.eewreciever2.common.quake.QuakeEvent.QuakeInfoEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeException;
 import net.teamfruit.eewreciever2.common.quake.SeismicIntensity;
+import net.teamfruit.eewreciever2.common.quake.QuakeEvent.QuakeInfoEvent;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.QuakeInfo;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.QuakeInfo.Point;
 
