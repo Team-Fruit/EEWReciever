@@ -1,136 +1,58 @@
 package net.teamfruit.eewreciever2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Arrays;
 
-import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 
 import net.teamfruit.eewreciever2.common.Reference;
-import net.teamfruit.eewreciever2.common.quake.SeismicIntensity;
-import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.QuakeInfo.Point;
 
 public class Debug {
 
-	public static List<Point> points = new ArrayList<Point>() {
-		{
-			add(new Point() {
-				{
-					this.addr = "宮崎県南部山沿い";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "熊本県阿蘇地方";
-					this.scale = 45;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "福岡県福岡地方";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "熊本県天草・芦北地方";
-					this.scale = 45;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "佐賀県南部";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "鹿児島県薩摩地方";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "長崎県南西部";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "熊本県熊本地方";
-					this.scale = 70;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "長崎県島原半島";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "福岡県筑後地方";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "宮崎県北部山沿い";
-					this.scale = 45;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "山口県西部";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "熊本県球磨地方";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "大分県南部";
-					this.scale = 40;
-				}
-			});
-			add(new Point() {
-				{
-					this.addr = "宮崎県北部平野部";
-					this.scale = 40;
-				}
-			});
-		}
-	};
+	public static void main(final String[] args) throws Exception {
+		final File file = new File("E:/output.txt");
+		final BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
-	public static void main(final String[] args) {
-		final long start = System.currentTimeMillis();
-		final Map<String, String> map = Maps.newTreeMap(Collections.reverseOrder());
-		for (final Point line : points) {
-			final String scale = SeismicIntensity.getP2PfromIntensity(line.scale).toString();
-			final String str = map.get(scale);
-			if (str!=null)
-				map.put(scale, str+' '+line.addr);
-			else
-				map.put(scale, line.addr);
-		}
+		final URL url = new URL("http://www.data.jma.go.jp/svd/eqev/data/kyoshin/jma-shindo.html");
+		final URLConnection con = url.openConnection();
+		final BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
 
-		final StringBuilder sb = new StringBuilder();
-		int i = 0;
-		for (final Entry<String, String> line : map.entrySet()) {
-			if (i!=0)
-				sb.append(' ');
-			sb.append("■震度").append(line.getKey()).append(' ').append(line.getValue());
-			i++;
+		String line;
+		while ((line = br.readLine())!=null) {
+			Reference.logger.info(line);
+			if (StringUtils.startsWith(line, "<tr><td>")) {
+				line = StringUtils.remove(line, "<tr>");
+				line = StringUtils.remove(line, "</tr>");
+				line = StringUtils.remove(line, "<td>");
+				final String[] array = Arrays.copyOf(line.split("</td>"), 9);
+				if (StringUtils.isBlank(array[8])) {
+					final StringBuilder sb = new StringBuilder("(\"");
+					sb.append(array[0]).append('"').append(',');
+					sb.append('"').append(array[1]).append('"').append(',');
+					sb.append(ll(array[3], array[4])).append(',');
+					sb.append(ll(array[5], array[6]));
+					sb.append("),");
+					bw.write(sb.toString());
+					bw.newLine();
+				}
+			}
 		}
-		final String str = sb.toString();
-		Reference.logger.info(System.currentTimeMillis()-start);
-		Reference.logger.info(str);
+		bw.close();
+		Reference.logger.info("Done");
+	}
+
+	public static String ll(final String a, final String b) {
+		BigDecimal decimal = new BigDecimal(a);
+		final String[] array = StringUtils.split(b, ".");
+		decimal = decimal.add(new BigDecimal(array[0]).divide(new BigDecimal(60), 3, BigDecimal.ROUND_HALF_UP));
+		decimal = decimal.add(new BigDecimal(array[1]).multiply(new BigDecimal(10)).divide(new BigDecimal(3600), 3, BigDecimal.ROUND_HALF_UP));
+		return String.valueOf(decimal.floatValue());
 	}
 }
