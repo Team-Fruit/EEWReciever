@@ -36,7 +36,18 @@ public class QuakeCalculator {
 		final double bx = Math.cos(lat2)*Math.sin(lon2);
 		final double ce = Math.sin(lat1)*(A-depth)/A;
 		final double cx = Math.sin(lat2);
-		return Math.cos(Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2))/2/2);
+		return Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2));
+		//		return Math.cos(Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2))/2/2);
+	}
+
+	public static double getDistanceBetween(final double lat1, final double lng1, final double lat2, final double lng2) {
+		final double dx = Math.toRadians(lng1-lng2), dy = Math.toRadians(lat1-lat2);
+		final double my = Math.toRadians((lat1+lat2)/2.0);
+		final double e = Math.sqrt((6378137d*6378137d-6356752.314245*6356752.314245)/(6378137d*6378137d));
+		final double w = Math.sqrt(1-Math.pow(e, 2)*Math.pow(Math.sin(my), 2));
+		final double n = 6378137d/w;
+		final double m = 6378137d*(1-Math.pow(e, 2))/w*w*w;
+		return Math.sqrt(Math.pow(dy*m, 2)+Math.pow(dx*n*Math.cos(my), 2));
 	}
 
 	/**
