@@ -1,5 +1,6 @@
 package net.teamfruit.eewreciever2.common.quake.calc;
 
+// TODO
 /**
  * 緊急地震速報のデータからの計算用クラスです
  * @author bebe, BSC24公式チャットの皆さん
@@ -19,45 +20,57 @@ public class QuakeCalculator {
 		return geographicalLatitude-Math.toRadians(11.55d/60)*Math.sin(2*geographicalLatitude);
 	}
 
-	public static final double A = 6370.291d;
+	//	public static final double A = 6370.291d;
+	//
+	//	/**
+	//	 * 角距離を求めます
+	//	 * @param lat1
+	//	 * @param lon1
+	//	 * @param lat2
+	//	 * @param lon2
+	//	 * @return 角距離
+	//	 */
+	//	public static double angularDistance(final double lat1, final double lon1, final double lat2, final double lon2, final double depth) {
+	//		final double ae = Math.cos(lat1)*Math.cos(lon1)*(A-depth)/A;
+	//		final double ax = Math.cos(lat2)*Math.cos(lon2);
+	//		final double be = Math.cos(lat1)*Math.sin(lon1)*(A-depth)/A;
+	//		final double bx = Math.cos(lat2)*Math.sin(lon2);
+	//		final double ce = Math.sin(lat1)*(A-depth)/A;
+	//		final double cx = Math.sin(lat2);
+	//		return Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2));
+	//		//		return Math.cos(Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2))/2/2);
+	//	}
+
+	public static final double A = 6378137.000;
+	public static final double E2 = 0.00669438002301188;
+	public static final double MNUM = 6335439.32708317;
 
 	/**
-	 * 角距離を求めます
+	 * 座標間の直線距離を求めます
 	 * @param lat1
 	 * @param lon1
 	 * @param lat2
 	 * @param lon2
-	 * @return 角距離
+	 * @return メートル
 	 */
-	public static double angularDistance(final double lat1, final double lon1, final double lat2, final double lon2, final double depth) {
-		final double ae = Math.cos(lat1)*Math.cos(lon1)*(A-depth)/A;
-		final double ax = Math.cos(lat2)*Math.cos(lon2);
-		final double be = Math.cos(lat1)*Math.sin(lon1)*(A-depth)/A;
-		final double bx = Math.cos(lat2)*Math.sin(lon2);
-		final double ce = Math.sin(lat1)*(A-depth)/A;
-		final double cx = Math.sin(lat2);
-		return Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2));
-		//		return Math.cos(Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2))/2/2);
-	}
-
-	public static double getDistanceBetween(final double lat1, final double lng1, final double lat2, final double lng2) {
-		final double dx = Math.toRadians(lng1-lng2), dy = Math.toRadians(lat1-lat2);
-		final double my = Math.toRadians((lat1+lat2)/2.0);
-		final double e = Math.sqrt((6378137d*6378137d-6356752.314245*6356752.314245)/(6378137d*6378137d));
-		final double w = Math.sqrt(1-Math.pow(e, 2)*Math.pow(Math.sin(my), 2));
-		final double n = 6378137d/w;
-		final double m = 6378137d*(1-Math.pow(e, 2))/w*w*w;
+	public static double getDistanceBetween(final double lat1, final double lon1, final double lat2, final double lon2) {
+		final double dx = Math.toRadians(lon1-lon2);
+		final double dy = Math.toRadians(lat1-lat2);
+		final double my = Math.toRadians((lat1+lat2)/2d);
+		final double w = Math.sqrt(1d-E2*Math.pow(Math.sin(my), 2));
+		final double n = A/w;
+		final double m = MNUM/Math.pow(w, 3);
 		return Math.sqrt(Math.pow(dy*m, 2)+Math.pow(dx*n*Math.cos(my), 2));
 	}
 
-	/**
-	 * 距離を求めます
-	 * @param angularDistance 角距離
-	 * @return 距離(km)
-	 */
-	public static double toEpicenterDistance(final double angularDistance) {
-		return angularDistance*A;
-	}
+	//	/**
+	//	 * 距離を求めます
+	//	 * @param angularDistance 角距離
+	//	 * @return 距離(km)
+	//	 */
+	//	public static double toEpicenterDistance(final double angularDistance) {
+	//		return angularDistance*A;
+	//	}
 
 	/**
 	 * 断層最短距離を計算します
