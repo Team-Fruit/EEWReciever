@@ -1,10 +1,10 @@
 package net.teamfruit.eewreciever2.common.quake.calc;
 
-// TODO
 /**
  * 緊急地震速報のデータからの計算用クラスです
  * @author bebe, BSC24公式チャットの皆さん
- *
+ * @see <a href="http://repository.aitech.ac.jp/dspace/bitstream/11133/2521/1/%E9%98%B2%E7%81%BD4%E5%8F%B7%E7%A0%94%E7%A9%B6%E9%96%8B%E7%99%BA%E3%83%BB%E7%B7%8A%E6%80%A5%E5%9C%B0%E9%9C%87%E9%80%9F%E5%A0%B13(P21-26).pdf">参考文献</a>
+ * @see <a href="http://www.data.jma.go.jp/svd/eew/data/nc/katsuyou/reference.pdf">参考文献</a>
  */
 public class QuakeCalculator {
 
@@ -16,61 +16,56 @@ public class QuakeCalculator {
 	 * @param geographicalLatitude 地理緯度
 	 * @return 地心緯度
 	 */
-	public static double toGeospatialLatitude(final double geographicalLatitude) {
-		return geographicalLatitude-Math.toRadians(11.55d/60)*Math.sin(2*geographicalLatitude);
+	private static double toGeospatialLatitude(final double geographicalLatitude) {
+		return Math.atan(geographicalLatitude-Math.toRadians(11.55/60d)*Math.sin(2*geographicalLatitude));
 	}
 
-	//	public static final double A = 6370.291d;
-	//
-	//	/**
-	//	 * 角距離を求めます
-	//	 * @param lat1
-	//	 * @param lon1
-	//	 * @param lat2
-	//	 * @param lon2
-	//	 * @return 角距離
-	//	 */
-	//	public static double angularDistance(final double lat1, final double lon1, final double lat2, final double lon2, final double depth) {
-	//		final double ae = Math.cos(lat1)*Math.cos(lon1)*(A-depth)/A;
-	//		final double ax = Math.cos(lat2)*Math.cos(lon2);
-	//		final double be = Math.cos(lat1)*Math.sin(lon1)*(A-depth)/A;
-	//		final double bx = Math.cos(lat2)*Math.sin(lon2);
-	//		final double ce = Math.sin(lat1)*(A-depth)/A;
-	//		final double cx = Math.sin(lat2);
-	//		return Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2));
-	//		//		return Math.cos(Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2))/2/2);
-	//	}
-
-	public static final double A = 6378137.000;
-	public static final double E2 = 0.00669438002301188;
-	public static final double MNUM = 6335439.32708317;
+	public static final double A = 6370.291d;
 
 	/**
-	 * 座標間の直線距離を求めます
-	 * @param lat1
-	 * @param lon1
-	 * @param lat2
-	 * @param lon2
-	 * @return メートル
+	 * 震央距離を求めます
+	 * @param lat1 震源緯度
+	 * @param lon1 震源経度
+	 * @param lat2 観測点緯度
+	 * @param lon2 観測点経度
+	 * @param depth 震源深さ
+	 * @return 直線距離(Km)
 	 */
-	public static double getDistanceBetween(final double lat1, final double lon1, final double lat2, final double lon2) {
-		final double dx = Math.toRadians(lon1-lon2);
-		final double dy = Math.toRadians(lat1-lat2);
-		final double my = Math.toRadians((lat1+lat2)/2d);
-		final double w = Math.sqrt(1d-E2*Math.pow(Math.sin(my), 2));
-		final double n = A/w;
-		final double m = MNUM/Math.pow(w, 3);
-		return Math.sqrt(Math.pow(dy*m, 2)+Math.pow(dx*n*Math.cos(my), 2));
+	public static double angularDistance(double lat1, final double lon1, double lat2, final double lon2, final double depth) {
+		lat1 = toGeospatialLatitude(lat1);
+		lat2 = toGeospatialLatitude(lat2);
+		final double ae = Math.cos(lat1)*Math.cos(lon1)*(A-depth)/A;
+		final double ax = Math.cos(lat2)*Math.cos(lon2);
+		final double be = Math.cos(lat1)*Math.sin(lon1)*(A-depth)/A;
+		final double bx = Math.cos(lat2)*Math.sin(lon2);
+		final double ce = Math.sin(lat1)*(A-depth)/A;
+		final double cx = Math.sin(lat2);
+		return Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2))*A;
 	}
 
-	//	/**
-	//	 * 距離を求めます
-	//	 * @param angularDistance 角距離
-	//	 * @return 距離(km)
-	//	 */
-	//	public static double toEpicenterDistance(final double angularDistance) {
-	//		return angularDistance*A;
-	//	}
+	//ヒュベニの公式
+	/*	public static final double A = 6378137.000;
+		public static final double E2 = 0.00669438002301188;
+		public static final double MNUM = 6335439.32708317;
+	
+		*//**
+			* 座標間の直線距離を求めます
+			* @param lat1
+			* @param lon1
+			* @param lat2
+			* @param lon2
+			* @return メートル
+			*//*
+			public static double getDistanceBetween(final double lat1, final double lon1, final double lat2, final double lon2) {
+			final double dx = Math.toRadians(lon1-lon2);
+			final double dy = Math.toRadians(lat1-lat2);
+			final double my = Math.toRadians((lat1+lat2)/2d);
+			final double w = Math.sqrt(1d-E2*Math.pow(Math.sin(my), 2));
+			final double n = A/w;
+			final double m = MNUM/Math.pow(w, 3);
+			return Math.sqrt(Math.pow(dy*m, 2)+Math.pow(dx*n*Math.cos(my), 2));
+			}
+			*/
 
 	/**
 	 * 断層最短距離を計算します
