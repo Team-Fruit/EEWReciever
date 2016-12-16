@@ -2,6 +2,7 @@ package net.teamfruit.eewreciever2.common.quake.calc;
 
 /**
  * 緊急地震速報のデータからの計算用クラスです
+ * 計算式に問題がある場合、GithubにPullrequestを送っていただけるとありがたいです。
  * @author bebe, BSC24公式チャットの皆さん
  * @see <a href="http://repository.aitech.ac.jp/dspace/bitstream/11133/2521/1/%E9%98%B2%E7%81%BD4%E5%8F%B7%E7%A0%94%E7%A9%B6%E9%96%8B%E7%99%BA%E3%83%BB%E7%B7%8A%E6%80%A5%E5%9C%B0%E9%9C%87%E9%80%9F%E5%A0%B13(P21-26).pdf">参考文献</a>
  * @see <a href="http://www.data.jma.go.jp/svd/eew/data/nc/katsuyou/reference.pdf">参考文献</a>
@@ -20,7 +21,7 @@ public class QuakeCalculator {
 		return Math.atan(geographicalLatitude-Math.toRadians(11.55/60d)*Math.sin(2*geographicalLatitude));
 	}
 
-	public static final double A = 6370.291d;
+	public static final double A = 6378.137d;
 
 	/**
 	 * 震央距離を求めます
@@ -31,16 +32,26 @@ public class QuakeCalculator {
 	 * @param depth 震源深さ
 	 * @return 直線距離(Km)
 	 */
-	public static double angularDistance(double lat1, final double lon1, double lat2, final double lon2, final double depth) {
-		lat1 = toGeospatialLatitude(lat1);
-		lat2 = toGeospatialLatitude(lat2);
-		final double ae = Math.cos(lat1)*Math.cos(lon1)*(A-depth)/A;
-		final double ax = Math.cos(lat2)*Math.cos(lon2);
-		final double be = Math.cos(lat1)*Math.sin(lon1)*(A-depth)/A;
-		final double bx = Math.cos(lat2)*Math.sin(lon2);
-		final double ce = Math.sin(lat1)*(A-depth)/A;
-		final double cx = Math.sin(lat2);
-		return Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2))*A;
+	public static double angularDistance(double lat1, double lon1, double lat2, double lon2, final double depth) {
+		lat1 = Math.toRadians(lat1);
+		lat2 = Math.toRadians(lat2);
+		lon1 = Math.toRadians(lon1);
+		lon2 = Math.toRadians(lon2);
+		final double x1 = Math.cos(lat1)*Math.cos(lon1)*((A-depth)/A);
+		final double y1 = Math.cos(lat1)*Math.sin(lon1)*((A-depth)/A);
+		final double z1 = Math.sin(lat1)*((A-depth)/A);
+		final double x2 = Math.cos(lat2)*Math.cos(lon2);
+		final double y2 = Math.cos(lat2)*Math.sin(lon2);
+		final double z2 = Math.sin(lat2);
+		final double a = Math.acos(x1*x2+y1*y2+z1*z2);
+		return Math.acos(x1*x2+y1*y2+z1*z2)*A;
+		//		final double ae = Math.cos(lat1)*Math.cos(lon1)*((A-depth)/A);
+		//		final double ax = Math.cos(lat2)*Math.cos(lon2);
+		//		final double be = Math.cos(lat1)*Math.sin(lon1)*((A-depth)/A);
+		//		final double bx = Math.cos(lat2)*Math.sin(lon2);
+		//		final double ce = Math.sin(lat1)*((A-depth)/A);
+		//		final double cx = Math.sin(lat2);
+		//		return Math.sqrt(Math.pow(ae-ax, 2)+Math.pow(be-bx, 2)+Math.pow(ce-cx, 2))*A;
 	}
 
 	//ヒュベニの公式
