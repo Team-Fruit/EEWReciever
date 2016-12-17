@@ -63,8 +63,12 @@ public class TweetQuake implements IQuake {
 			Reference.logger.warn("Because there was a problem, we could not connect to Twitter.");
 	}
 
-	protected void setAccessToken(final AccessToken token) throws IOException {
+	protected TweetQuake setAccessToken(final AccessToken token) throws IOException {
 		this.secure.setAccessToken(token).storeAccessToken(token);
+		return this;
+	}
+
+	public void connect() {
 		if (this.isAuthRequired)
 			init();
 	}
