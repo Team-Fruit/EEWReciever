@@ -37,7 +37,6 @@ public class TweetQuakeAuther {
 			throw new IllegalStateException();
 		try {
 			TweetQuake.INSTANCE.setAccessToken(this.accessToken).connect();
-			;
 		} catch (final IOException e) {
 			Reference.logger.error(e.getMessage(), e);
 		}

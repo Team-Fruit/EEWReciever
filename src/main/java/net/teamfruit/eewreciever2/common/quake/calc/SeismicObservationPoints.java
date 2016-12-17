@@ -1,7 +1,6 @@
 package net.teamfruit.eewreciever2.common.quake.calc;
 
 import java.io.InputStreamReader;
-import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Consts;
@@ -17,27 +16,9 @@ public class SeismicObservationPoints implements Runnable {
 	public static final String JSON_PATH = "https://gist.githubusercontent.com/sjcl/7375640587ad7c21e24a7e5e77336cdd/raw/84df893f745ed68539c096e12e5780b59b8bb696/SeismicObservationPoints.json";
 	private static Gson gson = new Gson();
 
-	public static interface ICallBack {
-		void onDone(PointsJson json);
+	private IJsonCallBack callback;
 
-		void onError(Throwable t);
-	}
-
-	public static class PointsJson {
-		Map<String, Map<String, Map<String, Point>>> points;
-
-		public static class Point {
-			public String name;
-			public float lat;
-			public float lon;
-			public float arv;
-			public float avs;
-		}
-	}
-
-	private ICallBack callback;
-
-	public void get(final ICallBack callback) {
+	public void get(final IJsonCallBack callback) {
 		this.callback = callback;
 		new Thread(this).start();
 	}

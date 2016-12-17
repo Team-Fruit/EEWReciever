@@ -12,11 +12,20 @@ public class QuakeCalculator {
 	private QuakeCalculator() {
 	}
 
+	public static float getMeasured(final float magnitude, final float depth, final float epicenterLat, final float epicenterLon, final float pointLat, final float pointLon) {
+		final float mw = magnitude;
+		final double distance = angularDistance(epicenterLat, epicenterLon, pointLat, pointLon, depth);
+		final double fDistance = faultShortestDistance(distance, faultLength(mw));
+		final double pgv600 = pgv600(mw, depth, distance);
+		return 0;
+	}
+
 	/**
 	 * 地理緯度を地心緯度にします
 	 * @param geographicalLatitude 地理緯度
 	 * @return 地心緯度
 	 */
+	@Deprecated
 	private static double toGeospatialLatitude(final double geographicalLatitude) {
 		return Math.atan(geographicalLatitude-Math.toRadians(11.55/60d)*Math.sin(2*geographicalLatitude));
 	}
@@ -58,7 +67,7 @@ public class QuakeCalculator {
 	/*	public static final double A = 6378137.000;
 		public static final double E2 = 0.00669438002301188;
 		public static final double MNUM = 6335439.32708317;
-	
+
 		*//**
 			* 座標間の直線距離を求めます
 			* @param lat1
