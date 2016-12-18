@@ -14,14 +14,14 @@ public class QuakeCalculator {
 
 	/**
 	 * 計測震度を推定します
-	 * @param magnitude
-	 * @param depth
-	 * @param epicenterLat
-	 * @param epicenterLon
-	 * @param pointLat
-	 * @param pointLon
-	 * @param arv600
-	 * @return
+	 * @param magnitude 気象庁マグニチュード
+	 * @param depth 震源深さ
+	 * @param epicenterLat 震源緯度
+	 * @param epicenterLon 震源経度
+	 * @param pointLat 観測点緯度
+	 * @param pointLon 観測点経度
+	 * @param arv600 観測点ARV600 (Vs=600m/sから地表に至る最大速度の増幅率)
+	 * @return 予想計測震度
 	 */
 	public static float getMeasured(final float magnitude, final float depth, final float epicenterLat, final float epicenterLon, final float pointLat, final float pointLon, final float arv600) {
 		final float mw = magnitude;
@@ -73,8 +73,6 @@ public class QuakeCalculator {
 		final double x2 = Math.cos(lat2)*Math.cos(lon2);
 		final double y2 = Math.cos(lat2)*Math.sin(lon2);
 		final double z2 = Math.sin(lat2);
-		//		final double a = Math.acos(x1*x2+y1*y2+z1*z2);
-		//		return Math.acos(x1*x2+y1*y2+z1*z2)*A;
 		return Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1-y2, 2)+Math.pow(z1-z2, 2))*A;
 	}
 
@@ -102,7 +100,7 @@ public class QuakeCalculator {
 	 * @param mjma 気象庁マグニチュード
 	 * @return モーメントマグニチュード
 	 */
-	private static double momentMagnitude(final double mjma) {
+	private static double toMomentMagnitude(final double mjma) {
 		return mjma-0.171d;
 	}
 
