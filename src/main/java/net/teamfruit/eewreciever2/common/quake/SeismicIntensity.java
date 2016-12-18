@@ -44,7 +44,7 @@ public enum SeismicIntensity {
 	 * @param p2pIntensity
 	 * @return
 	 */
-	public static SeismicIntensity getP2PfromIntensity(final int p2pIntensity) {
+	public static SeismicIntensity fromP2P(final int p2pIntensity) {
 		switch (p2pIntensity) {
 			case 0:
 				return SeismicIntensity.ZERO;
@@ -78,7 +78,7 @@ public enum SeismicIntensity {
 	 * @param jpIntensity
 	 * @return
 	 */
-	public static SeismicIntensity getJPfromIntensity(final String jpIntensity) {
+	public static SeismicIntensity fromJP(final String jpIntensity) {
 		for (final SeismicIntensity line : SeismicIntensity.values())
 			if (line.getJPNIntensity().equals(jpIntensity))
 				return line;
@@ -90,7 +90,7 @@ public enum SeismicIntensity {
 	 * @param measuredIntensity
 	 * @return
 	 */
-	public static SeismicIntensity getMeasuredfromIntensity(final float measuredIntensity) {
+	public static SeismicIntensity fromMeasured(final float measuredIntensity) {
 		for (final SeismicIntensity line : SeismicIntensity.values())
 			if (line.minMeasured<=measuredIntensity&&line.maxMeasured>measuredIntensity)
 				return line;

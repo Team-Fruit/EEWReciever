@@ -125,7 +125,7 @@ public class TweetQuakeNode implements IQuakeNode {
 		this.name = tnode[9];
 		this.depth = NumberUtils.toInt(tnode[10]);
 		this.magnitude = NumberUtils.toFloat(tnode[11]);
-		this.seismic = SeismicIntensity.getJPfromIntensity(tnode[12]);
+		this.seismic = SeismicIntensity.fromJP(tnode[12]);
 		this.sea = "1".equals(tnode[13]);
 		this.alarm = "1".equals(tnode[14]);
 

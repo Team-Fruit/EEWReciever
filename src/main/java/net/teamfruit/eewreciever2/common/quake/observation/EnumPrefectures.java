@@ -70,7 +70,32 @@ public enum EnumPrefectures {
 		this.lon = lon;
 	}
 
+	public double getDistance(final float lat, final float lon, final float depth) {
+		return QuakeCalculator.getDistance(this.lat, this.lon, lat, lon, depth);
+	}
+
 	public double getDistance(final float lat, final float lon) {
-		return QuakeCalculator.getDistance(this.lat, this.lon, lat, lon, 0);
+		return getDistance(lat, lon, 0);
+	}
+
+	public String getCode() {
+		return this.code;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public float getLat() {
+		return this.lat;
+	}
+
+	public float getLon() {
+		return this.lon;
+	}
+
+	@Override
+	public String toString() {
+		return this.name;
 	}
 }

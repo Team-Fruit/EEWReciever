@@ -10,13 +10,12 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 
 import net.teamfruit.eewreciever2.common.util.Downloader;
 
 public class SeismicObservationPoints implements Runnable {
-	public static final String JSON_PATH = "https://gist.githubusercontent.com/sjcl/7375640587ad7c21e24a7e5e77336cdd/raw/84df893f745ed68539c096e12e5780b59b8bb696/SeismicObservationPoints.json";
+	public static final String JSON_PATH = "https://gist.githubusercontent.com/sjcl/7375640587ad7c21e24a7e5e77336cdd/raw/13a226f1cce1ee608d30ae8e012ee1561597186d/SeismicObservationPoints.json";
 	private static Gson gson = new Gson();
 
 	private IJsonCallBack callback;
@@ -51,10 +50,15 @@ public class SeismicObservationPoints implements Runnable {
 			public String name;
 			public float lat;
 			public float lon;
-			@SerializedName("arv") //バグ回避
-			public float avs;
-			@SerializedName("avs") //バグ回避
+			//			public float avs;
 			public float arv;
+
+			public Point(final String name, final float lat, final float lon, final float arv) {
+				this.name = name;
+				this.lat = lat;
+				this.lon = lon;
+				this.arv = arv;
+			}
 		}
 	}
 }

@@ -85,7 +85,7 @@ public class P2PQuakeQuakeInfoNode extends P2PQuakeNode<P2PQuakeJson.QuakeInfo> 
 			this.lon = NumberUtils.toFloat(StringUtils.substring(data.earthquake.hypocenter.longitude, 1));
 			this.depth = StringUtils.equals(data.earthquake.hypocenter.depth, "ごく浅い") ? 0 : NumberUtils.toInt(data.earthquake.hypocenter.depth);
 			this.magnitude = NumberUtils.toFloat(data.earthquake.hypocenter.magnitude, -1.0f);
-			this.scale = SeismicIntensity.getP2PfromIntensity(data.earthquake.maxScale);
+			this.scale = SeismicIntensity.fromP2P(data.earthquake.maxScale);
 			this.tsunami = EnumUtils.getEnum(P2PQuakeNodeTsunami.class, StringUtils.upperCase(data.earthquake.domesticTsunami));
 			this.points = data.points;
 
@@ -109,7 +109,7 @@ public class P2PQuakeQuakeInfoNode extends P2PQuakeNode<P2PQuakeJson.QuakeInfo> 
 			case SCALEPROMPT:
 				final Map<String, String> map = Maps.newTreeMap(Collections.reverseOrder());
 				for (final Point line : this.points) {
-					final String scale = SeismicIntensity.getP2PfromIntensity(line.scale).toString();
+					final String scale = SeismicIntensity.fromP2P(line.scale).toString();
 					final String str = map.get(scale);
 					if (str!=null)
 						map.put(scale, str+' '+line.addr);
