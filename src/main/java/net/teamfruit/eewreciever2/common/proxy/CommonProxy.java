@@ -11,6 +11,7 @@ import net.teamfruit.eewreciever2.common.ConfigHandler;
 import net.teamfruit.eewreciever2.common.Locations;
 import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.quake.QuakeEventExecutor;
+import net.teamfruit.eewreciever2.common.quake.observation.OvservationPredictor;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuake;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuake;
 
@@ -28,10 +29,11 @@ public class CommonProxy {
 		EEWReciever2.locations.checkLegacy(event.getModConfigurationDirectory());
 
 		ConfigHandler.instance = new ConfigHandler(new File(EEWReciever2.locations.modCfgDir, Reference.MODID+".cfg"));
+
+		OvservationPredictor.INSTANCE.init();
 	}
 
 	public void init(final FMLInitializationEvent event) {
-
 		FMLCommonHandler.instance().bus().register(ConfigHandler.instance);
 		FMLCommonHandler.instance().bus().register(QuakeEventExecutor.instance());
 

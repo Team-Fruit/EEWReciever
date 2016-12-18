@@ -51,7 +51,7 @@ public class QuakeCalculator {
 	 * @param depth 震源深さ
 	 * @return 直線距離(Km)
 	 */
-	private static double getDistance(final double lat1, final double lon1, final double lat2, final double lon2, final double depth) {
+	protected static double getDistance(final double lat1, final double lon1, final double lat2, final double lon2, final double depth) {
 		return distance(toGeospatialLatitude(Math.toRadians(lat1)), Math.toRadians(lon1), toGeospatialLatitude(Math.toRadians(lat2)), Math.toRadians(lon2), depth);
 	}
 

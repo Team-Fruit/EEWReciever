@@ -158,13 +158,15 @@ public class TweetQuakeNode implements IQuakeNode {
 		if (this.training)
 			sb.append("[訓練報]");
 		if (this.last)
-			sb.append(String.format("緊急地震速報 %sで地震 予想震度%s %skm M%s (最終報)",
+			sb.append(String.format("緊急地震速報(%s) %sで地震 予想震度%s %skm M%s (最終報)",
+					this.alarm ? "警報" : "予報",
 					this.name,
 					this.seismic,
 					this.depth,
 					this.magnitude));
 		else
-			sb.append(String.format("緊急地震速報 %sで地震 予想震度%s %skm M%s (第%s報)",
+			sb.append(String.format("緊急地震速報(%s) %sで地震 予想震度%s %skm M%s (第%s報)",
+					this.alarm ? "警報" : "予報",
 					this.name,
 					this.seismic,
 					this.depth,
