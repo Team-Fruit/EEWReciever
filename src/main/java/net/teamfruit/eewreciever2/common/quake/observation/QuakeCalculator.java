@@ -29,7 +29,7 @@ public class QuakeCalculator {
 		final double fDistance = faultShortestDistance(distance, faultLength(mw));
 		final double pgv600 = pgv600(mw, depth, fDistance);
 		final double pgv = pgv(arv600, pgv600);
-		final float measured = (float) measured(pgv);
+		final float measured = measured(pgv);
 		return measured;
 	}
 
@@ -132,7 +132,7 @@ public class QuakeCalculator {
 	 * @param pgv 地表面における最大速度 (cm/s)
 	 * @return 計測震度
 	 */
-	private static double measured(final double pgv) {
-		return 2.68d+1.72*Math.log10(pgv);
+	private static float measured(final double pgv) {
+		return (float) (2.68f+1.72f*Math.log10(pgv));
 	}
 }
