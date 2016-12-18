@@ -1,6 +1,8 @@
 package net.teamfruit.eewreciever2.common.quake.calc;
 
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Consts;
@@ -8,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 
 import net.teamfruit.eewreciever2.common.util.Downloader;
@@ -38,6 +41,20 @@ public class SeismicObservationPoints implements Runnable {
 			this.callback.onError(e);
 		} finally {
 			IOUtils.closeQuietly(jr);
+		}
+	}
+
+	public static class PointsJson {
+		public Map<String, Map<String, Map<String, List<Point>>>> points;
+
+		public static class Point {
+			public String name;
+			public float lat;
+			public float lon;
+			@SerializedName("arv") //バグ回避
+			public float avs;
+			@SerializedName("avs") //バグ回避
+			public float arv;
 		}
 	}
 }

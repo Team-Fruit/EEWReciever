@@ -1,9 +1,14 @@
 package net.teamfruit.eewreciever2;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.quake.calc.IJsonCallBack;
-import net.teamfruit.eewreciever2.common.quake.calc.PointsJson;
 import net.teamfruit.eewreciever2.common.quake.calc.SeismicObservationPoints;
+import net.teamfruit.eewreciever2.common.quake.calc.SeismicObservationPoints.PointsJson;
+import net.teamfruit.eewreciever2.common.quake.calc.SeismicObservationPoints.PointsJson.Point;
 
 public class Debug {
 
@@ -22,6 +27,25 @@ public class Debug {
 
 			@Override
 			public void onDone(final PointsJson json) {
+				for (final Entry<String, Map<String, Map<String, List<Point>>>> line1 : json.points.entrySet()) {
+					for (final Entry<String, Map<String, List<Point>>> line2 : line1.getValue().entrySet()) {
+						for (final Entry<String, List<Point>> line3 : line2.getValue().entrySet()) {
+							for (final Point line4 : line3.getValue()) {
+								line4.arv = (float) Math.pow(10, 1.83d-(0.66*Math.log10(line4.avs)));
+								//								Reference.logger.info("avs{}", line4.avs);
+								Reference.logger.info("arv{}", line4.arv);
+							}
+						}
+					}
+				}
+				//				try {
+				//					final JsonWriter jw = new JsonWriter(new FileWriter(new File("E:/new.json")));
+				//					new Gson().toJson(json, PointsJson.class, jw);
+				//					jw.close();
+				//				} catch (final IOException e) {
+				//					// TODO 自動生成された catch ブロック
+				//					e.printStackTrace();
+				//				}
 			}
 		});
 	}
