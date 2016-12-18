@@ -14,6 +14,7 @@ import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.lib.OpenGL;
 import net.teamfruit.eewreciever2.lib.bnnwidget.position.Area;
 
+@Deprecated
 public class StencilClip {
 	public static final StencilClip instance = new StencilClip();
 	private int layer = 0;

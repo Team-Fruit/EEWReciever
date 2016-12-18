@@ -19,7 +19,7 @@ import net.teamfruit.eewreciever2.lib.bnnwidget.position.Area;
 public class WGui extends Gui {
 	public static final Minecraft mc;
 	public static final Tessellator t = Tessellator.instance;
-	public static final StencilClip clip = StencilClip.instance;
+	// public static final StencilClip clip = StencilClip.instance;
 	static {
 		mc = FMLClientHandler.instance().getClient();
 	}
@@ -106,7 +106,7 @@ public class WGui extends Gui {
 	}
 
 	public static void fontColor(final int r, final int g, final int b, final int a) {
-		fontColor((a&0xFF)<<24|(r&0xFF)<<16|(g&0xFF)<<8|(b&0xFF)<<0);
+		fontColor(Math.max(a&0xff, 0x4)<<24|(r&0xFF)<<16|(g&0xFF)<<8|(b&0xFF)<<0);
 	}
 
 	public static void fontColor(final float r, final float g, final float b, final float a) {

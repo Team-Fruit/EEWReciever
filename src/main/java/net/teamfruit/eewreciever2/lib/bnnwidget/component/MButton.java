@@ -1,5 +1,7 @@
 package net.teamfruit.eewreciever2.lib.bnnwidget.component;
 
+import java.awt.Color;
+
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 import net.teamfruit.eewreciever2.lib.OpenGL;
@@ -67,7 +69,7 @@ public class MButton extends WBase {
 		final float opacity = getGuiOpacity(popacity);
 
 		RenderHelper.startTexture();
-		OpenGL.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		OpenGL.glColor4f(1.0F, 1.0F, 1.0F, opacity);
 		texture().bindTexture(button);
 		final int state = !isEnabled() ? 0 : a.pointInside(p) ? 2 : 1;
 
@@ -76,7 +78,7 @@ public class MButton extends WBase {
 		drawTextureModalSize(a.x1(), a.y1()+a.h()/2, a.w()/2, a.h()/2, 0, state*80+80-a.h()/2, a.w()/2, a.h()/2);
 		drawTextureModalSize(a.x1()+a.w()/2, a.y1()+a.h()/2, a.w()/2, a.h()/2, 256-a.w()/2, state*80+80-a.h()/2, a.w()/2, a.h()/2);
 		if (this.text!=null)
-			drawText(ev, pgp, p, frame);
+			drawText(ev, pgp, p, frame, opacity);
 	}
 
 	protected VMotion o = V.pm(0).start();
@@ -96,10 +98,11 @@ public class MButton extends WBase {
 		}
 	}
 
-	public void drawText(final WEvent ev, final Area pgp, final Point p, final float frame) {
+	public void drawText(final WEvent ev, final Area pgp, final Point p, final float frame, final float opacity) {
 		final Area a = getGuiPosition(pgp);
 		RenderHelper.startTexture();
-		fontColor(getTextColour(ev, pgp, p, frame));
+		final Color c = new Color(getTextColour(ev, pgp, p, frame));
+		fontColor(c.getRed(), c.getGreen(), c.getBlue(), (int) (c.getAlpha()*opacity));
 		drawString(this.text, a, Align.CENTER, VerticalAlign.MIDDLE, true);
 	}
 
