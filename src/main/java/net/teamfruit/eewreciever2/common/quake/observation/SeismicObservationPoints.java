@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common.quake.calc;
+package net.teamfruit.eewreciever2.common.quake.observation;
 
 import java.io.InputStreamReader;
 import java.util.List;

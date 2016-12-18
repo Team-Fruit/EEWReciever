@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common.quake.calc;
+package net.teamfruit.eewreciever2.common.quake.observation;
 
 /**
  * 緊急地震速報のデータからの計算用クラスです
