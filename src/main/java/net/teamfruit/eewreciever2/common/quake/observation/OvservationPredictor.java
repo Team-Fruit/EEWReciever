@@ -15,13 +15,13 @@ import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeNode;
 public class OvservationPredictor {
 	public static final OvservationPredictor INSTANCE = new OvservationPredictor();
 
-	private PointsJson points;
+	private PointsJson json;
 
 	private OvservationPredictor() {
 	}
 
 	public PointsJson getPoints() {
-		return this.points;
+		return this.json;
 	}
 
 	public void init() {
@@ -33,25 +33,25 @@ public class OvservationPredictor {
 
 			@Override
 			public void onDone(final PointsJson json) {
-				OvservationPredictor.this.points = json;
+				OvservationPredictor.this.json = json;
 			}
 		});
 	}
 
-	public float getPointSeismic(final TweetQuakeNode node, final Point point) {
+	public static float getPointSeismic(final TweetQuakeNode node, final Point point) {
 		return getPointSeismic(node.magnitude, node.depth, node.lat, node.lon, point);
 	}
 
-	public float getPointSeismic(final float magnitude, final float depth, final float lat, final float lon, final Point point) {
+	public static float getPointSeismic(final float magnitude, final float depth, final float lat, final float lon, final Point point) {
 		return QuakeCalculator.getMeasured(magnitude, depth, lat, lon, point.lat, point.lon, point.arv);
 	}
 
-	public PointsJson getAlarmAreas(final TweetQuakeNode node, final PointsJson json) {
-		return getAlarmPoints(node.magnitude, node.depth, node.lat, node.lon, json);
+	public PointsJson getAlarmAreas(final TweetQuakeNode node) {
+		return getAlarmPoints(node.magnitude, node.depth, node.lat, node.lon);
 	}
 
-	public PointsJson getAlarmPoints(final float magnitude, final float depth, final float lat, final float lon, final PointsJson json) {
-		final Map<String, Map<String, Map<String, List<Point>>>> regions = json.points;
+	public PointsJson getAlarmPoints(final float magnitude, final float depth, final float lat, final float lon) {
+		final Map<String, Map<String, Map<String, List<Point>>>> regions = this.json.points;
 		//地方
 		for (final Entry<String, Map<String, Map<String, List<Point>>>> line1 : regions.entrySet()) {
 			final Map<String, Map<String, List<Point>>> prefectures = line1.getValue();
@@ -75,12 +75,12 @@ public class OvservationPredictor {
 					regions.remove(line2.getKey());
 			}
 			if (regions.isEmpty())
-				json.points.remove(line1.getKey());
+				this.json.points.remove(line1.getKey());
 		}
-		return json;
+		return this.json;
 	}
 
-	public EnumPrefectures[] toPrefectures(final PointsJson json) {
+	public static EnumPrefectures[] toPrefectures(final PointsJson json) {
 		final Set<EnumPrefectures> list = Sets.newHashSet();
 		for (final Entry<String, Map<String, Map<String, List<Point>>>> line1 : json.points.entrySet()) {
 			label: for (final Entry<String, Map<String, List<Point>>> line2 : line1.getValue().entrySet()) {
