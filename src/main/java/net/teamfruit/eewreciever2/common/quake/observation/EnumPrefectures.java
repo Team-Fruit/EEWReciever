@@ -1,5 +1,11 @@
 package net.teamfruit.eewreciever2.common.quake.observation;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.collect.Lists;
+
 public enum EnumPrefectures {
 	/*@formatter:off*/
 	HOKKAIDO("JP-01", "北海道", 43.063968f, 141.347899f),
@@ -52,9 +58,19 @@ public enum EnumPrefectures {
 
 	IZU("JP-13", "伊豆諸島", 34.737492f, 139.400538f),
 	OGASAWARA("JP-13", "小笠原諸島", 27.0103987f,142.2091361f),
+	TOSHIMA("JP-46","鹿児島十島村", 29.85916666f,129.85694444f),
+	KOSHIKI("JP-46", "鹿児島甑島", 31.76676777f, 129.79994666f),
+	TANE("JP-46", "種子島",30.60955800f, 130.97887755f),
+	YAKU("JP-46", "屋久島", 30.35087666f, 130.51470999f),
 	AMAMI("JP-46", "奄美諸島", 28.186892f, 129.449791f),
+	OKINAWA_HONTO("JP-47", "沖縄本島",26.502156f, 127.945297f),
+	KUME("JP-47", "久米島",26.351993f, 126.771176f),
+	DAITO("JP-47", "大東島", 25.852153f, 131.249077f),
 	MIYAKO("JP-47", "宮古島", 24.825225f, 125.302156f),
-	YAEYAMA("JP-47", "八重山", 24.343023f, 123.881790f),
+	ISHIGAKI("JP-47", "石垣島", 24.414787f, 124.174084f),
+	YONAGUNI("JP-47", "与那国島",24.463435f, 123.008200f),
+	IRIOMOTE("JP-47", "西表島", 24.333838f, 123.817971f),
+//	YAEYAMA("JP-47", "八重山", 24.343023f, 123.881790f),
 	;
 	/*@formatter:on*/
 
@@ -68,6 +84,23 @@ public enum EnumPrefectures {
 		this.name = name;
 		this.lat = lat;
 		this.lon = lon;
+	}
+
+	public static EnumPrefectures fromName(final String name) {
+		final String format = StringUtils.remove(StringUtils.remove(StringUtils.remove(StringUtils.remove(name, '県'), '府'), '道'), '都');
+		for (final EnumPrefectures line : EnumPrefectures.values())
+			if (line.name.equals(format))
+				return line;
+		return null;
+	}
+
+	public static EnumPrefectures[] valuesInRange(final float lat, final float lon, final float range) {
+		final List<EnumPrefectures> list = Lists.newArrayList();
+		for (final EnumPrefectures line : values()) {
+			if (line.getDistance(lat, lon)<1000)
+				list.add(line);
+		}
+		return list.toArray(new EnumPrefectures[list.size()]);
 	}
 
 	public double getDistance(final float lat, final float lon, final float depth) {
