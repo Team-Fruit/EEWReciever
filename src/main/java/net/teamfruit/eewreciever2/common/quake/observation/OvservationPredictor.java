@@ -1,9 +1,14 @@
 package net.teamfruit.eewreciever2.common.quake.observation;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.apache.commons.lang3.math.NumberUtils;
 
 import com.google.common.collect.Sets;
 
@@ -16,8 +21,11 @@ public class OvservationPredictor {
 	public static final OvservationPredictor INSTANCE = new OvservationPredictor();
 
 	private PointsJson json;
+	private final DecimalFormat format;
 
 	private OvservationPredictor() {
+		this.format = new DecimalFormat("#.#");
+		this.format.setRoundingMode(RoundingMode.DOWN);
 	}
 
 	public PointsJson getPoints() {
@@ -51,33 +59,40 @@ public class OvservationPredictor {
 	}
 
 	public PointsJson getAlarmPoints(final float magnitude, final float depth, final float lat, final float lon) {
-		final Map<String, Map<String, Map<String, List<Point>>>> regions = this.json.points;
-		for (final Entry<String, Map<String, Map<String, List<Point>>>> line1 : regions.entrySet()) {
-			final Map<String, Map<String, List<Point>>> prefectures = line1.getValue();
-			for (final Entry<String, Map<String, List<Point>>> line2 : prefectures.entrySet()) {
-				if (EnumPrefecture.fromName(line2.getKey()).getDistance(lat, lon, depth)>magnitude*100)
+		if (this.json==null)
+			return new PointsJson();
+		final PointsJson json = this.json.clone();
+		for (final Iterator<Entry<String, Map<String, Map<String, List<Point>>>>> it1 = json.points.entrySet().iterator(); it1.hasNext();) {
+			final Map<String, Map<String, List<Point>>> prefectures = it1.next().getValue();
+			for (final Iterator<Entry<String, Map<String, List<Point>>>> it2 = prefectures.entrySet().iterator(); it2.hasNext();) {
+				final Entry<String, Map<String, List<Point>>> line2 = it2.next();
+				if (EnumPrefecture.fromName(line2.getKey()).getDistance(lat, lon, depth)>magnitude*(magnitude*10)*(depth/10)) {
+					it2.remove();
 					continue;
+				}
 				final Map<String, List<Point>> areas = line2.getValue();
-				for (final Entry<String, List<Point>> line3 : areas.entrySet()) {
+				for (final Iterator<Entry<String, List<Point>>> it3 = areas.entrySet().iterator(); it3.hasNext();) {
+					final Entry<String, List<Point>> line3 = it3.next();
 					final List<Point> points = line3.getValue();
-					for (final Point line4 : points) {
-						if (3.5>=getPointSeismic(magnitude, depth, lat, lon, line4))
-							points.remove(line4);
+					for (final Iterator<Point> it4 = points.iterator(); it4.hasNext();) {
+						final Point line4 = it4.next();
+						if (3.5f>=NumberUtils.toFloat(this.format.format(getPointSeismic(magnitude, depth, lat, lon, line4))))
+							it4.remove();
 					}
 					if (points.isEmpty())
-						areas.remove(line3.getKey());
+						it3.remove();
 				}
 				if (areas.isEmpty())
-					regions.remove(line2.getKey());
+					it2.remove();
 			}
-			if (regions.isEmpty())
-				this.json.points.remove(line1.getKey());
+			if (json.points.isEmpty())
+				it1.remove();
 		}
 		return this.json;
 	}
 
 	public static EnumPrefecture[] toPrefectures(final PointsJson json) {
-		final Set<EnumPrefecture> list = Sets.newHashSet();
+		final Set<EnumPrefecture> list = Sets.newLinkedHashSet();
 		for (final Entry<String, Map<String, Map<String, List<Point>>>> line1 : json.points.entrySet()) {
 			label: for (final Entry<String, Map<String, List<Point>>> line2 : line1.getValue().entrySet()) {
 				for (final Entry<String, List<Point>> line3 : line2.getValue().entrySet()) {
@@ -105,7 +120,7 @@ public class OvservationPredictor {
 							else
 								list.add(EnumPrefecture.KAGOSHIMA);
 						} else if ("沖縄県".equals(prefecture)) {
-							if ("沖縄本島北部".equals(area)||"沖縄本島中南部".equals(area))
+							if ("沖縄県本島北部".equals(area)||"沖縄県本島中南部".equals(area))
 								list.add(EnumPrefecture.OKINAWA_HONTO);
 							else if ("沖縄県久米島".equals(area))
 								list.add(EnumPrefecture.KUME);

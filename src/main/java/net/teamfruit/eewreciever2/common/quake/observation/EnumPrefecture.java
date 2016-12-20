@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Lists;
 
 public enum EnumPrefecture {
@@ -76,24 +74,6 @@ public enum EnumPrefecture {
 	;
 	/*@formatter:on*/
 
-	public static final ImmutableMap<String, EnumPrefecture[]> REGIONS;
-
-	static {
-		final Builder<String, EnumPrefecture[]> builder = ImmutableMap.builder();
-		builder.put("北海道", new EnumPrefecture[] { HOKKAIDO });
-		builder.put("東北", new EnumPrefecture[] { AOMORI, IWATE, MIYAGI, AKITA, YAMAGATA, HUKUSHIMA });
-		builder.put("関東・甲信", new EnumPrefecture[] { IBARAKI, TOCHIGI, GUNMA, SAITAMA, CHIBA, TOKYO, KANAGAWA, YAMANASHI, NAGANO });
-		builder.put("北陸", new EnumPrefecture[] { NIIGATA, TOYAMA, ISHIKAWA, FUKUI });
-		builder.put("東海", new EnumPrefecture[] { GIFU, SHIZUOKA, AICHI, MIE });
-		builder.put("近畿", new EnumPrefecture[] { SHIGA, KYOTO, OSAKA, HYOGO, NARA, WAKAYAMA });
-		builder.put("中国", new EnumPrefecture[] { TOTTORI, SHIMANE, OKAYAMA, HIROSHIMA, YAMAGUCHI });
-		builder.put("四国", new EnumPrefecture[] { TOKUSHIMA, KAGAWA, EHIME, KOCHI });
-		builder.put("九州", new EnumPrefecture[] { TOKUSHIMA, KAGAWA, EHIME, KOCHI });
-		builder.put("沖縄", new EnumPrefecture[] { OKINAWA_HONTO, KUME, DAITO, MIYAKO, ISHIGAKI, YONAGUNI, IRIOMOTE });
-		builder.put("東京島嶼部", new EnumPrefecture[] { IZU, OGASAWARA });
-		REGIONS = builder.build();
-	}
-
 	private final String code;
 	private final String name;
 	private final float lat;
@@ -107,7 +87,13 @@ public enum EnumPrefecture {
 	}
 
 	public static EnumPrefecture fromName(final String name) {
-		final String format = StringUtils.remove(StringUtils.remove(StringUtils.remove(StringUtils.remove(name, '県'), '府'), '道'), '都');
+		String format = name;
+		if (name.endsWith("県"))
+			format = StringUtils.remove(name, "県");
+		else if (name.endsWith("府"))
+			format = StringUtils.remove(name, "府");
+		else if (name.endsWith("都"))
+			format = StringUtils.remove(name, "都");
 		for (final EnumPrefecture line : EnumPrefecture.values())
 			if (line.name.equals(format))
 				return line;

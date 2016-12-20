@@ -9,9 +9,11 @@ import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.util.Downloader;
 
 public class SeismicObservationPoints implements Runnable {
@@ -43,7 +45,7 @@ public class SeismicObservationPoints implements Runnable {
 		}
 	}
 
-	public static class PointsJson {
+	public static class PointsJson implements Cloneable {
 		public Map<String, Map<String, Map<String, List<Point>>>> points;
 
 		public static class Point {
@@ -60,5 +62,18 @@ public class SeismicObservationPoints implements Runnable {
 				this.arv = arv;
 			}
 		}
+
+		@Override
+		protected PointsJson clone() {
+			PointsJson json = null;
+			try {
+				json = (PointsJson) super.clone();
+				json.points = Maps.newHashMap(this.points);
+			} catch (final CloneNotSupportedException e) {
+				Reference.logger.error(e.getMessage(), e);
+			}
+			return json;
+		}
+
 	}
 }

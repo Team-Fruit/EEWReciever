@@ -15,6 +15,10 @@ import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent.EEWEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeException;
 import net.teamfruit.eewreciever2.common.quake.SeismicIntensity;
+import net.teamfruit.eewreciever2.common.quake.observation.EnumPrefecture;
+import net.teamfruit.eewreciever2.common.quake.observation.EnumRegion;
+import net.teamfruit.eewreciever2.common.quake.observation.OvservationPredictor;
+import net.teamfruit.eewreciever2.common.quake.observation.SeismicObservationPoints.PointsJson;
 
 /**
  * Twitter@eewbotのパース
@@ -98,6 +102,11 @@ public class TweetQuakeNode implements IQuakeNode {
 	 */
 	public boolean alarm;
 
+	/**
+	 * EEW警報の場合、警報地域の文字列が入ります。
+	 */
+	public String alarmArea;
+
 	@Override
 	public String getId() {
 		return this.id;
@@ -130,6 +139,12 @@ public class TweetQuakeNode implements IQuakeNode {
 		this.alarm = "1".equals(tnode[14]);
 
 		this.raw = source;
+
+		if (this.alarm) {
+			final PointsJson json = OvservationPredictor.INSTANCE.getAlarmAreas(this);
+			final EnumPrefecture[] prefectures = OvservationPredictor.toPrefectures(json);
+			this.alarmArea = EnumRegion.format(prefectures);
+		}
 		return this;
 	}
 
@@ -172,6 +187,21 @@ public class TweetQuakeNode implements IQuakeNode {
 					this.depth,
 					this.magnitude,
 					this.number));
+
+		return sb.toString();
+	}
+
+	public String getAlarmArea() {
+		final StringBuilder sb = new StringBuilder();
+		if (this.alarm) {
+			sb.append("\n");
+			sb.append(EnumChatFormatting.RED);
+			sb.append("次の地域では強い揺れに警戒して下さい :");
+			sb.append(this.alarmArea);
+			sb.append("\n");
+			sb.append(EnumChatFormatting.GRAY);
+			sb.append("独自に計算した予測値の為、他と異なる場合があります。");
+		}
 		return sb.toString();
 	}
 

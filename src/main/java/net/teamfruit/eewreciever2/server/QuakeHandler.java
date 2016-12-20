@@ -5,13 +5,23 @@ import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent.EEWEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent.QuakeInfoEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent.TsunamiWarnEvent;
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeNode;
 import net.teamfruit.eewreciever2.common.util.ChatBuilder;
 
 public class QuakeHandler {
 
+	private String lastAlarm;
+
 	@SubscribeEvent
 	public void onEEW(final EEWEvent event) {
-		sendChat(event.getNode());
+		final TweetQuakeNode node = event.getNode();
+		sendChat(node);
+		if (node.alarm) {
+			final String alarmArea = node.getAlarmArea();
+			if (!this.lastAlarm.equals(alarmArea))
+				ChatBuilder.sendServer(ChatBuilder.create(alarmArea));
+			this.lastAlarm = alarmArea;
+		}
 	}
 
 	@SubscribeEvent

@@ -17,8 +17,8 @@ public enum EnumRegion {
 	TOKAI("東海",EnumPrefecture.GIFU,EnumPrefecture.SHIZUOKA,EnumPrefecture.AICHI, EnumPrefecture.MIE),
 	KINKI("近畿",EnumPrefecture.SHIGA, EnumPrefecture.KYOTO, EnumPrefecture.OSAKA, EnumPrefecture.HYOGO, EnumPrefecture.NARA, EnumPrefecture.WAKAYAMA),
 	CHUGOKU("中国", EnumPrefecture.TOTTORI, EnumPrefecture.SHIMANE, EnumPrefecture.OKAYAMA, EnumPrefecture.HIROSHIMA, EnumPrefecture.YAMAGUCHI),
-	CHIKOKU("四国", EnumPrefecture.TOKUSHIMA, EnumPrefecture.KAGAWA, EnumPrefecture.EHIME, EnumPrefecture.KOCHI),
-	KYUSYU("九州", EnumPrefecture.TOKUSHIMA, EnumPrefecture.KAGAWA, EnumPrefecture.EHIME, EnumPrefecture.KOCHI),
+	SHIKOKU("四国", EnumPrefecture.TOKUSHIMA, EnumPrefecture.KAGAWA, EnumPrefecture.EHIME, EnumPrefecture.KOCHI),
+	KYUSYU("九州", EnumPrefecture.HUKUOKA, EnumPrefecture.SAGA, EnumPrefecture.NAGASAKI, EnumPrefecture.KUMAMOTO, EnumPrefecture.OITA, EnumPrefecture.MIYAZAKI, EnumPrefecture.KAGOSHIMA, EnumPrefecture.TOSHIMA, EnumPrefecture.KOSHIKI, EnumPrefecture.TANE, EnumPrefecture.YAKU, EnumPrefecture.AMAMI),
 	OKINAWA("沖縄", EnumPrefecture.OKINAWA_HONTO, EnumPrefecture.KUME, EnumPrefecture.DAITO, EnumPrefecture.MIYAKO, EnumPrefecture.ISHIGAKI, EnumPrefecture.YONAGUNI, EnumPrefecture.IRIOMOTE),
 	TOKYO_ISLANDS("東京島嶼部", EnumPrefecture.IZU, EnumPrefecture.OGASAWARA),
 	;
@@ -47,15 +47,19 @@ public enum EnumRegion {
 	public static String format(final EnumPrefecture... prefectures) {
 		final List<String> list = Lists.newArrayList();
 		final Queue<String> tmp = Queues.newArrayDeque();
-		for (final EnumRegion region : values()) {
-			boolean b = true;
-			for (final EnumPrefecture line2 : prefectures) {
+		for (final EnumPrefecture line2 : prefectures) {
+			for (final EnumRegion region : values()) {
+				boolean r = true;
+				boolean c = false;
 				for (final EnumPrefecture line3 : region.getPrefectures()) {
-					if (!line2.equals(line3))
-						b = false;
-					tmp.add(line2.toString());
+					if (!line2.equals(line3)) {
+						r = false;
+					} else
+						c = true;
 				}
-				if (b) {
+				if (c)
+					tmp.add(line2.toString());
+				if (r) {
 					list.add(0, region.toString());
 					tmp.clear();
 				} else {

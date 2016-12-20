@@ -131,6 +131,6 @@ public class QuakeCalculator {
 	 * @return 計測震度
 	 */
 	private static float measured(final double pgv) {
-		return (float) (2.68f+1.72f*Math.log10(pgv));
+		return (float) (2.68+1.72*Math.log10(pgv));
 	}
 }
