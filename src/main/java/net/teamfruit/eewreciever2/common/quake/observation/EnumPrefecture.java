@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.Lists;
 
-public enum EnumPrefectures {
+public enum EnumPrefecture {
 	/*@formatter:off*/
 	HOKKAIDO("JP-01", "北海道", 43.063968f, 141.347899f),
 	AOMORI("JP-02", "青森", 40.824623f, 140.740593f),
@@ -54,6 +56,7 @@ public enum EnumPrefectures {
 	OITA("JP-44", "大分", 33.238194f, 131.612591f),
 	MIYAZAKI("JP-45", "宮崎", 31.911090f, 131.423855f),
 	KAGOSHIMA("JP-46", "鹿児島", 31.560148f, 130.557981f),
+	@Deprecated
 	OKINAWA("JP-47", "沖縄", 26.212401f, 127.680932f),
 
 	IZU("JP-13", "伊豆諸島", 34.737492f, 139.400538f),
@@ -70,37 +73,54 @@ public enum EnumPrefectures {
 	ISHIGAKI("JP-47", "石垣島", 24.414787f, 124.174084f),
 	YONAGUNI("JP-47", "与那国島",24.463435f, 123.008200f),
 	IRIOMOTE("JP-47", "西表島", 24.333838f, 123.817971f),
-//	YAEYAMA("JP-47", "八重山", 24.343023f, 123.881790f),
 	;
 	/*@formatter:on*/
+
+	public static final ImmutableMap<String, EnumPrefecture[]> REGIONS;
+
+	static {
+		final Builder<String, EnumPrefecture[]> builder = ImmutableMap.builder();
+		builder.put("北海道", new EnumPrefecture[] { HOKKAIDO });
+		builder.put("東北", new EnumPrefecture[] { AOMORI, IWATE, MIYAGI, AKITA, YAMAGATA, HUKUSHIMA });
+		builder.put("関東・甲信", new EnumPrefecture[] { IBARAKI, TOCHIGI, GUNMA, SAITAMA, CHIBA, TOKYO, KANAGAWA, YAMANASHI, NAGANO });
+		builder.put("北陸", new EnumPrefecture[] { NIIGATA, TOYAMA, ISHIKAWA, FUKUI });
+		builder.put("東海", new EnumPrefecture[] { GIFU, SHIZUOKA, AICHI, MIE });
+		builder.put("近畿", new EnumPrefecture[] { SHIGA, KYOTO, OSAKA, HYOGO, NARA, WAKAYAMA });
+		builder.put("中国", new EnumPrefecture[] { TOTTORI, SHIMANE, OKAYAMA, HIROSHIMA, YAMAGUCHI });
+		builder.put("四国", new EnumPrefecture[] { TOKUSHIMA, KAGAWA, EHIME, KOCHI });
+		builder.put("九州", new EnumPrefecture[] { TOKUSHIMA, KAGAWA, EHIME, KOCHI });
+		builder.put("沖縄", new EnumPrefecture[] { OKINAWA_HONTO, KUME, DAITO, MIYAKO, ISHIGAKI, YONAGUNI, IRIOMOTE });
+		builder.put("東京島嶼部", new EnumPrefecture[] { IZU, OGASAWARA });
+		REGIONS = builder.build();
+	}
 
 	private final String code;
 	private final String name;
 	private final float lat;
 	private final float lon;
 
-	private EnumPrefectures(final String code, final String name, final float lat, final float lon) {
+	private EnumPrefecture(final String code, final String name, final float lat, final float lon) {
 		this.code = code;
 		this.name = name;
 		this.lat = lat;
 		this.lon = lon;
 	}
 
-	public static EnumPrefectures fromName(final String name) {
+	public static EnumPrefecture fromName(final String name) {
 		final String format = StringUtils.remove(StringUtils.remove(StringUtils.remove(StringUtils.remove(name, '県'), '府'), '道'), '都');
-		for (final EnumPrefectures line : EnumPrefectures.values())
+		for (final EnumPrefecture line : EnumPrefecture.values())
 			if (line.name.equals(format))
 				return line;
 		return null;
 	}
 
-	public static EnumPrefectures[] valuesInRange(final float lat, final float lon, final float range) {
-		final List<EnumPrefectures> list = Lists.newArrayList();
-		for (final EnumPrefectures line : values()) {
+	public static EnumPrefecture[] valuesInRange(final float lat, final float lon, final float range) {
+		final List<EnumPrefecture> list = Lists.newArrayList();
+		for (final EnumPrefecture line : values()) {
 			if (line.getDistance(lat, lon)<1000)
 				list.add(line);
 		}
-		return list.toArray(new EnumPrefectures[list.size()]);
+		return list.toArray(new EnumPrefecture[list.size()]);
 	}
 
 	public double getDistance(final float lat, final float lon, final float depth) {

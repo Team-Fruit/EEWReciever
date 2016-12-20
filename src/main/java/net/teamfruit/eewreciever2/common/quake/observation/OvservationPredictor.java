@@ -52,18 +52,14 @@ public class OvservationPredictor {
 
 	public PointsJson getAlarmPoints(final float magnitude, final float depth, final float lat, final float lon) {
 		final Map<String, Map<String, Map<String, List<Point>>>> regions = this.json.points;
-		//地方
 		for (final Entry<String, Map<String, Map<String, List<Point>>>> line1 : regions.entrySet()) {
 			final Map<String, Map<String, List<Point>>> prefectures = line1.getValue();
-			//都道府県
 			for (final Entry<String, Map<String, List<Point>>> line2 : prefectures.entrySet()) {
-				if (EnumPrefectures.fromName(line2.getKey()).getDistance(lat, lon, depth)>magnitude*100)
+				if (EnumPrefecture.fromName(line2.getKey()).getDistance(lat, lon, depth)>magnitude*100)
 					continue;
 				final Map<String, List<Point>> areas = line2.getValue();
-				//震央区分
 				for (final Entry<String, List<Point>> line3 : areas.entrySet()) {
 					final List<Point> points = line3.getValue();
-					//観測所
 					for (final Point line4 : points) {
 						if (3.5>=getPointSeismic(magnitude, depth, lat, lon, line4))
 							points.remove(line4);
@@ -80,8 +76,8 @@ public class OvservationPredictor {
 		return this.json;
 	}
 
-	public static EnumPrefectures[] toPrefectures(final PointsJson json) {
-		final Set<EnumPrefectures> list = Sets.newHashSet();
+	public static EnumPrefecture[] toPrefectures(final PointsJson json) {
+		final Set<EnumPrefecture> list = Sets.newHashSet();
 		for (final Entry<String, Map<String, Map<String, List<Point>>>> line1 : json.points.entrySet()) {
 			label: for (final Entry<String, Map<String, List<Point>>> line2 : line1.getValue().entrySet()) {
 				for (final Entry<String, List<Point>> line3 : line2.getValue().entrySet()) {
@@ -90,46 +86,46 @@ public class OvservationPredictor {
 						final String area = line3.getKey();
 						if ("東京都".equals(prefecture)) {
 							if ("神津島".equals(area)||"伊豆大島".equals(area)||"新島".equals(area)||"三宅島".equals(area)||"八丈島".equals(area))
-								list.add(EnumPrefectures.IZU);
+								list.add(EnumPrefecture.IZU);
 							else if ("小笠原".equals(area))
-								list.add(EnumPrefectures.OGASAWARA);
+								list.add(EnumPrefecture.OGASAWARA);
 							else
-								list.add(EnumPrefectures.TOKYO);
+								list.add(EnumPrefecture.TOKYO);
 						} else if ("鹿児島県".equals(prefecture)) {
 							if ("鹿児島県十島村".equals(area))
-								list.add(EnumPrefectures.TOSHIMA);
+								list.add(EnumPrefecture.TOSHIMA);
 							else if ("鹿児島県甑島".equals(area))
-								list.add(EnumPrefectures.KOSHIKI);
+								list.add(EnumPrefecture.KOSHIKI);
 							else if ("鹿児島県種子島".equals(area))
-								list.add(EnumPrefectures.TANE);
+								list.add(EnumPrefecture.TANE);
 							else if ("鹿児島県屋久島".equals(area))
-								list.add(EnumPrefectures.YAKU);
+								list.add(EnumPrefecture.YAKU);
 							else if ("鹿児島県奄美北部".equals(area)||"鹿児島県奄美南部".equals(area))
-								list.add(EnumPrefectures.AMAMI);
+								list.add(EnumPrefecture.AMAMI);
 							else
-								list.add(EnumPrefectures.KAGOSHIMA);
+								list.add(EnumPrefecture.KAGOSHIMA);
 						} else if ("沖縄県".equals(prefecture)) {
 							if ("沖縄本島北部".equals(area)||"沖縄本島中南部".equals(area))
-								list.add(EnumPrefectures.OKINAWA_HONTO);
+								list.add(EnumPrefecture.OKINAWA_HONTO);
 							else if ("沖縄県久米島".equals(area))
-								list.add(EnumPrefectures.KUME);
+								list.add(EnumPrefecture.KUME);
 							else if ("沖縄県大東島".equals(area))
-								list.add(EnumPrefectures.DAITO);
+								list.add(EnumPrefecture.DAITO);
 							else if ("沖縄県宮古島".equals(area))
-								list.add(EnumPrefectures.MIYAKO);
+								list.add(EnumPrefecture.MIYAKO);
 							else if ("沖縄県石垣島".equals(area))
-								list.add(EnumPrefectures.ISHIGAKI);
+								list.add(EnumPrefecture.ISHIGAKI);
 							else if ("沖縄県与那国島".equals(area))
-								list.add(EnumPrefectures.YONAGUNI);
+								list.add(EnumPrefecture.YONAGUNI);
 							else if ("沖縄県西表島".equals(area))
-								list.add(EnumPrefectures.IRIOMOTE);
+								list.add(EnumPrefecture.IRIOMOTE);
 						} else
-							list.add(EnumPrefectures.fromName(prefecture));
+							list.add(EnumPrefecture.fromName(prefecture));
 						continue label;
 					}
 				}
 			}
 		}
-		return list.toArray(new EnumPrefectures[list.size()]);
+		return list.toArray(new EnumPrefecture[list.size()]);
 	}
 }
