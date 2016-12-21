@@ -27,6 +27,8 @@ import org.apache.commons.io.IOUtils;
 
 import net.teamfruit.eewreciever2.EEWReciever2;
 import net.teamfruit.eewreciever2.common.Reference;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
 public final class TweetQuakeSecure {
@@ -36,6 +38,9 @@ public final class TweetQuakeSecure {
 	private TweetQuakeKey tweetQuakeKey;
 	private AccessToken accessToken;
 
+	protected TweetQuakeSecure() {
+	}
+
 	public boolean isKeyValid() {
 		return this.tweetQuakeKey!=null;
 	}
@@ -44,20 +49,27 @@ public final class TweetQuakeSecure {
 		return this.accessToken!=null;
 	}
 
-	public TweetQuakeKey getTweetQuakeKey() {
-		return this.tweetQuakeKey;
-	}
-
-	public AccessToken getAccessToken() {
-		return this.accessToken;
-	}
-
-	public TweetQuakeSecure setAccessToken(final AccessToken accessToken) {
+	protected TweetQuakeSecure setAccessToken(final AccessToken accessToken) {
 		this.accessToken = accessToken;
 		return this;
 	}
 
-	public TweetQuakeSecure init() {
+	public Twitter getAuthedTwitter() {
+		final Twitter twitter = new TwitterFactory().getInstance();
+		if (isKeyValid())
+			twitter.setOAuthConsumer(this.tweetQuakeKey.getKey1(), this.tweetQuakeKey.getKey2());
+		if (isTokenValid())
+			twitter.setOAuthAccessToken(this.accessToken);
+		return twitter;
+	}
+
+	public TweetQuakeAuther getAuther() {
+		if (isKeyValid())
+			return new TweetQuakeAuther(this.tweetQuakeKey);
+		return null;
+	}
+
+	protected TweetQuakeSecure init() {
 		if (doneInit)
 			throw new IllegalStateException();
 		try {

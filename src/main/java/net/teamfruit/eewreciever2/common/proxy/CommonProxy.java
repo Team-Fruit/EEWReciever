@@ -11,6 +11,7 @@ import net.teamfruit.eewreciever2.EEWReciever2;
 import net.teamfruit.eewreciever2.common.ConfigHandler;
 import net.teamfruit.eewreciever2.common.Locations;
 import net.teamfruit.eewreciever2.common.Reference;
+import net.teamfruit.eewreciever2.common.command.CommandTest;
 import net.teamfruit.eewreciever2.common.command.RootCommand;
 import net.teamfruit.eewreciever2.common.quake.QuakeEventExecutor;
 import net.teamfruit.eewreciever2.common.quake.observation.OvservationPredictor;
@@ -51,5 +52,6 @@ public class CommonProxy {
 
 	public void serverLoad(final FMLServerStartingEvent event) {
 		event.registerServerCommand(RootCommand.INSTANCE);
+		RootCommand.INSTANCE.addChildCommand(new CommandTest());
 	}
 }

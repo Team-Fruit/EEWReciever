@@ -9,9 +9,9 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.teamfruit.eewreciever2.common.Reference;
-import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuake;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther.AuthState;
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;
 import net.teamfruit.eewreciever2.common.util.ChatBuilder;
 import twitter4j.TwitterException;
 
@@ -50,7 +50,7 @@ public class CommandAuth extends SubCommand {
 		@Override
 		public void processSubCommand(final ICommandSender sender, final String[] args) {
 			if (CommandAuth.this.auther==null) {
-				CommandAuth.this.auther = TweetQuake.INSTANCE.getAuther();
+				CommandAuth.this.auther = TweetQuakeHelper.getAuther();
 				ChatBuilder.create("Twitter認証を開始します。").sendPlayer(sender);
 				final ChatStyle style1 = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/eewbot"));
 				ChatBuilder.create("初めに、クリックして開くアカウントを、認証に利用するアカウントでフォローして下さい。(フォローしていないと動作しません)").setStyle(style1).sendPlayer(sender);
@@ -104,7 +104,7 @@ public class CommandAuth extends SubCommand {
 			else if (args.length>=3)
 				new ChatBuilder().setText("/eewreciever auth pin <ID>").setStyle(new ChatStyle().setColor(EnumChatFormatting.RED)).sendPlayer(sender);
 			else {
-				final String pin = RootCommand.func_82360_a(sender, args, 2);
+				final String pin = args[2];
 				if (isPin(pin)) {
 					try {
 						CommandAuth.this.auther.getAccessToken(pin).storeAccessToken().connect();

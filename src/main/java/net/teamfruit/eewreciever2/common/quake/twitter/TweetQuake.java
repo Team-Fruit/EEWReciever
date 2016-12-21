@@ -1,6 +1,5 @@
 package net.teamfruit.eewreciever2.common.quake.twitter;
 
-import java.io.IOException;
 import java.util.Queue;
 
 import org.apache.commons.codec.binary.StringUtils;
@@ -15,27 +14,22 @@ import twitter4j.FilterQuery;
 import twitter4j.Status;
 import twitter4j.StatusAdapter;
 import twitter4j.StatusListener;
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
-import twitter4j.auth.AccessToken;
 
 public class TweetQuake implements IQuake {
-	public static final TweetQuake INSTANCE = new TweetQuake(new TweetQuakeSecure().init());
-
+	public static final TweetQuake INSTANCE = new TweetQuake();
 	public boolean isAuthRequired;
-	private final TweetQuakeSecure secure;
 	private final Queue<IQuakeNode> updatequeue = Queues.newArrayDeque();
 
-	private TweetQuake(final TweetQuakeSecure secure) {
-		this.secure = secure;
+	private TweetQuake() {
 		init();
 	}
 
+	public Queue<IQuakeNode> queue() {
+		return this.updatequeue;
+	}
+
 	private void init() {
-		final TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
-		final Twitter twitter = new TwitterFactory().getInstance();
 		final StatusListener listener = new StatusAdapter() {
 			@Override
 			public void onStatus(final Status status) {
@@ -49,12 +43,11 @@ public class TweetQuake implements IQuake {
 				}
 			}
 		};
-		twitterStream.addListener(listener);
 
-		if (this.secure.isKeyValid()) {
-			if (this.secure.isTokenValid()) {
-				twitterStream.setOAuthConsumer(this.secure.getTweetQuakeKey().getKey1(), this.secure.getTweetQuakeKey().getKey2());
-				twitterStream.setOAuthAccessToken(this.secure.getAccessToken());
+		if (TweetQuakeHelper.isKeyValid()) {
+			if (TweetQuakeHelper.isTokenValid()) {
+				final TwitterStream twitterStream = TweetQuakeHelper.getAuthedTwitterStream();
+				twitterStream.addListener(listener);
 				twitterStream.filter(new FilterQuery(214358709L)); //@eewbot
 				Reference.logger.info("Starting Twitter Stream");
 				this.isAuthRequired = false;
@@ -62,17 +55,6 @@ public class TweetQuake implements IQuake {
 				this.isAuthRequired = true;
 		} else
 			Reference.logger.warn("Because there was a problem, we could not connect to Twitter.");
-	}
-
-	public TweetQuakeAuther getAuther() {
-		if (this.secure.isKeyValid())
-			return new TweetQuakeAuther(this.secure.getTweetQuakeKey());
-		return null;
-	}
-
-	public TweetQuake setAccessToken(final AccessToken token) throws IOException {
-		this.secure.storeAccessToken(token);
-		return this;
 	}
 
 	public void connect() {

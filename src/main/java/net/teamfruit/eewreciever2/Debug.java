@@ -1,11 +1,9 @@
 package net.teamfruit.eewreciever2;
 
-import net.teamfruit.eewreciever2.common.quake.observation.OvservationPredictor;
-
 public class Debug {
 
 	public static void main(final String[] args) throws Exception {
-		OvservationPredictor.INSTANCE.init();
+		//		OvservationPredictor.INSTANCE.init();
 		//		new SeismicObservationPoints().get(new IJsonCallBack() {
 		//			@Override
 		//			public void onError(final Throwable t) {
