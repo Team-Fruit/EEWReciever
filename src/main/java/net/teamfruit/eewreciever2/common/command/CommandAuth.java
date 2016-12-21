@@ -27,9 +27,18 @@ public class CommandAuth extends SubCommand {
 		setPermLevel(PermLevel.ADMIN);
 	}
 
-	protected void printAuthStart(final ICommandSender sender) {
+	protected static void printAuthStart(final ICommandSender sender) {
 		final ChatStyle style = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever auth start"));
 		new ChatBuilder().setText("認証が開始されていません！ クリックして開始").setStyle(style).sendPlayer(sender);
+	}
+
+	protected static void printRetry(final ICommandSender sender, final IModCommand command) {
+		printRetry("申し訳ありません！エラーが発生した為正常に処理が出来ませんでした。クリックしてリトライ", sender, command);
+	}
+
+	protected static void printRetry(final String text, final ICommandSender sender, final IModCommand command) {
+		final ChatStyle style = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/"+command.getFullCommandString())).setColor(EnumChatFormatting.RED);
+		new ChatBuilder().setText(text).setStyle(style).sendPlayer(sender);
 	}
 
 	private class CommandStartAuth extends SubCommand {
@@ -74,8 +83,7 @@ public class CommandAuth extends SubCommand {
 					new ChatBuilder().setText("認証IDを手に入れたらクリックしてIDを入力").setStyle(style2).sendPlayer(sender);
 				} catch (final TwitterException e) {
 					Reference.logger.error(e.getMessage(), e);
-					final ChatStyle style = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever auth url")).setColor(EnumChatFormatting.RED);
-					new ChatBuilder().setText("申し訳ありません！エラーが発生した為正常に処理が出来ませんでした。クリックしてリトライ").setStyle(style).sendPlayer(sender);
+					CommandAuth.printRetry(sender, this);
 				}
 			}
 		}
@@ -101,11 +109,10 @@ public class CommandAuth extends SubCommand {
 					try {
 						CommandAuth.this.auther.getAccessToken(pin).storeAccessToken().connect();
 					} catch (final TwitterException e) {
-						final ChatStyle style = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/eewreciever auth pin <これを消して数字にしてください>"));
-						new ChatBuilder().setText("申し訳ありません！エラーが発生した為正常に処理が出来ませんでした。クリックしてリトライ").setStyle(style).sendPlayer(sender);
+						Reference.logger.error(e.getMessage(), e);
+						CommandAuth.printRetry(sender, this);
 					} catch (final IOException e) {
-						final ChatStyle style = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/eewreciever auth pin <これを消して数字にしてください>"));
-						new ChatBuilder().setText("申し訳ありません！キーの保存に失敗しました。クリックしてリトライ").setStyle(style).sendPlayer(sender);
+						CommandAuth.printRetry("申し訳ありません！キーの保存に失敗しました。クリックしてリトライ", sender, this);
 					}
 				}
 			}
