@@ -187,7 +187,6 @@ public class TweetQuakeNode implements IQuakeNode {
 					this.depth,
 					this.magnitude,
 					this.number));
-
 		return sb.toString();
 	}
 

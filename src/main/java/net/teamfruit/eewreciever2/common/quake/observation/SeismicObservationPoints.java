@@ -48,6 +48,10 @@ public class SeismicObservationPoints implements Runnable {
 	public static class PointsJson implements Cloneable {
 		public Map<String, Map<String, Map<String, List<Point>>>> points;
 
+		public PointsJson() {
+			this.points = Maps.newHashMap();
+		}
+
 		public static class Point {
 			public String name;
 			public float lat;
@@ -74,6 +78,5 @@ public class SeismicObservationPoints implements Runnable {
 			}
 			return json;
 		}
-
 	}
 }
