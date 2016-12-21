@@ -165,7 +165,7 @@ public final class TweetQuakeSecure {
 	}
 
 	public void storeAccessToken(final AccessToken token) throws IOException {
-
+		this.accessToken = token;
 		final File file = getConfigResourceFile("setting.dat");
 		if (file.exists()&&file.isFile())
 			Files.delete(file.toPath());

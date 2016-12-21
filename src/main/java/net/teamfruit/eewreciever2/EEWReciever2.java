@@ -9,6 +9,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.teamfruit.eewreciever2.common.Locations;
@@ -45,4 +46,8 @@ public class EEWReciever2 {
 		proxy.postInit(event);
 	}
 
+	@EventHandler
+	public void serverLoad(final FMLServerStartingEvent event) {
+		proxy.serverLoad(event);
+	}
 }

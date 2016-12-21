@@ -6,10 +6,12 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.teamfruit.eewreciever2.EEWReciever2;
 import net.teamfruit.eewreciever2.common.ConfigHandler;
 import net.teamfruit.eewreciever2.common.Locations;
 import net.teamfruit.eewreciever2.common.Reference;
+import net.teamfruit.eewreciever2.common.command.RootCommand;
 import net.teamfruit.eewreciever2.common.quake.QuakeEventExecutor;
 import net.teamfruit.eewreciever2.common.quake.observation.OvservationPredictor;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuake;
@@ -45,5 +47,9 @@ public class CommonProxy {
 
 	public void postInit(final FMLPostInitializationEvent event) {
 		ConfigHandler.instance.save();
+	}
+
+	public void serverLoad(final FMLServerStartingEvent event) {
+		event.registerServerCommand(RootCommand.INSTANCE);
 	}
 }
