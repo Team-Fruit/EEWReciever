@@ -57,6 +57,7 @@ public class TweetQuake implements IQuake {
 				twitterStream.setOAuthAccessToken(this.secure.getAccessToken());
 				twitterStream.filter(new FilterQuery(214358709L)); //@eewbot
 				Reference.logger.info("Starting Twitter Stream");
+				this.isAuthRequired = false;
 			} else
 				this.isAuthRequired = true;
 		} else

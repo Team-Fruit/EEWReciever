@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatStyle;
@@ -25,7 +24,7 @@ public class CommandAuth extends SubCommand {
 		addChildCommand(new CommandStartAuth());
 		addChildCommand(new CommandGetURL());
 		addChildCommand(new CommandSetPin());
-		setPermLevel(FMLCommonHandler.instance().getSide().isServer() ? PermLevel.ADMIN : PermLevel.EVERYONE);
+		setPermLevel(PermLevel.ADMIN);
 	}
 
 	protected void printAuthStart(final ICommandSender sender) {
@@ -41,9 +40,14 @@ public class CommandAuth extends SubCommand {
 
 		@Override
 		public void processSubCommand(final ICommandSender sender, final String[] args) {
-			if (CommandAuth.this.auther==null)
+			if (CommandAuth.this.auther==null) {
 				CommandAuth.this.auther = TweetQuake.INSTANCE.getAuther();
-			else if (CommandAuth.this.auther.getState()!=AuthState.CONNECT)
+				ChatBuilder.create("Twitter認証を開始します。").sendPlayer(sender);
+				final ChatStyle style1 = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/eewbot"));
+				ChatBuilder.create("初めに、クリックして開くアカウントを、認証に利用するアカウントでフォローして下さい。(フォローしていないと動作しません)").setStyle(style1).sendPlayer(sender);
+				final ChatStyle style2 = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever auth url"));
+				ChatBuilder.create("完了したら、クリックして認証に進みます。").setStyle(style2).sendPlayer(sender);
+			} else if (CommandAuth.this.auther.getState()!=AuthState.CONNECT)
 				ChatBuilder.create("認証はすでに開始しています！").sendPlayer(sender);
 			else
 				ChatBuilder.create("認証は済んでいます！").sendPlayer(sender);
