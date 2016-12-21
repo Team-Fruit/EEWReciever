@@ -3,6 +3,7 @@ package net.teamfruit.eewreciever2.server;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatStyle;
@@ -11,6 +12,7 @@ import net.teamfruit.eewreciever2.common.util.ChatBuilder;
 
 public class AuthNotice {
 
+	@SubscribeEvent
 	public void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
 		if (TweetQuake.INSTANCE.isAuthRequired&&isOp(event.player.getGameProfile())) {
 			final ChatStyle style = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever auth start"));
