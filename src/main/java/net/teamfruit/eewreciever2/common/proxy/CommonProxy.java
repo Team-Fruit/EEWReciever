@@ -35,7 +35,7 @@ public class CommonProxy {
 
 	public void init(final FMLInitializationEvent event) {
 		FMLCommonHandler.instance().bus().register(ConfigHandler.instance);
-		FMLCommonHandler.instance().bus().register(QuakeEventExecutor.instance());
+		QuakeEventExecutor.init();
 
 		if (ConfigHandler.instance.p2pquake.get())
 			QuakeEventExecutor.instance().register(P2PQuake.INSTANCE);

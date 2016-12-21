@@ -30,6 +30,10 @@ public class QuakeEventExecutor {
 		this.quakes.remove(quake);
 	}
 
+	public static void init() {
+		FMLCommonHandler.instance().bus().register(instance());
+	}
+
 	@SubscribeEvent
 	public void onServerTick(final ServerTickEvent event) {
 		try {
