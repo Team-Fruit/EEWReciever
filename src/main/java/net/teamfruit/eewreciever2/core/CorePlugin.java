@@ -6,7 +6,6 @@ import java.util.Map;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.Name(value = "EEWReciever2")
-@IFMLLoadingPlugin.MCVersion(value = "1.7.10")
 public class CorePlugin implements IFMLLoadingPlugin {
 
 	@Override
