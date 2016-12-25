@@ -76,6 +76,7 @@ public final class TweetQuakeSecure {
 			this.tweetQuakeKey = decodeTweetQuakeKey(getResourceInputStream("file.eew"));
 			this.accessToken = loadAccessToken(getConfigResourceInputStream("setting.dat"));
 		} catch (final FileNotFoundException e) {
+			Reference.logger.info("debugpoint");
 			Reference.logger.error(e.getMessage());
 		} catch (final TweetQuakeSecureException e) {
 			Reference.logger.error("Decode Error", e);

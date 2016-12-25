@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common.command;
+package net.teamfruit.eewreciever2.server.command;
 
 import java.io.IOException;
 
@@ -9,6 +9,9 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.teamfruit.eewreciever2.common.Reference;
+import net.teamfruit.eewreciever2.common.command.IModCommand;
+import net.teamfruit.eewreciever2.common.command.SubCommand;
+import net.teamfruit.eewreciever2.common.command.SubCommand.PermLevel;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther.AuthState;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;

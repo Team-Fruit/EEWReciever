@@ -3,11 +3,11 @@ package net.teamfruit.eewreciever2.server.proxy;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import net.teamfruit.eewreciever2.common.command.CommandAuth;
 import net.teamfruit.eewreciever2.common.command.RootCommand;
 import net.teamfruit.eewreciever2.common.proxy.CommonProxy;
 import net.teamfruit.eewreciever2.server.AuthNotice;
 import net.teamfruit.eewreciever2.server.QuakeHandler;
+import net.teamfruit.eewreciever2.server.command.CommandAuth;
 
 public class ServerProxy extends CommonProxy {
 
