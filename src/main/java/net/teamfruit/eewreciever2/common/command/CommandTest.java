@@ -22,14 +22,14 @@ public class CommandTest extends SubCommand {
 	public void processSubCommand(final ICommandSender sender, final String[] args) {
 		if (args.length>2) {
 			try {
-				final String arg = RootCommand.func_82360_a(sender, args, 1);
+				final String arg = RootCommand.func_82360_a(sender, args, 0);
 				String text = null;
 				if (NumberUtils.isNumber(arg))
 					text = TweetQuakeHelper.getAuthedTwitter().showStatus(NumberUtils.toLong(arg)).getText();
 				else if (arg.startsWith("https://twitter.com/eewbot/status/"))
 					TweetQuakeHelper.getAuthedTwitter().showStatus(NumberUtils.toLong(StringUtils.remove(arg, "https://twitter.com/eewbot/status/"))).getText();
 				else
-					text = args[2];
+					text = arg;
 				TweetQuake.INSTANCE.getQuakeUpdate().add(new TweetQuakeNode().parseString(text));
 			} catch (final Exception e) {
 				ChatBuilder.create(e.getClass().getName()).setStyle(new ChatStyle().setColor(EnumChatFormatting.RED)).sendPlayer(sender);

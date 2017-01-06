@@ -60,7 +60,7 @@ public class Loader {
 						if (StringUtils.isNotBlank(line.mainclass)) {
 							try {
 								Class.forName(line.mainclass);
-								return;
+								continue;
 							} catch (final ClassNotFoundException e) {
 							}
 						}
