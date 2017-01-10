@@ -18,9 +18,7 @@
 !/install.bat
 !/build.bat
 !/.gitignore
-!/.gitmodules
 !/LICENSE
-!/info
-!/info/
+!/BnnWidget
 
 /src/main/resources/file.eew
