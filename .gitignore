@@ -18,6 +18,7 @@
 !/install.bat
 !/build.bat
 !/.gitignore
+!/.gitmodules
 !/LICENSE
 !/info
 !/info/
