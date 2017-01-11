@@ -42,12 +42,12 @@ public abstract class EEWCommandBase extends CommandBase {
 	}
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "eewreciever";
 	}
 
 	@Override
-	public List<String> getCommandAliases() {
+	public List<String> getAliases() {
 		return Arrays.asList("eew");
 	}
 
@@ -55,7 +55,7 @@ public abstract class EEWCommandBase extends CommandBase {
 	public abstract int getRequiredPermissionLevel();
 
 	@Override
-	public String getCommandUsage(final ICommandSender icommandsender) {
+	public String getUsage(final ICommandSender icommandsender) {
 		return "/eewreciever Tipe <Text>";
 	}
 
@@ -208,7 +208,7 @@ public abstract class EEWCommandBase extends CommandBase {
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(final MinecraftServer server, final ICommandSender sender, final String[] astring, @Nullable final BlockPos pos) {
+	public List<String> getTabCompletions(final MinecraftServer server, final ICommandSender sender, final String[] astring, @Nullable final BlockPos pos) {
 		if (astring.length<=1&&(ConfigurationHandler.debugMode||!limitInDebugMode())) {
 			return getListOfStringsMatchingLastWord(astring, "p2p", "twitter", "setup", "deletesettings", "enable", "disable");
 		} else if (astring.length==1) {

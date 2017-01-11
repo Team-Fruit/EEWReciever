@@ -20,11 +20,11 @@ public class ClientAuthChecker {
 	@SubscribeEvent
 	public void onTick(final ClientTickEvent event) {
 		final Minecraft mc = Minecraft.getMinecraft();
-		if (EEWRecieverMod.accessToken == null && notification && mc.isSingleplayer() && event.phase == Phase.END && mc.thePlayer != null) {
-			final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			player.addChatComponentMessage(ChatUtil.byText("[EEWReciever]Twitter連携認証(緊急地震速報)がされていません！"));
-			player.addChatComponentMessage(ChatUtil.byText("/eew setup でセットアップを開始します"));
-			player.addChatComponentMessage(ChatUtil.byText("Twitter連携を無効にするには、configを変更し再起動して下さい"));
+		if (EEWRecieverMod.accessToken==null&&notification&&mc.isSingleplayer()&&event.phase==Phase.END&&mc.player!=null) {
+			final EntityPlayer player = Minecraft.getMinecraft().player;
+			player.sendMessage(ChatUtil.byText("[EEWReciever]Twitter連携認証(緊急地震速報)がされていません！"));
+			player.sendMessage(ChatUtil.byText("/eew setup でセットアップを開始します"));
+			player.sendMessage(ChatUtil.byText("Twitter連携を無効にするには、configを変更し再起動して下さい"));
 			notification = false;
 		}
 	}

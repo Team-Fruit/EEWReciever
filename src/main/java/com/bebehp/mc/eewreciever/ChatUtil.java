@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 public abstract class ChatUtil {
 	public static void sendPlayerChat(final ICommandSender target, final ITextComponent... components) {
 		for (final ITextComponent line : components) {
-			target.addChatMessage(line);
+			target.sendMessage(line);
 		}
 	}
 
@@ -23,7 +23,7 @@ public abstract class ChatUtil {
 		final PlayerList player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList();
 
 		for (final ITextComponent line : components) {
-			player.sendChatMsg(line);
+			player.sendMessage(line);
 		}
 	}
 

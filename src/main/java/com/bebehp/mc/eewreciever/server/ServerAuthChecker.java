@@ -16,14 +16,14 @@ public class ServerAuthChecker {
 	@SideOnly(Side.SERVER)
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
-		final String name =  event.player.getGameProfile().getName();
+		final String name = event.player.getGameProfile().getName();
 		if (notification) {
 			if (isOP(name)) {
-				event.player.addChatComponentMessage(ChatUtil.byText("[EEWReciever]Twitter連携認証(緊急地震速報)がされていません！"));
-				event.player.addChatComponentMessage(ChatUtil.byText("/eew setup でセットアップを開始します"));
-				event.player.addChatComponentMessage(ChatUtil.byText("Twitter連携を無効にするには、configを変更し再起動して下さい"));
+				event.player.sendMessage(ChatUtil.byText("[EEWReciever]Twitter連携認証(緊急地震速報)がされていません！"));
+				event.player.sendMessage(ChatUtil.byText("/eew setup でセットアップを開始します"));
+				event.player.sendMessage(ChatUtil.byText("Twitter連携を無効にするには、configを変更し再起動して下さい"));
 			} else {
-				event.player.addChatComponentMessage(ChatUtil.byText("[EEWReciever]Setupされていません。OPに連絡して下さい。"));
+				event.player.sendMessage(ChatUtil.byText("[EEWReciever]Setupされていません。OPに連絡して下さい。"));
 			}
 		}
 	}
@@ -31,7 +31,7 @@ public class ServerAuthChecker {
 	private boolean isOP(final String name) {
 		final String[] opPlayers = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getOppedPlayerNames();
 		for (final String line : opPlayers) {
-			if (line == name)
+			if (line==name)
 				return true;
 		}
 		return false;

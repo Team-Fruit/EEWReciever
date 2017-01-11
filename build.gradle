@@ -22,9 +22,9 @@ group= "com.bebehp.mc.eewreciever" // http://maven.apache.org/guides/mini/guide-
 archivesBaseName = "EEWReciever"
 
 minecraft {
-    version = "1.10.2-12.18.1.2011"
+    version = "1.11.2-13.20.0.2206"
     runDir = "eclipse"
-    mappings = "snapshot_20160518"
+    mappings = "snapshot_20161220"
 }
 
 jar {
