@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Reference {
-	public static final String MODID = "EEWReciever";
+	public static final String MODID = "eewreciever";
 	public static final String NAME = "EEWReciever";
 	public static final String VERSION = "${version}";
 	public static final String FORGE = "12.18.1.2011";

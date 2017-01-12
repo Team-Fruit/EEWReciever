@@ -1,6 +1,6 @@
 [
 {
-  "modid": "EEWReciever",
+  "modid": "eewreciever",
   "name": "EEW Reciever",
   "description": "Watch EEW Informations.",
   "version": "${version}",
