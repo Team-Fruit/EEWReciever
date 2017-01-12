@@ -2,6 +2,11 @@ package net.teamfruit.eewreciever2.client.gui;
 
 import org.lwjgl.util.Timer;
 
+import com.kamesuta.mc.bnnwidget.WFrame;
+import com.kamesuta.mc.bnnwidget.WPanel;
+import com.kamesuta.mc.bnnwidget.position.R;
+import com.kamesuta.mc.bnnwidget.render.OpenGL;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -9,10 +14,6 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.teamfruit.eewreciever2.lib.OpenGL;
-import net.teamfruit.eewreciever2.lib.bnnwidget.WFrame;
-import net.teamfruit.eewreciever2.lib.bnnwidget.WPanel;
-import net.teamfruit.eewreciever2.lib.bnnwidget.position.R;
 
 public class OverlayFrame extends WFrame {
 	public static final OverlayFrame instance = new OverlayFrame();

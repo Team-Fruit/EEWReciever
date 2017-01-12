@@ -2,14 +2,14 @@ package net.teamfruit.eewreciever2.client.gui;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import net.teamfruit.eewreciever2.lib.OpenGL;
-import net.teamfruit.eewreciever2.lib.RenderHelper;
-import net.teamfruit.eewreciever2.lib.bnnwidget.WEvent;
-import net.teamfruit.eewreciever2.lib.bnnwidget.WFrame;
-import net.teamfruit.eewreciever2.lib.bnnwidget.WPanel;
-import net.teamfruit.eewreciever2.lib.bnnwidget.position.Area;
-import net.teamfruit.eewreciever2.lib.bnnwidget.position.Point;
-import net.teamfruit.eewreciever2.lib.bnnwidget.position.R;
+import com.kamesuta.mc.bnnwidget.WEvent;
+import com.kamesuta.mc.bnnwidget.WFrame;
+import com.kamesuta.mc.bnnwidget.WPanel;
+import com.kamesuta.mc.bnnwidget.position.Area;
+import com.kamesuta.mc.bnnwidget.position.Point;
+import com.kamesuta.mc.bnnwidget.position.R;
+import com.kamesuta.mc.bnnwidget.render.OpenGL;
+import com.kamesuta.mc.bnnwidget.render.WRenderer;
 
 public class GuiAuth extends WFrame {
 
@@ -18,7 +18,7 @@ public class GuiAuth extends WFrame {
 		add(new WPanel(new R()) {
 			@Override
 			public void draw(final WEvent ev, final Area pgp, final Point p, final float frame, final float popacity) {
-				RenderHelper.startShape();
+				WRenderer.startShape();
 				OpenGL.glColor4f(1f, 0f, 0f, 0.4f);
 				draw(getGuiPosition(pgp));
 			}
@@ -30,7 +30,7 @@ public class GuiAuth extends WFrame {
 					@Override
 					public void draw(final WEvent ev, final Area pgp, final Point p, final float frame, final float popacity) {
 						final Area a = getGuiPosition(pgp);
-						RenderHelper.startShape();
+						WRenderer.startShape();
 						OpenGL.glColor4f(1f, 1f, 1f, 1f);
 						draw(a);
 
