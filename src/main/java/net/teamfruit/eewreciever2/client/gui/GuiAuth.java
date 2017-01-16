@@ -18,19 +18,9 @@ import com.kamesuta.mc.bnnwidget.render.WRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;
-import twitter4j.TwitterException;
 
 public class GuiAuth extends WFrame {
-	protected static TweetQuakeAuther auther;
-	protected static String authurl;
-
-	static {
-		auther = TweetQuakeHelper.getAuther();
-		try {
-			authurl = auther.getAuthURL();
-		} catch (final TwitterException e) {
-		}
-	}
+	protected static TweetQuakeAuther auther = TweetQuakeHelper.getAuther();
 
 	public GuiAuth() {
 	}
@@ -81,13 +71,13 @@ public class GuiAuth extends WFrame {
 		});
 	}
 
-	public static class GuiBox extends WBox {
+	public class GuiBox extends WBox {
 
 		public GuiBox(final R position) {
 			super(position);
 			if (auther==null) {
 				OverlayFrame.instance.pane.addNotice1("認証の必要はありません！", 2);
-
+				mc.displayGuiScreen(GuiAuth.this.parent);
 			}
 		}
 

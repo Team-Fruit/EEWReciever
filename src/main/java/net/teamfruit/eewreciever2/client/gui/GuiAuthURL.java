@@ -14,8 +14,18 @@ import com.kamesuta.mc.bnnwidget.position.Point;
 import com.kamesuta.mc.bnnwidget.position.R;
 
 import net.minecraft.client.gui.GuiScreen;
+import twitter4j.TwitterException;
 
 public class GuiAuthURL extends WPanel {
+	private static String authurl;
+
+	static {
+		try {
+			authurl = GuiAuth.auther.getAuthURL();
+		} catch (final TwitterException e) {
+		}
+	}
+
 	protected final MChatTextField textField;
 	protected final MButton copyButton;
 	protected final MButton openButton;
@@ -30,7 +40,7 @@ public class GuiAuthURL extends WPanel {
 				setMaxStringLength(Integer.MAX_VALUE);
 				setCanLoseFocus(false);
 				if (GuiAuth.auther!=null)
-					setText(GuiAuth.authurl);
+					setText(authurl);
 				else {
 					setEnabled(false);
 					setText("問題が発生したため、URLを取得出来ませんでした。");
@@ -106,6 +116,7 @@ public class GuiAuthURL extends WPanel {
 
 			@Override
 			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
+
 				return true;
 			}
 		});
