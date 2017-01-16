@@ -1,4 +1,4 @@
-package net.teamfruit.eewreciever2.common.quake;
+package net.teamfruit.eewreciever2.common.quake.observation;
 
 public enum SeismicIntensity {
 	/*@formatter:off*/

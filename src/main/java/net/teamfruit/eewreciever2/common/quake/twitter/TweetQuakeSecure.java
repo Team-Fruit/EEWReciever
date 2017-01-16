@@ -63,12 +63,6 @@ public final class TweetQuakeSecure {
 		return twitter;
 	}
 
-	public TweetQuakeAuther getAuther() {
-		if (isKeyValid())
-			return new TweetQuakeAuther(this.tweetQuakeKey);
-		return null;
-	}
-
 	protected TweetQuakeSecure init() {
 		if (doneInit)
 			throw new IllegalStateException();

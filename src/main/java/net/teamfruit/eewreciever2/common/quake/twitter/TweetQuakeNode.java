@@ -14,10 +14,10 @@ import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent.EEWEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeException;
-import net.teamfruit.eewreciever2.common.quake.SeismicIntensity;
 import net.teamfruit.eewreciever2.common.quake.observation.EnumPrefecture;
 import net.teamfruit.eewreciever2.common.quake.observation.EnumRegion;
 import net.teamfruit.eewreciever2.common.quake.observation.OvservationPredictor;
+import net.teamfruit.eewreciever2.common.quake.observation.SeismicIntensity;
 import net.teamfruit.eewreciever2.common.quake.observation.SeismicObservationPoints.PointsJson;
 
 /**

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
@@ -14,7 +13,7 @@ public class TweetQuakeAuther {
 		START, URL, TOKEN, CONNECT;
 	}
 
-	private final Twitter twitter = TwitterFactory.getSingleton();
+	private final Twitter twitter;
 	private RequestToken requestToken;
 	private AccessToken accessToken;
 	private AuthState state;
@@ -23,10 +22,21 @@ public class TweetQuakeAuther {
 		return this.state;
 	}
 
-	protected TweetQuakeAuther(final TweetQuakeKey key) {
-		this.twitter.setOAuthConsumer(key.getKey1(), key.getKey2());
+	protected TweetQuakeAuther(final Twitter twitter) {
+		this.twitter = twitter;
 		this.state = AuthState.START;
 	}
+
+	/*
+	protected TweetQuakeAuther(final TweetQuakeKey key) {
+		this.twitter = TwitterFactory.getSingleton();
+		try {
+			this.twitter.setOAuthConsumer(key.getKey1(), key.getKey2());
+		} catch (final IllegalStateException e) {
+		}
+		this.state = AuthState.START;
+	}
+	*/
 
 	public String getAuthURL() throws TwitterException {
 		this.requestToken = this.twitter.getOAuthRequestToken();

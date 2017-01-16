@@ -16,7 +16,7 @@ public class TweetQuakeHelper {
 	}
 
 	public static TweetQuakeAuther getAuther() {
-		return secure.getAuther();
+		return new TweetQuakeAuther(twitter);
 	}
 
 	public static void setAccessToken(final AccessToken token) throws IOException {
