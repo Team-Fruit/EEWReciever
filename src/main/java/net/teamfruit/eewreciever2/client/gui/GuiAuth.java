@@ -22,11 +22,13 @@ import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;
 public class GuiAuth extends WFrame {
 	protected static TweetQuakeAuther auther = TweetQuakeHelper.getAuther();
 
-	public GuiAuth() {
-	}
-
 	public GuiAuth(final GuiScreen parent) {
 		super(parent);
+
+	}
+
+	public GuiAuth() {
+		this(null);
 	}
 
 	@Override
@@ -57,33 +59,28 @@ public class GuiAuth extends WFrame {
 					}
 				});
 
-				add(new GuiBox(new R()));
+				add(new WBox(new R()) {
+					{
+						if (auther==null) {
+							OverlayFrame.instance.pane.addNotice1("認証の必要はありません！", 2);
+							mc.displayGuiScreen(GuiAuth.this.parent);
+						}
+					}
+
+					@Override
+					protected void initWidget() {
+						add(new GuiAuthURL(new R()));
+						GuiAuth.this.event.data.put("box", this);
+					}
+				});
 
 				add(new MScaledLabel(new R(Coord.left(5), Coord.right(5), Coord.top(10), Coord.height(15))) {
-					@Override
-					public void onAdded() {
-						super.onAdded();
+					{
 						setText("Twitter認証");
 						setColor(0);
 					}
 				});
 			}
 		});
-	}
-
-	public class GuiBox extends WBox {
-
-		public GuiBox(final R position) {
-			super(position);
-			if (auther==null) {
-				OverlayFrame.instance.pane.addNotice1("認証の必要はありません！", 2);
-				mc.displayGuiScreen(GuiAuth.this.parent);
-			}
-		}
-
-		@Override
-		protected void initWidget() {
-			add(new GuiAuthURL(new R()));
-		}
 	}
 }

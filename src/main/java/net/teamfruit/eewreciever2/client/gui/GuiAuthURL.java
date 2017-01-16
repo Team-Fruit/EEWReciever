@@ -3,6 +3,7 @@ package net.teamfruit.eewreciever2.client.gui;
 import java.awt.Desktop;
 import java.net.URI;
 
+import com.kamesuta.mc.bnnwidget.WBox;
 import com.kamesuta.mc.bnnwidget.WEvent;
 import com.kamesuta.mc.bnnwidget.WPanel;
 import com.kamesuta.mc.bnnwidget.component.MButton;
@@ -51,10 +52,9 @@ public class GuiAuthURL extends WPanel {
 		};
 
 		this.copyButton = new MButton(new R(Coord.left(15), Coord.width(75), Coord.top(95), Coord.height(20))) {
-			@Override
-			public void onAdded() {
-				super.onAdded();
+			{
 				setText("コピー");
+
 			}
 
 			@Override
@@ -65,9 +65,7 @@ public class GuiAuthURL extends WPanel {
 		};
 
 		this.openButton = new MButton(new R(Coord.right(15), Coord.width(75), Coord.top(95), Coord.height(20))) {
-			@Override
-			public void onAdded() {
-				super.onAdded();
+			{
 				setText("開く");
 			}
 
@@ -86,18 +84,15 @@ public class GuiAuthURL extends WPanel {
 	@Override
 	protected void initWidget() {
 		add(new MScaledLabel(new R(Coord.left(10), Coord.right(10), Coord.top(35), Coord.height(10))) {
-			@Override
-			public void onAdded() {
-				super.onAdded();
+			{
 				setColor(0);
 				setText("以下のURLからTwitterにログインし");
+
 			}
 		});
 
 		add(new MScaledLabel(new R(Coord.left(10), Coord.right(10), Coord.top(45), Coord.height(10))) {
-			@Override
-			public void onAdded() {
-				super.onAdded();
+			{
 				setColor(0);
 				setText("連携アプリを認証して下さい。");
 			}
@@ -108,15 +103,19 @@ public class GuiAuthURL extends WPanel {
 		add(this.openButton);
 
 		add(new MButton(new R(Coord.pleft(.5f), Coord.width(80), Coord.top(130), Coord.height(20)).child(Coord.pleft(-.5f))) {
-			@Override
-			public void onAdded() {
-				super.onAdded();
+			{
 				setText("次へ");
 			}
 
 			@Override
 			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
-
+				final WBox box = (WBox) ev.data.get("box");
+				box.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						box.add(new GuiAuthPin(new R()));
+					}
+				});
 				return true;
 			}
 		});
