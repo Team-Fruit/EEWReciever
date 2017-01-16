@@ -34,27 +34,9 @@ public class GuiAuthURL extends WPanel {
 	public GuiAuthURL(final R position) {
 		super(position);
 
-		this.textField = new MChatTextField(new R(Coord.left(10), Coord.right(10), Coord.top(65), Coord.height(20))) {
-			@Override
-			public void onAdded() {
-				super.onAdded();
-				setMaxStringLength(Integer.MAX_VALUE);
-				setCanLoseFocus(false);
-				if (GuiAuth.auther!=null)
-					setText(authurl);
-				else {
-					setEnabled(false);
-					setText("問題が発生したため、URLを取得出来ませんでした。");
-					GuiAuthURL.this.copyButton.setEnabled(false);
-					GuiAuthURL.this.openButton.setEnabled(false);
-				}
-			}
-		};
-
 		this.copyButton = new MButton(new R(Coord.left(15), Coord.width(75), Coord.top(95), Coord.height(20))) {
 			{
 				setText("コピー");
-
 			}
 
 			@Override
@@ -77,6 +59,23 @@ public class GuiAuthURL extends WPanel {
 					OverlayFrame.instance.pane.addNotice1(e.getClass().getName(), 2);
 				}
 				return true;
+			}
+		};
+
+		this.textField = new MChatTextField(new R(Coord.left(10), Coord.right(10), Coord.top(65), Coord.height(20))) {
+			@Override
+			public void onAdded() {
+				super.onAdded();
+				setMaxStringLength(Integer.MAX_VALUE);
+				setCanLoseFocus(false);
+				if (GuiAuth.auther!=null)
+					setText(authurl);
+				else {
+					setEnabled(false);
+					setText("問題が発生したため、URLを取得出来ませんでした。");
+					GuiAuthURL.this.copyButton.setEnabled(false);
+					GuiAuthURL.this.openButton.setEnabled(false);
+				}
 			}
 		};
 	}
