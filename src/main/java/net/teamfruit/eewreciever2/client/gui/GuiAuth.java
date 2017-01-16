@@ -7,7 +7,6 @@ import com.kamesuta.mc.bnnwidget.WBox;
 import com.kamesuta.mc.bnnwidget.WEvent;
 import com.kamesuta.mc.bnnwidget.WFrame;
 import com.kamesuta.mc.bnnwidget.WPanel;
-import com.kamesuta.mc.bnnwidget.component.MChatTextField;
 import com.kamesuta.mc.bnnwidget.component.MScaledLabel;
 import com.kamesuta.mc.bnnwidget.position.Area;
 import com.kamesuta.mc.bnnwidget.position.Coord;
@@ -17,13 +16,21 @@ import com.kamesuta.mc.bnnwidget.render.OpenGL;
 import com.kamesuta.mc.bnnwidget.render.WRenderer;
 
 import net.minecraft.client.gui.GuiScreen;
-import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;
 import twitter4j.TwitterException;
 
 public class GuiAuth extends WFrame {
-	protected static final TweetQuakeAuther auther = TweetQuakeHelper.getAuther();
+	protected static TweetQuakeAuther auther;
+	protected static String authurl;
+
+	static {
+		auther = TweetQuakeHelper.getAuther();
+		try {
+			authurl = auther.getAuthURL();
+		} catch (final TwitterException e) {
+		}
+	}
 
 	public GuiAuth() {
 	}
@@ -43,7 +50,7 @@ public class GuiAuth extends WFrame {
 			}
 		});
 
-		add(new WPanel(new R(Coord.pleft(.5f), Coord.ptop(.5f), Coord.width(200), Coord.height(170)).child(Coord.pleft(-.5f), Coord.ptop(-.5f))) {
+		add(new WPanel(new R(Coord.pleft(.5f), Coord.ptop(.5f), Coord.width(190), Coord.height(160)).child(Coord.pleft(-.5f), Coord.ptop(-.5f))) {
 			@Override
 			protected void initWidget() {
 				add(new WBase(new R()) {
@@ -62,7 +69,7 @@ public class GuiAuth extends WFrame {
 
 				add(new GuiBox(new R()));
 
-				add(new MScaledLabel(new R(Coord.left(5), Coord.right(5), Coord.top(5), Coord.height(15))) {
+				add(new MScaledLabel(new R(Coord.left(5), Coord.right(5), Coord.top(10), Coord.height(15))) {
 					@Override
 					public void onAdded() {
 						super.onAdded();
@@ -74,45 +81,19 @@ public class GuiAuth extends WFrame {
 		});
 	}
 
-	public class GuiBox extends WBox {
+	public static class GuiBox extends WBox {
 
 		public GuiBox(final R position) {
 			super(position);
 			if (auther==null) {
 				OverlayFrame.instance.pane.addNotice1("認証の必要はありません！", 2);
-				mc.displayGuiScreen(GuiAuth.this.parent);
+
 			}
 		}
 
 		@Override
 		protected void initWidget() {
-			add(new GuiOpenURL(new R()));
-		}
-
-		public class GuiOpenURL extends WPanel {
-
-			public GuiOpenURL(final R position) {
-				super(position);
-			}
-
-			@Override
-			protected void initWidget() {
-				add(new MChatTextField(new R(Coord.left(10), Coord.right(10), Coord.top(30), Coord.height(15))) {
-
-					@Override
-					public void onAdded() {
-						super.onAdded();
-						try {
-							setMaxStringLength(Integer.MAX_VALUE);
-							setText(auther.getAuthURL());
-						} catch (final TwitterException e) {
-							Reference.logger.error(e);
-							setEnabled(false);
-							setText(e.getErrorMessage());
-						}
-					}
-				});
-			}
+			add(new GuiAuthURL(new R()));
 		}
 	}
 }
