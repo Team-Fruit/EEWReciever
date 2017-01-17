@@ -41,7 +41,6 @@ public class GuiAuth extends WFrame {
 				draw(getGuiPosition(pgp));
 			}
 		});
-
 		add(new WPanel(new R(Coord.pleft(.5f), Coord.ptop(.5f), Coord.width(190), Coord.height(160)).child(Coord.pleft(-.5f), Coord.ptop(-.5f))) {
 			@Override
 			protected void initWidget() {
@@ -58,7 +57,6 @@ public class GuiAuth extends WFrame {
 						draw(a, GL_LINE_LOOP);
 					}
 				});
-
 				add(new WBox(new R()) {
 					{
 						if (auther==null) {
@@ -69,11 +67,15 @@ public class GuiAuth extends WFrame {
 
 					@Override
 					protected void initWidget() {
-						add(new GuiAuthURL(new R()));
+						invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								add(new GuiAuthURL(new R()));
+							}
+						});
 						GuiAuth.this.event.data.put("box", this);
 					}
 				});
-
 				add(new MScaledLabel(new R(Coord.left(5), Coord.right(5), Coord.top(10), Coord.height(15))) {
 					{
 						setText("Twitter認証");

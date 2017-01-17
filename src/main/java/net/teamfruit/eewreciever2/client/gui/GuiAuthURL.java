@@ -20,47 +20,12 @@ import twitter4j.TwitterException;
 public class GuiAuthURL extends WPanel {
 	private static String authurl;
 
-	static {
-		try {
-			authurl = GuiAuth.auther.getAuthURL();
-		} catch (final TwitterException e) {
-		}
-	}
-
 	protected final MChatTextField textField;
-	protected final MButton copyButton;
-	protected final MButton openButton;
+
+	protected boolean initURL;
 
 	public GuiAuthURL(final R position) {
 		super(position);
-
-		this.copyButton = new MButton(new R(Coord.left(15), Coord.width(75), Coord.top(95), Coord.height(20))) {
-			{
-				setText("コピー");
-			}
-
-			@Override
-			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
-				GuiScreen.setClipboardString(GuiAuthURL.this.textField.getText());
-				return true;
-			}
-		};
-
-		this.openButton = new MButton(new R(Coord.right(15), Coord.width(75), Coord.top(95), Coord.height(20))) {
-			{
-				setText("開く");
-			}
-
-			@Override
-			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
-				try {
-					Desktop.getDesktop().browse(new URI(GuiAuthURL.this.textField.getText()));
-				} catch (final Exception e) {
-					OverlayFrame.instance.pane.addNotice1(e.getClass().getName(), 2);
-				}
-				return true;
-			}
-		};
 
 		this.textField = new MChatTextField(new R(Coord.left(10), Coord.right(10), Coord.top(65), Coord.height(20))) {
 			@Override
@@ -68,16 +33,40 @@ public class GuiAuthURL extends WPanel {
 				super.onAdded();
 				setMaxStringLength(Integer.MAX_VALUE);
 				setCanLoseFocus(false);
-				if (GuiAuth.auther!=null)
-					setText(authurl);
-				else {
-					setEnabled(false);
-					setText("問題が発生したため、URLを取得出来ませんでした。");
-					GuiAuthURL.this.copyButton.setEnabled(false);
-					GuiAuthURL.this.openButton.setEnabled(false);
+				setText("Loading");
+				setEnabled(false);
+			}
+
+			private boolean initField;
+
+			@Override
+			public void update(final WEvent ev, final Area pgp, final Point p) {
+				super.update(ev, pgp, p);
+				if (GuiAuthURL.this.initURL&&!this.initField) {
+					if (authurl!=null) {
+						setText(authurl);
+						setCursorPositionZero();
+						setEnabled(true);
+					} else {
+						setText("URLの取得に失敗しました。");
+						setEnabled(false);
+					}
+					this.initField = true;
 				}
 			}
 		};
+
+		if (authurl==null)
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						authurl = GuiAuth.auther.getAuthURL();
+					} catch (final TwitterException e) {
+					}
+					GuiAuthURL.this.initURL = true;
+				}
+			}.start();
 	}
 
 	@Override
@@ -89,18 +78,51 @@ public class GuiAuthURL extends WPanel {
 
 			}
 		});
-
 		add(new MScaledLabel(new R(Coord.left(10), Coord.right(10), Coord.top(45), Coord.height(10))) {
 			{
 				setColor(0);
 				setText("連携アプリを認証して下さい。");
 			}
 		});
-
 		add(this.textField);
-		add(this.copyButton);
-		add(this.openButton);
+		add(new MButton(new R(Coord.left(15), Coord.width(75), Coord.top(95), Coord.height(20))) {
+			{
+				setText("コピー");
+			}
 
+			@Override
+			public void update(final WEvent ev, final Area pgp, final Point p) {
+				super.update(ev, pgp, p);
+				setEnabled(authurl!=null);
+			}
+
+			@Override
+			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
+				GuiScreen.setClipboardString(GuiAuthURL.this.textField.getText());
+				return true;
+			}
+		});
+		add(new MButton(new R(Coord.right(15), Coord.width(75), Coord.top(95), Coord.height(20))) {
+			{
+				setText("開く");
+			}
+
+			@Override
+			public void update(final WEvent ev, final Area pgp, final Point p) {
+				super.update(ev, pgp, p);
+				setEnabled(authurl!=null);
+			}
+
+			@Override
+			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
+				try {
+					Desktop.getDesktop().browse(new URI(GuiAuthURL.this.textField.getText()));
+				} catch (final Exception e) {
+					OverlayFrame.instance.pane.addNotice1(e.getClass().getName(), 2);
+				}
+				return true;
+			}
+		});
 		add(new MButton(new R(Coord.pleft(.5f), Coord.width(80), Coord.top(130), Coord.height(20)).child(Coord.pleft(-.5f))) {
 			{
 				setText("次へ");
