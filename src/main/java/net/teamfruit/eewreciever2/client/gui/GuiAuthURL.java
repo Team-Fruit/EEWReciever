@@ -67,6 +67,8 @@ public class GuiAuthURL extends WPanel {
 					GuiAuthURL.this.initURL = true;
 				}
 			}.start();
+		else
+			this.initURL = true;
 	}
 
 	@Override
