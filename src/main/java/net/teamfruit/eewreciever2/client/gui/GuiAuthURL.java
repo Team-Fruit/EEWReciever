@@ -101,6 +101,7 @@ public class GuiAuthURL extends WPanel {
 			@Override
 			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
 				GuiScreen.setClipboardString(GuiAuthURL.this.textField.getText());
+				OverlayFrame.instance.pane.addNotice1("コピーしました", 2);
 				return true;
 			}
 		});

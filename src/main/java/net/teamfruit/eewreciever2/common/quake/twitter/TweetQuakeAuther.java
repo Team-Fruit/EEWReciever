@@ -27,17 +27,6 @@ public class TweetQuakeAuther {
 		this.state = AuthState.START;
 	}
 
-	/*
-	protected TweetQuakeAuther(final TweetQuakeKey key) {
-		this.twitter = TwitterFactory.getSingleton();
-		try {
-			this.twitter.setOAuthConsumer(key.getKey1(), key.getKey2());
-		} catch (final IllegalStateException e) {
-		}
-		this.state = AuthState.START;
-	}
-	*/
-
 	public String getAuthURL() throws TwitterException {
 		this.requestToken = this.twitter.getOAuthRequestToken();
 		final String url = this.requestToken.getAuthorizationURL();
