@@ -10,10 +10,12 @@ import twitter4j.auth.AccessToken;
 public class TweetQuakeManager {
 	private static final TweetQuakeManager INSTANCE = new TweetQuakeManager();
 
-	private final TweetQuakeSecure secure = new TweetQuakeSecure().init();
-	private final Twitter twitter = this.secure.getAuthedTwitter();
+	private final TweetQuakeSecure secure;
+	private final Twitter twitter;
 
 	private TweetQuakeManager() {
+		this.secure = new TweetQuakeSecure().init();
+		this.twitter = this.secure.getAuthedTwitter();
 	}
 
 	public static TweetQuakeManager intance() {
