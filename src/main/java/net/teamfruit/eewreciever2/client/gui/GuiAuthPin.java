@@ -17,7 +17,7 @@ import com.kamesuta.mc.bnnwidget.position.Point;
 import com.kamesuta.mc.bnnwidget.position.R;
 
 import net.teamfruit.eewreciever2.common.Reference;
-import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeManager;
 import twitter4j.TwitterException;
 
 public class GuiAuthPin extends WPanel {
@@ -57,13 +57,11 @@ public class GuiAuthPin extends WPanel {
 						@Override
 						public void run() {
 							try {
-								GuiAuth.auther.getAccessToken(getText()).storeAccessToken().connect();
+								GuiAuth.auther.getAccessToken(getText());
 								GuiAuthPin.this.statusText.setText("認証成功");
 								GuiAuthPin.this.auth = true;
 							} catch (final TwitterException e) {
 								GuiAuthPin.this.statusText.setErrorText("認証に失敗しました "+e.getMessage());
-							} catch (final IOException e) {
-								GuiAuthPin.this.statusText.setErrorText("認証トークンの保存に失敗しました "+e.getMessage());
 							}
 						};
 					}.start();
@@ -116,7 +114,7 @@ public class GuiAuthPin extends WPanel {
 						@Override
 						public void run() {
 							try {
-								for (final long line : TweetQuakeHelper.getAuthedTwitter().getFriendsIDs(-1).getIDs()) {
+								for (final long line : TweetQuakeManager.intance().getAuthedTwitter().getFriendsIDs(-1).getIDs()) {
 									if (line==214358709L) {
 										finish = true;
 										break;
@@ -137,9 +135,14 @@ public class GuiAuthPin extends WPanel {
 				box.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						if (finish)
+						if (finish) {
 							ev.owner.requestClose();
-						else
+							try {
+								GuiAuth.auther.storeAccessToken().connect();
+							} catch (final IOException e) {
+								GuiAuthPin.this.statusText.setErrorText("認証トークンの保存に失敗しました "+e.getMessage());
+							}
+						} else
 							box.add(new GuiAuthFollow(new R()));
 					}
 				});

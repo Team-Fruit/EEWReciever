@@ -17,10 +17,10 @@ import com.kamesuta.mc.bnnwidget.render.WRenderer;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther;
-import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeManager;
 
 public class GuiAuth extends WFrame {
-	protected static TweetQuakeAuther auther = TweetQuakeHelper.getAuther();
+	protected static TweetQuakeAuther auther = TweetQuakeManager.intance().getAuther();
 
 	public GuiAuth(final GuiScreen parent) {
 		super(parent);

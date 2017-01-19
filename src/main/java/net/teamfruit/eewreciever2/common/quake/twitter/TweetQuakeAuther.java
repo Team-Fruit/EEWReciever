@@ -46,7 +46,7 @@ public class TweetQuakeAuther {
 	public TweetQuakeAuther storeAccessToken() throws IOException {
 		if (this.state!=AuthState.TOKEN)
 			throw new IllegalStateException();
-		TweetQuakeHelper.setAccessToken(this.accessToken);
+		TweetQuakeManager.intance().setAccessToken(this.accessToken);
 		return this;
 	}
 

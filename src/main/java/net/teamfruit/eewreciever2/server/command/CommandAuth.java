@@ -11,10 +11,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.command.IModCommand;
 import net.teamfruit.eewreciever2.common.command.SubCommand;
-import net.teamfruit.eewreciever2.common.command.SubCommand.PermLevel;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther.AuthState;
-import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeManager;
 import net.teamfruit.eewreciever2.common.util.ChatBuilder;
 import twitter4j.TwitterException;
 
@@ -53,7 +52,7 @@ public class CommandAuth extends SubCommand {
 		@Override
 		public void processSubCommand(final ICommandSender sender, final String[] args) {
 			if (CommandAuth.this.auther==null) {
-				CommandAuth.this.auther = TweetQuakeHelper.getAuther();
+				CommandAuth.this.auther = TweetQuakeManager.intance().getAuther();
 				ChatBuilder.create("Twitter認証を開始します。").sendPlayer(sender);
 				final ChatStyle style1 = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/eewbot"));
 				ChatBuilder.create("初めに、クリックして開くアカウントを、認証に利用するアカウントでフォローして下さい。(フォローしていないと動作しません)").setStyle(style1).sendPlayer(sender);

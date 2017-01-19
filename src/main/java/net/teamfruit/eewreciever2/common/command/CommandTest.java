@@ -8,7 +8,7 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuake;
-import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeHelper;
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeManager;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeNode;
 import net.teamfruit.eewreciever2.common.util.ChatBuilder;
 
@@ -25,9 +25,9 @@ public class CommandTest extends SubCommand {
 				final String arg = RootCommand.func_82360_a(sender, args, 0);
 				String text = null;
 				if (NumberUtils.isNumber(arg))
-					text = TweetQuakeHelper.getAuthedTwitter().showStatus(NumberUtils.toLong(arg)).getText();
+					text = TweetQuakeManager.intance().getAuthedTwitter().showStatus(NumberUtils.toLong(arg)).getText();
 				else if (arg.startsWith("https://twitter.com/eewbot/status/"))
-					TweetQuakeHelper.getAuthedTwitter().showStatus(NumberUtils.toLong(StringUtils.remove(arg, "https://twitter.com/eewbot/status/"))).getText();
+					TweetQuakeManager.intance().getAuthedTwitter().showStatus(NumberUtils.toLong(StringUtils.remove(arg, "https://twitter.com/eewbot/status/"))).getText();
 				else
 					text = arg;
 				TweetQuake.INSTANCE.getQuakeUpdate().add(new TweetQuakeNode().parseString(text));

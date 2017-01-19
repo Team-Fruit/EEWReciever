@@ -44,9 +44,9 @@ public class TweetQuake implements IQuake {
 			}
 		};
 
-		if (TweetQuakeHelper.isKeyValid()) {
-			if (TweetQuakeHelper.isTokenValid()) {
-				final TwitterStream twitterStream = TweetQuakeHelper.getAuthedTwitterStream();
+		if (TweetQuakeManager.intance().isKeyValid()) {
+			if (TweetQuakeManager.intance().isTokenValid()) {
+				final TwitterStream twitterStream = TweetQuakeManager.intance().getAuthedTwitterStream();
 				twitterStream.addListener(listener);
 				twitterStream.filter(new FilterQuery(214358709L)); //@eewbot
 				Reference.logger.info("Starting Twitter Stream");
