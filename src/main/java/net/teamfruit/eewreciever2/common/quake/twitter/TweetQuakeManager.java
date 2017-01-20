@@ -2,7 +2,10 @@ package net.teamfruit.eewreciever2.common.quake.twitter;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.auth.AccessToken;
@@ -44,5 +47,13 @@ public class TweetQuakeManager {
 
 	public TwitterStream getAuthedTwitterStream() {
 		return new TwitterStreamFactory().getInstance(this.twitter.getAuthorization());
+	}
+
+	public TweetQuakeUserState getUserState(final long userID) throws TwitterException {
+		final TweetQuakeUserState state = new TweetQuakeUserState(userID);
+		state.setBlock(ArrayUtils.contains(this.twitter.getBlocksIDs().getIDs(), userID));
+		state.setMute(ArrayUtils.contains(this.twitter.getMutesIDs(-1).getIDs(), userID));
+		state.setFollow(ArrayUtils.contains(this.twitter.getFriendsIDs(-1).getIDs(), userID));
+		return state;
 	}
 }

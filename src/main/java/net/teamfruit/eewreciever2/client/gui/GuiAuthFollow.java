@@ -5,23 +5,18 @@ import com.kamesuta.mc.bnnwidget.component.MScaledLabel;
 import com.kamesuta.mc.bnnwidget.position.Coord;
 import com.kamesuta.mc.bnnwidget.position.R;
 
-import net.teamfruit.eewreciever2.common.Reference;
-import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeManager;
-import twitter4j.TwitterException;
-
 public class GuiAuthFollow extends WPanel {
-	protected Follow follow;
 
 	public GuiAuthFollow(final R position) {
 		super(position);
 		new Thread() {
 			@Override
 			public void run() {
-				try {
-					TweetQuakeManager.intance().getAuthedTwitter().showUser(214358709L);
-				} catch (final TwitterException e) {
-					Reference.logger.error(e);
-				}
+				//				try {
+				//
+				//				} catch (final TwitterException e) {
+				//					Reference.logger.error(e);
+				//				}
 			};
 		}.start();
 	}
@@ -40,9 +35,5 @@ public class GuiAuthFollow extends WPanel {
 				setText("@eewbot をフォローする必要があります");
 			}
 		});
-	}
-
-	protected static enum Follow {
-		NOTFOLLOW, FOLLOWING, BLOCK
 	}
 }
