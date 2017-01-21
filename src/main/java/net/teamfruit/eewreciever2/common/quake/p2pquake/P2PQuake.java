@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Consts;
@@ -33,7 +34,7 @@ import net.teamfruit.eewreciever2.common.util.Downloader;
 public class P2PQuake implements IQuake {
 	public static final P2PQuake INSTANCE = new P2PQuake();
 	public static Gson gson = new Gson();
-	public static long WaitMilliSeconds = 1000*20;
+	public static long WaitMilliSeconds = TimeUnit.SECONDS.toMillis(20);
 
 	private static Queue<IQuakeNode> empty = Queues.newArrayDeque();
 

@@ -9,16 +9,6 @@ public class GuiAuthFollow extends WPanel {
 
 	public GuiAuthFollow(final R position) {
 		super(position);
-		new Thread() {
-			@Override
-			public void run() {
-				//				try {
-				//
-				//				} catch (final TwitterException e) {
-				//					Reference.logger.error(e);
-				//				}
-			};
-		}.start();
 	}
 
 	@Override
