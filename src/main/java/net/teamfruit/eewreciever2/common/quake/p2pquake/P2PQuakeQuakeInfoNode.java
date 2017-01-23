@@ -18,8 +18,8 @@ import com.google.gson.JsonParseException;
 import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent;
 import net.teamfruit.eewreciever2.common.quake.QuakeEvent.QuakeInfoEvent;
-import net.teamfruit.eewreciever2.common.quake.observation.SeismicIntensity;
 import net.teamfruit.eewreciever2.common.quake.QuakeException;
+import net.teamfruit.eewreciever2.common.quake.observation.SeismicIntensity;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.QuakeInfo;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeJson.QuakeInfo.Point;
 
@@ -73,7 +73,7 @@ public class P2PQuakeQuakeInfoNode extends P2PQuakeNode<P2PQuakeJson.QuakeInfo> 
 	@Override
 	public IQuakeNode parseString(final String source) throws QuakeException {
 		try {
-			final QuakeInfo data = P2PQuake.gson.fromJson(source, QuakeInfo.class);
+			final QuakeInfo data = gson.fromJson(source, QuakeInfo.class);
 
 			this.date = dateFormat.parse(data.time);
 			this.code = data.code;

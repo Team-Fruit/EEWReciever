@@ -24,7 +24,6 @@ public class GuiAuth extends WFrame {
 
 	public GuiAuth(final GuiScreen parent) {
 		super(parent);
-
 	}
 
 	public GuiAuth() {

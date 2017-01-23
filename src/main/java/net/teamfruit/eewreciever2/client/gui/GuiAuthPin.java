@@ -16,6 +16,7 @@ import com.kamesuta.mc.bnnwidget.position.Coord;
 import com.kamesuta.mc.bnnwidget.position.Point;
 import com.kamesuta.mc.bnnwidget.position.R;
 
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther.AuthState;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeManager;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeUserState;
 import twitter4j.TwitterException;
@@ -53,29 +54,44 @@ public class GuiAuthPin extends WPanel {
 			@Override
 			public void update(final WEvent ev, final Area pgp, final Point p) {
 				super.update(ev, pgp, p);
-				if (!getText().equals(this.oldText)) {
-					if (getText().length()==7) {
-						GuiAuthPin.this.statusText.setText("認証中");
-						new Thread() {
-							@Override
-							public void run() {
-								try {
-									GuiAuth.auther.getAccessToken(getText()).storeAccessToken();
-									GuiAuthPin.this.statusText.setText("認証成功");
+				if (GuiAuth.auther.getState()==AuthState.URL) {
+					if (!getText().equals(this.oldText)) {
+						if (getText().length()==7) {
+							GuiAuthPin.this.statusText.setText("認証中");
+							new Thread() {
+								@Override
+								public void run() {
 									try {
-										ev.data.put("state", TweetQuakeManager.intance().getUserState(214358709L));
+										GuiAuth.auther.getAccessToken(getText()).storeAccessToken();
+										GuiAuthPin.this.statusText.setText("認証成功");
+										try {
+											ev.data.put("state", TweetQuakeManager.intance().getUserState(214358709L));
+										} catch (final TwitterException e) {
+											GuiAuthPin.this.statusText.setErrorText("ユーザー情報の取得に失敗しました "+e.getMessage());
+										}
+										GuiAuthPin.this.auth = true;
 									} catch (final TwitterException e) {
-										GuiAuthPin.this.statusText.setErrorText("ユーザー情報の取得に失敗しました "+e.getMessage());
+										GuiAuthPin.this.statusText.setErrorText("認証に失敗しました "+e.getMessage());
+									} catch (final IOException e) {
+										GuiAuthPin.this.statusText.setErrorText("認証トークンの保存に失敗しました "+e.getMessage());
 									}
-									GuiAuthPin.this.auth = true;
-								} catch (final TwitterException e) {
-									GuiAuthPin.this.statusText.setErrorText("認証に失敗しました "+e.getMessage());
-								} catch (final IOException e) {
-									GuiAuthPin.this.statusText.setErrorText("認証トークンの保存に失敗しました "+e.getMessage());
-								}
-							};
-						}.start();
+								};
+							}.start();
+						}
 					}
+				} else if (GuiAuth.auther.getState()==AuthState.TOKEN) {
+					GuiAuthPin.this.statusText.setText("認証成功");
+					new Thread() {
+						@Override
+						public void run() {
+							try {
+								ev.data.put("state", TweetQuakeManager.intance().getUserState(214358709L));
+							} catch (final TwitterException e) {
+								GuiAuthPin.this.statusText.setErrorText("ユーザー情報の取得に失敗しました "+e.getMessage());
+							}
+						};
+					}.start();
+					GuiAuthPin.this.auth = true;
 				}
 				this.oldText = getText();
 			}
@@ -140,7 +156,7 @@ public class GuiAuthPin extends WPanel {
 							ev.owner.requestClose();
 							GuiAuth.auther.connect();
 						} else
-							box.add(new GuiAuthFollow(new R()));
+							box.add(new GuiAuthFollow(new R(), (TweetQuakeUserState) ev.data.get("state")));
 					}
 				});
 				return true;

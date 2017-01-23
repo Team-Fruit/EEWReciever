@@ -13,6 +13,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Queue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.IOUtils;
@@ -22,6 +27,7 @@ import org.apache.http.client.methods.HttpGet;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
@@ -33,73 +39,54 @@ import net.teamfruit.eewreciever2.common.util.Downloader;
 
 public class P2PQuake implements IQuake {
 	public static final P2PQuake INSTANCE = new P2PQuake();
-	public static Gson gson = new Gson();
-	public static long WaitMilliSeconds = TimeUnit.SECONDS.toMillis(20);
+	private static Gson gson = new Gson();
+	private static long WaitMilliSeconds = TimeUnit.SECONDS.toMillis(20);
+	private static final Queue<IQuakeNode> empty = Queues.newArrayDeque();
 
-	private static Queue<IQuakeNode> empty = Queues.newArrayDeque();
+	private final ExecutorService threadPool = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("eewreciever2-p2pquake").build());
 
-	private final IP2PCallback callback;
-	private Thread current;
-	private String result;
-	private Throwable error;
-
-	private P2PQuake() {
-		this.callback = new IP2PCallback() {
-			@Override
-			public void onDone(final String json) {
-				P2PQuake.this.result = P2PQuake.this.result;
-				P2PQuake.this.current = null;
-			}
-
-			@Override
-			public void onError(final Throwable t) {
-				P2PQuake.this.error = t;
-				P2PQuake.this.current = null;
-			}
-		};
-	}
-
-	long lasttime;
-	List<P2PQuakeJson> before;
+	private Future<String> future;
+	private long lasttime;
+	private List<P2PQuakeJson> before;
 
 	@Override
 	public Queue<IQuakeNode> getQuakeUpdate() throws QuakeException {
-		if (this.result!=null) {
-			try {
-				final Queue<IQuakeNode> nodes = Queues.newArrayDeque();
+		if (this.future!=null) {
+			if (this.future.isDone()) {
+				try {
+					final Queue<IQuakeNode> nodes = Queues.newArrayDeque();
 			/*@formatter:off*/
 			final Type type = new TypeToken<Collection<P2PQuakeJson>>(){}.getType();
 			/*@formatter:on*/
-				final List<P2PQuakeJson> now = gson.fromJson(this.result, type);
-				if (this.before!=null)
-					for (final P2PQuakeJson line : getUpdate(this.before, now)) {
-						switch (line.code) {
-							case 551:
-								nodes.add(new P2PQuakeQuakeInfoNode().parseString(this.result));
-							case 552:
-								nodes.add(new P2PQuakeTsunamiInfoNode().parseString(this.result));
-							case 5610:
-								nodes.add(new P2PQuakeSensingInfoNode().parseString(this.result));
+					final String result = this.future.get();
+					final List<P2PQuakeJson> now = gson.fromJson(result, type);
+					if (this.before!=null)
+						for (final P2PQuakeJson line : getUpdate(this.before, now)) {
+							switch (line.code) {
+								case 551:
+									nodes.add(new P2PQuakeQuakeInfoNode().parseString(result));
+								case 552:
+									nodes.add(new P2PQuakeTsunamiInfoNode().parseString(result));
+								case 5610:
+									nodes.add(new P2PQuakeSensingInfoNode().parseString(result));
+							}
 						}
-					}
-				this.result = null;
-				this.before = now;
-				return nodes;
-			} catch (final JsonParseException e) {
-				throw new QuakeException("Parse Error", e);
+					this.future = null;
+					this.before = now;
+					return nodes;
+				} catch (final JsonParseException e) {
+					throw new QuakeException("Parse Error", e);
+				} catch (final InterruptedException e) {
+					throw new QuakeException(e);
+				} catch (final ExecutionException e) {
+					throw new QuakeException(e);
+				}
 			}
-		} else if (this.error!=null) {
-			final QuakeException e = new QuakeException(this.error);
-			this.error = null;
-			throw e;
-		}
-
-		if (this.current==null) {
+		} else {
 			final long nowtime = System.currentTimeMillis();
 			if (nowtime-this.lasttime>WaitMilliSeconds) {
 				this.lasttime = nowtime;
-				this.current = new P2PCommunicator(this.callback);
-				this.current.start();
+				this.future = this.threadPool.submit(new P2PCommunicator());
 			}
 		}
 		return empty;
@@ -132,17 +119,11 @@ public class P2PQuake implements IQuake {
 		}
 	}
 
-	public static class P2PCommunicator extends Thread {
-		public static final String API_PATH = "http://api.p2pquake.com/v1/human-readable?limit=3";
-
-		private final IP2PCallback callback;
-
-		public P2PCommunicator(final IP2PCallback callback) {
-			this.callback = callback;
-		}
+	public static class P2PCommunicator implements Callable<String> {
+		private static final String API_PATH = "http://api.p2pquake.com/v1/human-readable?limit=3";
 
 		@Override
-		public void run() {
+		public String call() throws IOException {
 			InputStream is = null;
 			try {
 				final HttpGet httpPost = new HttpGet(API_PATH);
@@ -157,9 +138,7 @@ public class P2PQuake implements IQuake {
 				String line;
 				while ((line = reader.readLine())!=null)
 					sb.append(line);
-				this.callback.onDone(line);
-			} catch (final IOException e) {
-				this.callback.onError(e);
+				return line;
 			} finally {
 				IOUtils.closeQuietly(is);
 			}

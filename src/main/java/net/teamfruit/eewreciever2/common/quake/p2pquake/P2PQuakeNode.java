@@ -3,6 +3,8 @@ package net.teamfruit.eewreciever2.common.quake.p2pquake;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.google.gson.Gson;
+
 import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
 
 /**
@@ -14,6 +16,7 @@ import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
  */
 public abstract class P2PQuakeNode<E extends P2PQuakeJson> implements IQuakeNode {
 	protected static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+	protected static Gson gson = new Gson();
 
 	protected E data;
 
