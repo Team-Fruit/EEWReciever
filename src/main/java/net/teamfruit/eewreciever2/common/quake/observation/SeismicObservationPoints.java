@@ -17,7 +17,7 @@ import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.util.Downloader;
 
 public class SeismicObservationPoints implements Runnable {
-	public static final String JSON_PATH = "https://gist.githubusercontent.com/sjcl/7375640587ad7c21e24a7e5e77336cdd/raw/13a226f1cce1ee608d30ae8e012ee1561597186d/SeismicObservationPoints.json";
+	private static final String JSON_PATH = "https://gist.githubusercontent.com/sjcl/7375640587ad7c21e24a7e5e77336cdd/raw/13a226f1cce1ee608d30ae8e012ee1561597186d/SeismicObservationPoints.json";
 	private static Gson gson = new Gson();
 
 	private IJsonCallBack callback;

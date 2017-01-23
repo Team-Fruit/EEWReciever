@@ -3,7 +3,7 @@ package net.teamfruit.eewreciever2.common.quake.observation;
 /**
  * 緊急地震速報のデータからの計算用クラスです
  * 計算式に問題がある場合、GithubにPullrequestを送っていただけるとありがたいです。
- * @author bebe, BSC24公式チャットの皆さん
+ * @author bebe
  * @see <a href="http://repository.aitech.ac.jp/dspace/bitstream/11133/2521/1/%E9%98%B2%E7%81%BD4%E5%8F%B7%E7%A0%94%E7%A9%B6%E9%96%8B%E7%99%BA%E3%83%BB%E7%B7%8A%E6%80%A5%E5%9C%B0%E9%9C%87%E9%80%9F%E5%A0%B13(P21-26).pdf">参考文献</a>
  * @see <a href="http://www.data.jma.go.jp/svd/eew/data/nc/katsuyou/reference.pdf">参考文献</a>
  */
