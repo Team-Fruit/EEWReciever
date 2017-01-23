@@ -53,7 +53,7 @@ public class TweetQuakeAuther {
 	public void connect() {
 		if (this.state!=AuthState.TOKEN)
 			throw new IllegalStateException();
-		TweetQuake.INSTANCE.connect();
+		TweetQuake.instance().connect();
 		this.state = AuthState.CONNECT;
 	}
 }

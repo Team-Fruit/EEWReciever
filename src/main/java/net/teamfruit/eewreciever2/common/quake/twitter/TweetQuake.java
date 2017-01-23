@@ -17,12 +17,20 @@ import twitter4j.StatusListener;
 import twitter4j.TwitterStream;
 
 public class TweetQuake implements IQuake {
-	public static final TweetQuake INSTANCE = new TweetQuake();
-	public boolean isAuthRequired;
+	private static final TweetQuake INSTANCE = new TweetQuake();
 	private final Queue<IQuakeNode> updatequeue = Queues.newArrayDeque();
+	private boolean isAuthRequired;
 
 	private TweetQuake() {
 		init();
+	}
+
+	public static TweetQuake instance() {
+		return INSTANCE;
+	}
+
+	public boolean isAuthRequired() {
+		return this.isAuthRequired;
 	}
 
 	public Queue<IQuakeNode> queue() {

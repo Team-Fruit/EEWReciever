@@ -17,7 +17,7 @@ public class CommandAuth extends SubCommand {
 
 	@Override
 	public void processSubCommand(final ICommandSender sender, final String[] args) {
-		if (TweetQuake.INSTANCE.isAuthRequired)
+		if (TweetQuake.instance().isAuthRequired())
 			Minecraft.getMinecraft().displayGuiScreen(new GuiAuth());
 		else
 			ChatBuilder.create("認証の必要はありません！").setStyle(new ChatStyle().setColor(EnumChatFormatting.RED)).sendPlayer(sender);

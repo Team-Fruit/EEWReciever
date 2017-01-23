@@ -41,9 +41,9 @@ public class CommonProxy {
 		QuakeEventExecutor.init();
 
 		if (ConfigHandler.instance.p2pquake.get())
-			QuakeEventExecutor.instance().register(P2PQuake.INSTANCE);
+			QuakeEventExecutor.instance().register(P2PQuake.instance());
 		if (ConfigHandler.instance.tweetquake.get())
-			QuakeEventExecutor.instance().register(TweetQuake.INSTANCE);
+			QuakeEventExecutor.instance().register(TweetQuake.instance());
 	}
 
 	public void postInit(final FMLPostInitializationEvent event) {

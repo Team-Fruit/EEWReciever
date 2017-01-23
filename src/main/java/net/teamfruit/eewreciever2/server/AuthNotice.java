@@ -14,7 +14,7 @@ public class AuthNotice {
 
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
-		if (TweetQuake.INSTANCE.isAuthRequired&&isOp(event.player.getGameProfile())) {
+		if (TweetQuake.instance().isAuthRequired()&&isOp(event.player.getGameProfile())) {
 			final ChatStyle style = new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/eewreciever auth start"));
 			ChatBuilder.create("[EEWReciever2] Twitter認証が完了していません。クリックして開始する(Twitterアカウントが必要です").setStyle(style).sendPlayer(event.player);
 		}

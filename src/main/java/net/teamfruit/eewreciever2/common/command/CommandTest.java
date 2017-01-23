@@ -30,7 +30,7 @@ public class CommandTest extends SubCommand {
 					TweetQuakeManager.intance().getAuthedTwitter().showStatus(NumberUtils.toLong(StringUtils.remove(arg, "https://twitter.com/eewbot/status/"))).getText();
 				else
 					text = arg;
-				TweetQuake.INSTANCE.getQuakeUpdate().add(new TweetQuakeNode().parseString(text));
+				TweetQuake.instance().getQuakeUpdate().add(new TweetQuakeNode().parseString(text));
 			} catch (final Exception e) {
 				ChatBuilder.create(e.getClass().getName()).setStyle(new ChatStyle().setColor(EnumChatFormatting.RED)).sendPlayer(sender);
 				Reference.logger.error(e.getMessage(), e);

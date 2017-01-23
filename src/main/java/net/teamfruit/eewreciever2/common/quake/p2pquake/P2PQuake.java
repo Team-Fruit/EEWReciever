@@ -15,8 +15,6 @@ import java.util.ListIterator;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -27,23 +25,31 @@ import org.apache.http.client.methods.HttpGet;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
+import net.teamfruit.eewreciever2.common.CommonThreadPool;
+import net.teamfruit.eewreciever2.common.IThreadPool;
 import net.teamfruit.eewreciever2.common.quake.IQuake;
 import net.teamfruit.eewreciever2.common.quake.IQuakeNode;
 import net.teamfruit.eewreciever2.common.quake.QuakeException;
 import net.teamfruit.eewreciever2.common.util.Downloader;
 
 public class P2PQuake implements IQuake {
-	public static final P2PQuake INSTANCE = new P2PQuake();
+	private static final P2PQuake INSTANCE = new P2PQuake();
 	private static Gson gson = new Gson();
 	private static long WaitMilliSeconds = TimeUnit.SECONDS.toMillis(20);
 	private static final Queue<IQuakeNode> empty = Queues.newArrayDeque();
 
-	private final ExecutorService threadPool = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("eewreciever2-p2pquake").build());
+	private final IThreadPool threadPool = CommonThreadPool.instance();
+
+	private P2PQuake() {
+	}
+
+	public static P2PQuake instance() {
+		return INSTANCE;
+	}
 
 	private Future<String> future;
 	private long lasttime;
