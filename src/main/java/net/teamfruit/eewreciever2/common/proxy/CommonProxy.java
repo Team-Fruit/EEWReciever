@@ -33,7 +33,7 @@ public class CommonProxy {
 
 		ConfigHandler.instance = new ConfigHandler(new File(EEWReciever2.locations.modCfgDir, Reference.MODID+".cfg"));
 
-		OvservationPredictor.INSTANCE.init();
+		OvservationPredictor.instance().init();
 	}
 
 	public void init(final FMLInitializationEvent event) {

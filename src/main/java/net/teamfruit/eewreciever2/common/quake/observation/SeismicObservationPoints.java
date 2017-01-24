@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+import net.teamfruit.eewreciever2.common.CommonThreadPool;
 import net.teamfruit.eewreciever2.common.Reference;
 import net.teamfruit.eewreciever2.common.util.Downloader;
 
@@ -24,7 +25,7 @@ public class SeismicObservationPoints implements Runnable {
 
 	public void get(final IJsonCallBack callback) {
 		this.callback = callback;
-		new Thread(this).start();
+		CommonThreadPool.instance().execute(this);
 	}
 
 	@Override

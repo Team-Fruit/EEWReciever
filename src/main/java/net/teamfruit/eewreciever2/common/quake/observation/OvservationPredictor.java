@@ -18,7 +18,7 @@ import net.teamfruit.eewreciever2.common.quake.observation.SeismicObservationPoi
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeNode;
 
 public class OvservationPredictor {
-	public static final OvservationPredictor INSTANCE = new OvservationPredictor();
+	private static final OvservationPredictor INSTANCE = new OvservationPredictor();
 
 	private PointsJson json;
 	private final DecimalFormat format;
@@ -26,6 +26,10 @@ public class OvservationPredictor {
 	private OvservationPredictor() {
 		this.format = new DecimalFormat("#.#");
 		this.format.setRoundingMode(RoundingMode.DOWN);
+	}
+
+	public static OvservationPredictor instance() {
+		return INSTANCE;
 	}
 
 	public PointsJson getPoints() {

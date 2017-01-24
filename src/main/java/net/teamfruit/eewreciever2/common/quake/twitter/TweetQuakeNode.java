@@ -141,7 +141,7 @@ public class TweetQuakeNode implements IQuakeNode {
 		this.raw = source;
 
 		if (this.alarm) {
-			final PointsJson json = OvservationPredictor.INSTANCE.getAlarmAreas(this);
+			final PointsJson json = OvservationPredictor.instance().getAlarmAreas(this);
 			final EnumPrefecture[] prefectures = OvservationPredictor.toPrefectures(json);
 			this.alarmArea = EnumRegion.format(prefectures);
 		}
