@@ -11,6 +11,7 @@ import com.kamesuta.mc.bnnwidget.position.Coord;
 import com.kamesuta.mc.bnnwidget.position.Point;
 import com.kamesuta.mc.bnnwidget.position.R;
 import com.kamesuta.mc.bnnwidget.render.OpenGL;
+import com.kamesuta.mc.bnnwidget.render.WRenderer;
 
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeUserState;
 
@@ -54,12 +55,26 @@ public class GuiAuthFollow extends WPanel {
 					return "@eewbot をフォローする必要があります";
 			}
 		});
+		add(new TwitterButton(new R(Coord.pleft(.5f), Coord.width(80), Coord.height(20), Coord.top(80)).child(Coord.pleft(-.5f)), this.state));
 	}
 
 	public static class TwitterButton extends MButton {
+		private final TweetQuakeUserState state;
 
-		public TwitterButton(final R position) {
+		public TwitterButton(final R position, final TweetQuakeUserState state) {
 			super(position);
+			this.state = state;
+			if (this.state.isBlock())
+				setText("ブロック中");
+			else if (this.state.isMute())
+				setText("ミュート中");
+			else if (!this.state.isFollow())
+				setText("フォローする");
+		}
+
+		@Override
+		public int getTextColor(final WEvent ev, final Area pgp, final Point mouse, final float frame) {
+			return this.state.isFollow() ? 0xffffff : 0x000000;
 		}
 
 		@Override
@@ -67,11 +82,24 @@ public class GuiAuthFollow extends WPanel {
 			final Area a = getGuiPosition(pgp);
 			final float opacity = getGuiOpacity(popacity);
 
-			OpenGL.glBegin(GL_QUADS);
-			OpenGL.glColor4f(0f, 0f, 0f, 1f);
-			OpenGL.glVertex3f(0, 0, 0);
-			OpenGL.glEnd();
+			WRenderer.startShape();
+			OpenGL.glColor4f(.2f, .2f, .2f, .2f);
+			OpenGL.glLineWidth(1.5f);
+			draw(a, GL_LINE_LOOP);
+			if (a.pointInside(p)) {
+				if (this.state.isFollow())
+					OpenGL.glColor4f(.9f, .1f, .1f, .9f);
+				else
+					OpenGL.glColor4f(.85f, .85f, .85f, 1f);
+			} else if (this.state.isFollow())
+				OpenGL.glColor4f(.1f, .1f, .9f, .9f);
+			else
+				OpenGL.glColor4f(.9f, .9f, .9f, 1f);
+			draw(a);
 			drawText(ev, pgp, p, frame, opacity);
+		}
+
+		public void onStateChange(final TweetQuakeUserState state) {
 		}
 	}
 }

@@ -16,6 +16,7 @@ import com.kamesuta.mc.bnnwidget.position.Coord;
 import com.kamesuta.mc.bnnwidget.position.Point;
 import com.kamesuta.mc.bnnwidget.position.R;
 
+import net.teamfruit.eewreciever2.client.ClientThreadPool;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeAuther.AuthState;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeManager;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeUserState;
@@ -47,6 +48,8 @@ public class GuiAuthPin extends WPanel {
 			{
 				setMaxStringLength(7);
 				setAllowedCharacters("0123456789");
+				setFocused(true);
+
 			}
 
 			private String oldText;
@@ -54,11 +57,11 @@ public class GuiAuthPin extends WPanel {
 			@Override
 			public void update(final WEvent ev, final Area pgp, final Point p) {
 				super.update(ev, pgp, p);
-				if (GuiAuth.auther.getState()==AuthState.URL) {
-					if (!getText().equals(this.oldText)) {
-						if (getText().length()==7) {
+				if (!GuiAuthPin.this.auth)
+					if (GuiAuth.auther.getState()==AuthState.URL) {
+						if (!getText().equals(this.oldText)&&getText().length()==7) {
 							GuiAuthPin.this.statusText.setText("認証中");
-							new Thread() {
+							ClientThreadPool.instance().execute(new Runnable() {
 								@Override
 								public void run() {
 									try {
@@ -75,24 +78,23 @@ public class GuiAuthPin extends WPanel {
 									} catch (final IOException e) {
 										GuiAuthPin.this.statusText.setErrorText("認証トークンの保存に失敗しました "+e.getMessage());
 									}
-								};
-							}.start();
+								}
+							});
 						}
-					}
-				} else if (GuiAuth.auther.getState()==AuthState.TOKEN) {
-					GuiAuthPin.this.statusText.setText("認証成功");
-					new Thread() {
-						@Override
-						public void run() {
-							try {
-								ev.data.put("state", TweetQuakeManager.intance().getUserState(214358709L));
-							} catch (final TwitterException e) {
-								GuiAuthPin.this.statusText.setErrorText("ユーザー情報の取得に失敗しました "+e.getMessage());
+					} else if (GuiAuth.auther.getState()==AuthState.TOKEN) {
+						GuiAuthPin.this.statusText.setText("認証成功");
+						ClientThreadPool.instance().execute(new Runnable() {
+							@Override
+							public void run() {
+								try {
+									ev.data.put("state", TweetQuakeManager.intance().getUserState(214358709L));
+								} catch (final TwitterException e) {
+									GuiAuthPin.this.statusText.setErrorText("ユーザー情報の取得に失敗しました ");
+								}
 							}
-						};
-					}.start();
-					GuiAuthPin.this.auth = true;
-				}
+						});
+						GuiAuthPin.this.auth = true;
+					}
 				this.oldText = getText();
 			}
 
@@ -134,7 +136,7 @@ public class GuiAuthPin extends WPanel {
 			@Override
 			public void update(final WEvent ev, final Area pgp, final Point p) {
 				super.update(ev, pgp, p);
-				setEnabled(isAuthed());
+				setEnabled(this.stateChecked);
 				setText(this.finish ? "終了" : "次へ");
 				if (!this.stateChecked&&isAuthed()) {
 					final Object obj = ev.data.get("state");
@@ -171,13 +173,14 @@ public class GuiAuthPin extends WPanel {
 			setColor(0);
 		}
 
+		protected Timer timer;
+
 		@Override
 		public MLabel setText(final String s) {
 			setColor(0);
+			this.timer = null;
 			return super.setText(s);
 		}
-
-		protected Timer timer;
 
 		public MLabel setErrorText(final String s) {
 			this.timer = new Timer();

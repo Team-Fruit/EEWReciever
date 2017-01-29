@@ -15,6 +15,7 @@ import com.kamesuta.mc.bnnwidget.position.Point;
 import com.kamesuta.mc.bnnwidget.position.R;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.teamfruit.eewreciever2.client.ClientThreadPool;
 import twitter4j.TwitterException;
 
 public class GuiAuthURL extends WPanel {
@@ -57,7 +58,7 @@ public class GuiAuthURL extends WPanel {
 		};
 
 		if (authurl==null)
-			new Thread() {
+			ClientThreadPool.instance().execute(new Runnable() {
 				@Override
 				public void run() {
 					try {
@@ -66,7 +67,7 @@ public class GuiAuthURL extends WPanel {
 					}
 					GuiAuthURL.this.initURL = true;
 				}
-			}.start();
+			});
 		else
 			this.initURL = true;
 	}
