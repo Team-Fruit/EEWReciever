@@ -2,6 +2,12 @@ package net.teamfruit.eewreciever2.client.gui;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+import org.lwjgl.util.Timer;
+
 import com.kamesuta.mc.bnnwidget.WEvent;
 import com.kamesuta.mc.bnnwidget.WPanel;
 import com.kamesuta.mc.bnnwidget.component.MButton;
@@ -13,7 +19,12 @@ import com.kamesuta.mc.bnnwidget.position.R;
 import com.kamesuta.mc.bnnwidget.render.OpenGL;
 import com.kamesuta.mc.bnnwidget.render.WRenderer;
 
+import net.minecraft.client.Minecraft;
+import net.teamfruit.eewreciever2.client.ClientThreadPool;
+import net.teamfruit.eewreciever2.common.Reference;
+import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeManager;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeUserState;
+import twitter4j.TwitterException;
 
 public class GuiAuthFollow extends WPanel {
 
@@ -59,7 +70,7 @@ public class GuiAuthFollow extends WPanel {
 	}
 
 	public static class TwitterButton extends MButton {
-		private final TweetQuakeUserState state;
+		private TweetQuakeUserState state;
 
 		public TwitterButton(final R position, final TweetQuakeUserState state) {
 			super(position);
@@ -70,6 +81,7 @@ public class GuiAuthFollow extends WPanel {
 				setText("ミュート中");
 			else if (!this.state.isFollow())
 				setText("フォローする");
+			this.timer.set(-20);
 		}
 
 		@Override
@@ -97,6 +109,97 @@ public class GuiAuthFollow extends WPanel {
 				OpenGL.glColor4f(.9f, .9f, .9f, 1f);
 			draw(a);
 			drawText(ev, pgp, p, frame, opacity);
+		}
+
+		private Future<TweetQuakeUserState> future;
+
+		@Override
+		protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
+			if (getGuiPosition(pgp).pointInside(mouse)) {
+				if (this.state.isBlock()||this.state.isMute()) {
+					final GuiYesNo yesNo = new GuiYesNo(ev.owner, new YesNoCallback() {
+						@Override
+						public void onYes() {
+							TwitterButton.this.future = ClientThreadPool.instance().submit(new Callable<TweetQuakeUserState>() {
+								@Override
+								public TweetQuakeUserState call() throws Exception {
+									try {
+										if (TwitterButton.this.state.isBlock()) {
+											TweetQuakeManager.intance().getAuthedTwitter().destroyBlock(214358709L);
+											TwitterButton.this.state.setBlock(false);
+										} else if (TwitterButton.this.state.isMute()) {
+											TweetQuakeManager.intance().getAuthedTwitter().destroyMute(214358709L);
+											TwitterButton.this.state.setMute(false);
+										}
+									} catch (final TwitterException e) {
+										OverlayFrame.instance.pane.addNotice1("処理に失敗しました。", 2);
+										throw new RuntimeException(e);
+									}
+									return TwitterButton.this.state;
+								}
+							});
+						}
+
+						@Override
+						public void onNo() {
+							Minecraft.getMinecraft().displayGuiScreen(ev.owner);
+						}
+					});
+					Minecraft.getMinecraft().displayGuiScreen(yesNo);
+				} else {
+					TwitterButton.this.future = ClientThreadPool.instance().submit(new Callable<TweetQuakeUserState>() {
+						@Override
+						public TweetQuakeUserState call() throws Exception {
+							try {
+								if (TwitterButton.this.state.isFollow()) {
+									TweetQuakeManager.intance().getAuthedTwitter().destroyFriendship(214358709L);
+									TwitterButton.this.state.setFollow(false);
+								} else {
+									TweetQuakeManager.intance().getAuthedTwitter().createFriendship(214358709L);
+									TwitterButton.this.state.setFollow(true);
+								}
+							} catch (final TwitterException e) {
+								OverlayFrame.instance.pane.addNotice1("処理に失敗しました。", 2);
+								throw new RuntimeException(e);
+							}
+							return TwitterButton.this.state;
+						}
+					});
+				}
+			}
+			return super.onClicked(ev, pgp, mouse, button);
+		}
+
+		private final Timer timer = new Timer();
+
+		@Override
+		public void update(final WEvent ev, final Area pgp, final Point p) {
+			if (this.timer.getTime()>0f) {
+				TwitterButton.this.future = ClientThreadPool.instance().submit(new Callable<TweetQuakeUserState>() {
+					@Override
+					public TweetQuakeUserState call() throws Exception {
+						try {
+							TwitterButton.this.state = TweetQuakeManager.intance().getUserState(214358709L);
+						} catch (final TwitterException e) {
+							throw new RuntimeException(e);
+						} finally {
+							TwitterButton.this.timer.reset();
+						}
+						return TwitterButton.this.state;
+					}
+				});
+			}
+
+			if (this.future!=null&&this.future.isDone()) {
+				try {
+					onStateChange(this.future.get());
+				} catch (final InterruptedException e) {
+					Reference.logger.error(e);
+				} catch (final ExecutionException e) {
+					Reference.logger.error(e.getCause());
+				}
+				this.future = null;
+			}
 		}
 
 		public void onStateChange(final TweetQuakeUserState state) {

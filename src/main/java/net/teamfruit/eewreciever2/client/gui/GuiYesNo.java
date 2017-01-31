@@ -1,7 +1,10 @@
 package net.teamfruit.eewreciever2.client.gui;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import com.kamesuta.mc.bnnwidget.WBase;
 import com.kamesuta.mc.bnnwidget.WEvent;
+import com.kamesuta.mc.bnnwidget.WFrame;
 import com.kamesuta.mc.bnnwidget.WPanel;
 import com.kamesuta.mc.bnnwidget.motion.Easings;
 import com.kamesuta.mc.bnnwidget.position.Area;
@@ -13,11 +16,13 @@ import com.kamesuta.mc.bnnwidget.render.WRenderer;
 import com.kamesuta.mc.bnnwidget.var.V;
 import com.kamesuta.mc.bnnwidget.var.VMotion;
 
-public class GuiYesNo extends WPanel {
+import net.minecraft.client.gui.GuiScreen;
+
+public class GuiYesNo extends WFrame {
 	protected final YesNoCallback callback;
 
-	public GuiYesNo(final R area, final YesNoCallback callback) {
-		super(area);
+	public GuiYesNo(final GuiScreen parent, final YesNoCallback callback) {
+		super(parent);
 		this.callback = callback;
 	}
 
@@ -57,8 +62,26 @@ public class GuiYesNo extends WPanel {
 				this.m.stop().add(Easings.easeLinear.move(.2f, .5f)).start();
 			}
 		});
-		add(new WPanel(new R(Coord.pleft(.5f), Coord.ptop(.5f), Coord.width(200), Coord.height(50)).child(Coord.pleft(-.5f), Coord.ptop(-.5f))) {
+		add(new WPanel(new R(Coord.pleft(.5f), Coord.ptop(.5f), Coord.width(V.pm(200f).add(Easings.easeOutQuart.move(.25f, 400)).start()), Coord.height(V.pm(70f).add(Easings.easeOutQuart.move(.25f, 100)).start())).child(Coord.pleft(-.5f), Coord.ptop(-.5f))) {
+			@Override
+			public void draw(final WEvent ev, final Area pgp, final Point p, final float frame, final float popacity) {
+				final Area a = getGuiPosition(pgp);
 
+				WRenderer.startShape();
+				OpenGL.glLineWidth(4f);
+				OpenGL.glColor4f(0, 0, 0, 0.2f);
+				draw(a, GL_LINE_LOOP);
+
+				OpenGL.glPopMatrix();
+				OpenGL.glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO);
+				OpenGL.glBlendFunc(GL_ONE, GL_ONE);
+				OpenGL.glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO);
+				OpenGL.glColor4f(0, 0, 0, .3f);
+				draw(a);
+				OpenGL.glPushMatrix();
+
+				super.draw(ev, pgp, p, frame, popacity);
+			}
 		});
 	}
 }

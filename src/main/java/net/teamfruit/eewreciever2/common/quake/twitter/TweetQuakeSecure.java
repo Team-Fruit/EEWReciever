@@ -68,7 +68,7 @@ public final class TweetQuakeSecure {
 			throw new IllegalStateException();
 		try {
 			this.tweetQuakeKey = decodeTweetQuakeKey(getResourceInputStream("file.eew"));
-			this.accessToken = loadAccessToken(getConfigResourceInputStream("setting.dat"));
+			this.accessToken = loadAccessToken(getConfigResourceInputStream("setting.ser"));
 		} catch (final FileNotFoundException e) {
 			Reference.logger.error(e.getMessage());
 		} catch (final TweetQuakeSecureException e) {
@@ -172,7 +172,7 @@ public final class TweetQuakeSecure {
 
 	public void storeAccessToken(final AccessToken token) throws IOException {
 		this.accessToken = token;
-		final File file = getConfigResourceFile("setting.dat");
+		final File file = getConfigResourceFile("setting.ser");
 		if (file.exists()&&file.isFile())
 			Files.delete(file.toPath());
 
