@@ -9,6 +9,7 @@ import com.kamesuta.mc.bnnwidget.WEvent;
 import com.kamesuta.mc.bnnwidget.WPanel;
 import com.kamesuta.mc.bnnwidget.component.MButton;
 import com.kamesuta.mc.bnnwidget.component.MChatTextField;
+import com.kamesuta.mc.bnnwidget.component.MChatTextField.CharacterFilter.WhiteListFilter;
 import com.kamesuta.mc.bnnwidget.component.MLabel;
 import com.kamesuta.mc.bnnwidget.component.MScaledLabel;
 import com.kamesuta.mc.bnnwidget.position.Area;
@@ -47,7 +48,7 @@ public class GuiAuthPin extends WPanel {
 		add(new MChatTextField(new R(Coord.pleft(.5f), Coord.width(60), Coord.height(20), Coord.top(65)).child(Coord.pleft(-.5f))) {
 			{
 				setMaxStringLength(7);
-				setAllowedCharacters("0123456789");
+				setFilter(WhiteListFilter.createFromString("0123456789"));
 				setFocused(true);
 
 			}
