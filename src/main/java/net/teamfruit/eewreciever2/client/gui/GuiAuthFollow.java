@@ -8,6 +8,7 @@ import java.util.concurrent.Future;
 
 import org.lwjgl.util.Timer;
 
+import com.kamesuta.mc.bnnwidget.WBox;
 import com.kamesuta.mc.bnnwidget.WEvent;
 import com.kamesuta.mc.bnnwidget.WPanel;
 import com.kamesuta.mc.bnnwidget.component.MButton;
@@ -29,10 +30,24 @@ import twitter4j.TwitterException;
 public class GuiAuthFollow extends WPanel {
 
 	private final TweetQuakeUserState state;
+	private final MButton finishButton;
 
 	public GuiAuthFollow(final R position, final TweetQuakeUserState state) {
 		super(position);
 		this.state = state;
+		this.finishButton = new MButton(new R(Coord.right(15), Coord.width(75), Coord.top(130), Coord.height(20))) {
+			{
+				setEnabled(false);
+				setText("次へ");
+			}
+
+			@Override
+			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
+				ev.owner.requestClose();
+				GuiAuth.auther.connect();
+				return true;
+			}
+		};
 	}
 
 	@Override
@@ -66,7 +81,30 @@ public class GuiAuthFollow extends WPanel {
 					return "@eewbot をフォローする必要があります";
 			}
 		});
-		add(new TwitterButton(new R(Coord.pleft(.5f), Coord.width(80), Coord.height(20), Coord.top(80)).child(Coord.pleft(-.5f)), this.state));
+		add(new TwitterButton(new R(Coord.pleft(.5f), Coord.width(80), Coord.height(20), Coord.top(80)).child(Coord.pleft(-.5f)), this.state) {
+			@Override
+			public void onStateChange(final TweetQuakeUserState state) {
+				GuiAuthFollow.this.finishButton.setEnabled(state.isFollow());
+			}
+		});
+		add(new MButton(new R(Coord.left(15), Coord.width(75), Coord.top(130), Coord.height(20))) {
+			{
+				setText("戻る");
+			}
+
+			@Override
+			protected boolean onClicked(final WEvent ev, final Area pgp, final Point mouse, final int button) {
+				final WBox box = (WBox) ev.data.get("box");
+				box.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						box.add(new GuiAuthPin(new R()));
+					}
+				});
+				return true;
+			}
+		});
+		add(this.finishButton);
 	}
 
 	public static class TwitterButton extends MButton {
@@ -148,6 +186,7 @@ public class GuiAuthFollow extends WPanel {
 					Minecraft.getMinecraft().displayGuiScreen(yesNo);
 				} else {
 					TwitterButton.this.future = ClientThreadPool.instance().submit(new Callable<TweetQuakeUserState>() {
+
 						@Override
 						public TweetQuakeUserState call() throws Exception {
 							try {
