@@ -1,5 +1,7 @@
 package net.teamfruit.eewreciever2.common.quake.observation;
 
+import static net.teamfruit.eewreciever2.common.quake.observation.EnumPrefecture.*;
+
 import java.util.List;
 import java.util.Queue;
 
@@ -11,16 +13,16 @@ import com.google.common.collect.Queues;
 public enum EnumRegion {
 	/*@formatter:off*/
 	HOKKAIDO("北海道",EnumPrefecture.HOKKAIDO),
-	TOHOKU("東北", EnumPrefecture.AOMORI, EnumPrefecture.IWATE, EnumPrefecture.MIYAGI, EnumPrefecture.AKITA, EnumPrefecture.YAMAGATA, EnumPrefecture.HUKUSHIMA),
-	KANTO_KOSHIN("関東・甲信",EnumPrefecture.IBARAKI,EnumPrefecture.TOCHIGI, EnumPrefecture.GUNMA, EnumPrefecture.SAITAMA, EnumPrefecture.CHIBA, EnumPrefecture.TOKYO, EnumPrefecture.KANAGAWA, EnumPrefecture.YAMANASHI, EnumPrefecture.NAGANO),
-	HOKURIKU("北陸",EnumPrefecture.NIIGATA, EnumPrefecture.TOYAMA,EnumPrefecture.ISHIKAWA, EnumPrefecture.FUKUI),
-	TOKAI("東海",EnumPrefecture.GIFU,EnumPrefecture.SHIZUOKA,EnumPrefecture.AICHI, EnumPrefecture.MIE),
-	KINKI("近畿",EnumPrefecture.SHIGA, EnumPrefecture.KYOTO, EnumPrefecture.OSAKA, EnumPrefecture.HYOGO, EnumPrefecture.NARA, EnumPrefecture.WAKAYAMA),
-	CHUGOKU("中国", EnumPrefecture.TOTTORI, EnumPrefecture.SHIMANE, EnumPrefecture.OKAYAMA, EnumPrefecture.HIROSHIMA, EnumPrefecture.YAMAGUCHI),
-	SHIKOKU("四国", EnumPrefecture.TOKUSHIMA, EnumPrefecture.KAGAWA, EnumPrefecture.EHIME, EnumPrefecture.KOCHI),
-	KYUSYU("九州", EnumPrefecture.HUKUOKA, EnumPrefecture.SAGA, EnumPrefecture.NAGASAKI, EnumPrefecture.KUMAMOTO, EnumPrefecture.OITA, EnumPrefecture.MIYAZAKI, EnumPrefecture.KAGOSHIMA, EnumPrefecture.TOSHIMA, EnumPrefecture.KOSHIKI, EnumPrefecture.TANE, EnumPrefecture.YAKU, EnumPrefecture.AMAMI),
-	OKINAWA("沖縄", EnumPrefecture.OKINAWA_HONTO, EnumPrefecture.KUME, EnumPrefecture.DAITO, EnumPrefecture.MIYAKO, EnumPrefecture.ISHIGAKI, EnumPrefecture.YONAGUNI, EnumPrefecture.IRIOMOTE),
-	TOKYO_ISLANDS("東京島嶼部", EnumPrefecture.IZU, EnumPrefecture.OGASAWARA),
+	TOHOKU("東北", AOMORI, IWATE, MIYAGI, AKITA, YAMAGATA, HUKUSHIMA),
+	KANTO_KOSHIN("関東・甲信",IBARAKI,TOCHIGI, GUNMA, SAITAMA, CHIBA, TOKYO, KANAGAWA, YAMANASHI, NAGANO),
+	HOKURIKU("北陸",NIIGATA, TOYAMA,ISHIKAWA, FUKUI),
+	TOKAI("東海",GIFU,SHIZUOKA,AICHI, MIE),
+	KINKI("近畿",SHIGA, KYOTO, OSAKA, HYOGO, NARA, WAKAYAMA),
+	CHUGOKU("中国", TOTTORI, SHIMANE, OKAYAMA, HIROSHIMA, YAMAGUCHI),
+	SHIKOKU("四国", TOKUSHIMA, KAGAWA, EHIME, KOCHI),
+	KYUSYU("九州", HUKUOKA, SAGA, NAGASAKI, KUMAMOTO, OITA, MIYAZAKI, KAGOSHIMA, TOSHIMA, KOSHIKI, TANE, YAKU, AMAMI),
+	OKINAWA("沖縄", OKINAWA_HONTO, KUME, DAITO, MIYAKO, ISHIGAKI, YONAGUNI, IRIOMOTE),
+	TOKYO_ISLANDS("東京島嶼部", IZU, OGASAWARA),
 	;
 	/*@formatter:on*/
 	private final String name;
