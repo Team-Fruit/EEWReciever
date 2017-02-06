@@ -6,6 +6,7 @@ import com.kamesuta.mc.bnnwidget.WBase;
 import com.kamesuta.mc.bnnwidget.WEvent;
 import com.kamesuta.mc.bnnwidget.WFrame;
 import com.kamesuta.mc.bnnwidget.WPanel;
+import com.kamesuta.mc.bnnwidget.component.MLabel;
 import com.kamesuta.mc.bnnwidget.motion.Easings;
 import com.kamesuta.mc.bnnwidget.position.Area;
 import com.kamesuta.mc.bnnwidget.position.Coord;
@@ -59,28 +60,31 @@ public class GuiYesNo extends WFrame {
 
 			@Override
 			public void onAdded() {
-				this.m.stop().add(Easings.easeLinear.move(.2f, .5f)).start();
+				this.m.stop().add(Easings.easeLinear.move(.2f, .9f)).start();
 			}
 		});
-		add(new WPanel(new R(Coord.pleft(.5f), Coord.ptop(.5f), Coord.width(V.pm(200f).add(Easings.easeOutQuart.move(.25f, 400)).start()), Coord.height(V.pm(70f).add(Easings.easeOutQuart.move(.25f, 100)).start())).child(Coord.pleft(-.5f), Coord.ptop(-.5f))) {
+		add(new WPanel(new R(Coord.pleft(.5f), Coord.ptop(.5f), Coord.width(V.am(240).add(Easings.easeOutQuart.move(.25f, 265)).start()), Coord.height(V.am(35f).add(Easings.easeOutQuart.move(.25f, 45)).start())).child(Coord.pleft(-.5f), Coord.ptop(-.5f))) {
 			@Override
 			public void draw(final WEvent ev, final Area pgp, final Point p, final float frame, final float popacity) {
 				final Area a = getGuiPosition(pgp);
 
 				WRenderer.startShape();
-				OpenGL.glLineWidth(4f);
-				OpenGL.glColor4f(0, 0, 0, 0.2f);
+				OpenGL.glColor4f(.4f, .4f, .4f, .15f);
+				draw(a);
+
+				OpenGL.glLineWidth(1.2f);
+				OpenGL.glColor4f(.5f, .5f, .5f, 0.3f);
 				draw(a, GL_LINE_LOOP);
 
-				OpenGL.glPopMatrix();
-				OpenGL.glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO);
-				OpenGL.glBlendFunc(GL_ONE, GL_ONE);
-				OpenGL.glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO);
-				OpenGL.glColor4f(0, 0, 0, .3f);
-				draw(a);
-				OpenGL.glPushMatrix();
-
 				super.draw(ev, pgp, p, frame, popacity);
+			}
+
+			@Override
+			protected void initWidget() {
+				add(new MLabel(new R(Coord.left(0), Coord.top(10), Coord.right(0), Coord.height(15))) {
+					{
+					}
+				});
 			}
 		});
 	}

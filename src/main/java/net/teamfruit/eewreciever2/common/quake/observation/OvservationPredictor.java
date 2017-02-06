@@ -1,5 +1,8 @@
 package net.teamfruit.eewreciever2.common.quake.observation;
 
+import static net.teamfruit.eewreciever2.common.quake.observation.EnumPrefecture.*;
+
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Iterator;
@@ -7,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.apache.commons.lang3.math.NumberUtils;
 
 import com.google.common.collect.Sets;
 
@@ -70,7 +71,7 @@ public class OvservationPredictor {
 			final Map<String, Map<String, List<Point>>> prefectures = it1.next().getValue();
 			for (final Iterator<Entry<String, Map<String, List<Point>>>> it2 = prefectures.entrySet().iterator(); it2.hasNext();) {
 				final Entry<String, Map<String, List<Point>>> line2 = it2.next();
-				if (EnumPrefecture.fromName(line2.getKey()).getDistance(lat, lon, depth)>magnitude*(magnitude*10)*(depth/10)) {
+				if (fromName(line2.getKey()).getDistance(lat, lon, depth)>magnitude*(magnitude*10)*(depth/10)) {
 					it2.remove();
 					continue;
 				}
@@ -80,7 +81,7 @@ public class OvservationPredictor {
 					final List<Point> points = line3.getValue();
 					for (final Iterator<Point> it4 = points.iterator(); it4.hasNext();) {
 						final Point line4 = it4.next();
-						if (3.5f>=NumberUtils.toFloat(this.format.format(getPointSeismic(magnitude, depth, lat, lon, line4))))
+						if (3.5f>getForCalcSeismic(getPointSeismic(magnitude, depth, lat, lon, line4)))
 							it4.remove();
 					}
 					if (points.isEmpty())
@@ -105,46 +106,52 @@ public class OvservationPredictor {
 						final String area = line3.getKey();
 						if ("東京都".equals(prefecture)) {
 							if ("神津島".equals(area)||"伊豆大島".equals(area)||"新島".equals(area)||"三宅島".equals(area)||"八丈島".equals(area))
-								list.add(EnumPrefecture.IZU);
+								list.add(IZU);
 							else if ("小笠原".equals(area))
-								list.add(EnumPrefecture.OGASAWARA);
+								list.add(OGASAWARA);
 							else
-								list.add(EnumPrefecture.TOKYO);
+								list.add(TOKYO);
 						} else if ("鹿児島県".equals(prefecture)) {
 							if ("鹿児島県十島村".equals(area))
-								list.add(EnumPrefecture.TOSHIMA);
+								list.add(TOSHIMA);
 							else if ("鹿児島県甑島".equals(area))
-								list.add(EnumPrefecture.KOSHIKI);
+								list.add(KOSHIKI);
 							else if ("鹿児島県種子島".equals(area))
-								list.add(EnumPrefecture.TANE);
+								list.add(TANE);
 							else if ("鹿児島県屋久島".equals(area))
-								list.add(EnumPrefecture.YAKU);
+								list.add(YAKU);
 							else if ("鹿児島県奄美北部".equals(area)||"鹿児島県奄美南部".equals(area))
-								list.add(EnumPrefecture.AMAMI);
+								list.add(AMAMI);
 							else
-								list.add(EnumPrefecture.KAGOSHIMA);
+								list.add(KAGOSHIMA);
 						} else if ("沖縄県".equals(prefecture)) {
 							if ("沖縄県本島北部".equals(area)||"沖縄県本島中南部".equals(area))
-								list.add(EnumPrefecture.OKINAWA_HONTO);
+								list.add(OKINAWA_HONTO);
 							else if ("沖縄県久米島".equals(area))
-								list.add(EnumPrefecture.KUME);
+								list.add(KUME);
 							else if ("沖縄県大東島".equals(area))
-								list.add(EnumPrefecture.DAITO);
+								list.add(DAITO);
 							else if ("沖縄県宮古島".equals(area))
-								list.add(EnumPrefecture.MIYAKO);
+								list.add(MIYAKO);
 							else if ("沖縄県石垣島".equals(area))
-								list.add(EnumPrefecture.ISHIGAKI);
+								list.add(ISHIGAKI);
 							else if ("沖縄県与那国島".equals(area))
-								list.add(EnumPrefecture.YONAGUNI);
+								list.add(YONAGUNI);
 							else if ("沖縄県西表島".equals(area))
-								list.add(EnumPrefecture.IRIOMOTE);
+								list.add(IRIOMOTE);
 						} else
-							list.add(EnumPrefecture.fromName(prefecture));
+							list.add(fromName(prefecture));
 						continue label;
 					}
 				}
 			}
 		}
 		return list.toArray(new EnumPrefecture[list.size()]);
+	}
+
+	public float getForCalcSeismic(final float rawSeismic) {
+		final BigDecimal decimal = new BigDecimal(rawSeismic);
+		decimal.setScale(2, RoundingMode.HALF_UP).setScale(1, RoundingMode.DOWN);
+		return decimal.floatValue();
 	}
 }
