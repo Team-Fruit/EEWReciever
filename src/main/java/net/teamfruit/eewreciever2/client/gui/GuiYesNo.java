@@ -83,6 +83,12 @@ public class GuiYesNo extends WFrame {
 			protected void initWidget() {
 				add(new MLabel(new R(Coord.left(0), Coord.top(10), Coord.right(0), Coord.height(15))) {
 					{
+						setColor(0x00000);
+					}
+
+					@Override
+					public String getText() {
+						return getYesText();
 					}
 				});
 			}
