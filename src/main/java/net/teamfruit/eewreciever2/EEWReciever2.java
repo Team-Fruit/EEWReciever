@@ -10,6 +10,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.eventhandler.EventBus;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.teamfruit.eewreciever2.common.Locations;
@@ -21,6 +22,10 @@ public class EEWReciever2 {
 	@Instance(Reference.MODID)
 	public static EEWReciever2 instance;
 
+	/**
+	 * EEWReciever2の各種Eventがpostされます。
+	 */
+	public static final EventBus EVENT_BUS = new EventBus();
 	public static Locations locations;
 
 	@SidedProxy(serverSide = Reference.PROXY_SERVER, clientSide = Reference.PROXY_CLIENT)

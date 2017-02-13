@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.teamfruit.eewreciever2.EEWReciever2;
 import net.teamfruit.eewreciever2.common.Reference;
 
 public class QuakeEventExecutor {
@@ -41,7 +42,7 @@ public class QuakeEventExecutor {
 				final Queue<IQuakeNode> nodes = quake.getQuakeUpdate();
 				IQuakeNode line;
 				while ((line = nodes.poll())!=null)
-					FMLCommonHandler.instance().bus().post(line.getEvent());
+					EEWReciever2.EVENT_BUS.post(line.getEvent());
 			}
 		} catch (final QuakeException e) {
 			Reference.logger.error(e.getMessage(), e);
