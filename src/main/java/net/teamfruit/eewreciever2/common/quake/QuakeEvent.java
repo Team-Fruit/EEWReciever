@@ -6,7 +6,7 @@ import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeSensingInfoNode;
 import net.teamfruit.eewreciever2.common.quake.p2pquake.P2PQuakeTsunamiInfoNode;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuakeNode;
 
-public abstract class QuakeEvent<E> extends Event {
+public abstract class QuakeEvent<E extends IQuakeNode> extends Event implements IQuakeEvent {
 
 	private final E node;
 
@@ -14,6 +14,7 @@ public abstract class QuakeEvent<E> extends Event {
 		this.node = node;
 	}
 
+	@Override
 	public E getNode() {
 		return this.node;
 	}
