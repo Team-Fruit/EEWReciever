@@ -27,23 +27,35 @@ public class GuiYesNo extends WFrame {
 		this.callback = callback;
 	}
 
-	protected String yesText;
-	protected String noText;
+	protected String descText;
+	protected String yesText = "はい";
+	protected String noText = "いいえ";
+
+	public String getDescText() {
+		return this.descText;
+	}
+
+	public GuiYesNo setDescText(final String descText) {
+		this.descText = descText;
+		return this;
+	}
 
 	public String getYesText() {
 		return this.yesText;
 	}
 
-	public void setYesText(final String yesText) {
+	public GuiYesNo setYesText(final String yesText) {
 		this.yesText = yesText;
+		return this;
 	}
 
 	public String getNoText() {
 		return this.noText;
 	}
 
-	public void setNoText(final String noText) {
+	public GuiYesNo setNoText(final String noText) {
 		this.noText = noText;
+		return this;
 	}
 
 	@Override
@@ -81,14 +93,75 @@ public class GuiYesNo extends WFrame {
 
 			@Override
 			protected void initWidget() {
-				add(new MLabel(new R(Coord.left(0), Coord.top(10), Coord.right(0), Coord.height(15))) {
+				add(new MLabel(new R(Coord.left(0), Coord.top(8), Coord.right(0), Coord.height(12.5f))) {
+					{
+						setColor(0xf5f5f5);
+					}
+
+					@Override
+					public String getText() {
+						return getDescText();
+					}
+				});
+				add(new MLabel(new R(Coord.pleft(.5f), Coord.top(28), Coord.width(125), Coord.height(12.5f)).child(Coord.pleft(-.5f)).child(Coord.right(65.5f))) {
 					{
 						setColor(0x00000);
 					}
 
 					@Override
+					public void draw(final WEvent ev, final Area pgp, final Point p, final float frame, final float popacity) {
+						final Area a = getGuiPosition(pgp);
+
+						WRenderer.startShape();
+						OpenGL.glColor4f(.95f, .95f, .95f, 1f);
+						draw(a);
+
+						OpenGL.glLineWidth(1.2f);
+						OpenGL.glColor4f(.5f, .5f, .5f, 0.3f);
+						draw(a, GL_LINE_LOOP);
+
+						super.draw(ev, pgp, p, frame, popacity);
+					}
+
+					@Override
+					public boolean mouseClicked(final WEvent ev, final Area pgp, final Point p, final int button) {
+						GuiYesNo.this.callback.onYes();
+						return super.mouseClicked(ev, pgp, p, button);
+					}
+
+					@Override
 					public String getText() {
 						return getYesText();
+					}
+				});
+				add(new MLabel(new R(Coord.pleft(.5f), Coord.top(28), Coord.width(125), Coord.height(12.5f)).child(Coord.pleft(-.5f)).child(Coord.left(65.5f))) {
+					{
+						setColor(0x00000);
+					}
+
+					@Override
+					public void draw(final WEvent ev, final Area pgp, final Point p, final float frame, final float popacity) {
+						final Area a = getGuiPosition(pgp);
+
+						WRenderer.startShape();
+						OpenGL.glColor4f(.95f, .95f, .95f, 1f);
+						draw(a);
+
+						OpenGL.glLineWidth(1.2f);
+						OpenGL.glColor4f(.5f, .5f, .5f, 0.3f);
+						draw(a, GL_LINE_LOOP);
+						super.draw(ev, pgp, p, frame, popacity);
+					}
+
+					@Override
+					public boolean mouseClicked(final WEvent ev, final Area pgp, final Point p, final int button) {
+						GuiYesNo.this.callback.onNo();
+						return super.mouseClicked(ev, pgp, p, button);
+					}
+
+					@Override
+					public String getText() {
+						return getNoText();
 					}
 				});
 			}

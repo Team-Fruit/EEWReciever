@@ -28,6 +28,6 @@ public class CommandAuth extends SubCommand {
 			}
 
 		};
-		Minecraft.getMinecraft().displayGuiScreen(new GuiYesNo(null, callback));
+		Minecraft.getMinecraft().displayGuiScreen(new GuiYesNo(null, callback).setDescText("Warframeっぽい二択Gui"));
 	}
 }
