@@ -1,5 +1,13 @@
 package net.teamfruit.eewreciever2.common.quake;
 
+import net.teamfruit.eewreciever2.EEWReciever2;
+
+/**
+ * EEWReciever2の各種情報受信時には、このEventがpostされます。<br>
+ * {@link EEWReciever2#EVENT_BUS}
+ *
+ * @author TeamFruit
+ */
 public interface IQuakeEvent {
 
 	/**

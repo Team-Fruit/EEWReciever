@@ -16,6 +16,7 @@ import com.kamesuta.mc.bnnwidget.position.R;
 import com.kamesuta.mc.bnnwidget.render.OpenGL;
 import com.kamesuta.mc.bnnwidget.render.WRenderer;
 import com.kamesuta.mc.bnnwidget.var.V;
+import com.kamesuta.mc.bnnwidget.var.VCommon;
 import com.kamesuta.mc.bnnwidget.var.VMotion;
 
 import net.minecraft.client.gui.GuiScreen;
@@ -57,6 +58,32 @@ public class GuiYesNo extends WFrame {
 	public GuiYesNo setNoText(final String noText) {
 		this.noText = noText;
 		return this;
+	}
+
+	@Override
+	protected void init() {
+		super.init();
+		setContentPane(new WPanel(new R()) {
+			private VMotion o;
+
+			@Override
+			protected VCommon initOpacity() {
+				this.o = V.pm(1);
+				return this.o;
+			}
+
+			@Override
+			public boolean onCloseRequest() {
+				this.o.stop().add(Easings.easeLinear.move(.125f, 0)).start();
+				return false;
+			}
+
+			@Override
+			public boolean onClosing(final WEvent ev, final Area pgp, final Point p) {
+				return this.o.isFinished();
+			}
+		});
+
 	}
 
 	@Override
