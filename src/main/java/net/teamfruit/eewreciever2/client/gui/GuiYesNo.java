@@ -8,6 +8,7 @@ import com.kamesuta.mc.bnnwidget.WFrame;
 import com.kamesuta.mc.bnnwidget.WPanel;
 import com.kamesuta.mc.bnnwidget.component.MLabel;
 import com.kamesuta.mc.bnnwidget.motion.Easings;
+import com.kamesuta.mc.bnnwidget.motion.Motion;
 import com.kamesuta.mc.bnnwidget.position.Area;
 import com.kamesuta.mc.bnnwidget.position.Coord;
 import com.kamesuta.mc.bnnwidget.position.Point;
@@ -27,7 +28,7 @@ public class GuiYesNo extends WFrame {
 		this.callback = callback;
 	}
 
-	protected String descText;
+	protected String descText = "";
 	protected String yesText = "はい";
 	protected String noText = "いいえ";
 
@@ -74,8 +75,19 @@ public class GuiYesNo extends WFrame {
 			public void onAdded() {
 				this.m.stop().add(Easings.easeLinear.move(.2f, .9f)).start();
 			}
+
+			@Override
+			public boolean onCloseRequest() {
+				this.m.stop().add(Easings.easeLinear.move(.15f, 0f)).start();
+				return false;
+			}
+
+			@Override
+			public boolean onClosing(final WEvent ev, final Area pgp, final Point mouse) {
+				return this.m.isFinished();
+			}
 		});
-		add(new WPanel(new R(Coord.pleft(.5f), Coord.ptop(.5f), Coord.width(V.am(240).add(Easings.easeOutQuart.move(.25f, 265)).start()), Coord.height(V.am(35f).add(Easings.easeOutQuart.move(.25f, 45)).start())).child(Coord.pleft(-.5f), Coord.ptop(-.5f))) {
+		add(new WPanel(new R(Coord.pleft(.5f), Coord.top(Coord.ptop(.5f).getAbsCoord(height())-45f/2f), Coord.width(V.am(220).add(Easings.easeInCubic.move(.125f, 265)).start()), Coord.bottom(V.am(Coord.ptop(.5f).getAbsCoord(height())+45f).add(Easings.easeLinear.move(.25f, Coord.ptop(.5f).getAbsCoord(height())-45f/2f)).start())).child(Coord.pleft(-.5f))) {
 			@Override
 			public void draw(final WEvent ev, final Area pgp, final Point p, final float frame, final float popacity) {
 				final Area a = getGuiPosition(pgp);
@@ -103,7 +115,7 @@ public class GuiYesNo extends WFrame {
 						return getDescText();
 					}
 				});
-				add(new MLabel(new R(Coord.pleft(.5f), Coord.top(28), Coord.width(125), Coord.height(12.5f)).child(Coord.pleft(-.5f)).child(Coord.right(65.5f))) {
+				add(new MLabel(new R(Coord.pleft(.5f), Coord.top(V.am(26).add(Motion.blank(0)).add(Easings.easeInOutElastic.move(.25f, 28)).start()), Coord.width(125), Coord.height(V.am(10.5f).add(Motion.blank(0)).add(Easings.easeInOutElastic.move(.25f, 12.5f)).start())).child(Coord.pleft(-.5f)).child(Coord.right(65.5f))) {
 					{
 						setColor(0x00000);
 					}
@@ -113,7 +125,10 @@ public class GuiYesNo extends WFrame {
 						final Area a = getGuiPosition(pgp);
 
 						WRenderer.startShape();
-						OpenGL.glColor4f(.95f, .95f, .95f, 1f);
+						if (a.pointInside(p))
+							OpenGL.glColor4f(.9f, .9f, .3f, .925f);
+						else
+							OpenGL.glColor4f(.95f, .95f, .95f, 1f);
 						draw(a);
 
 						OpenGL.glLineWidth(1.2f);
@@ -125,7 +140,9 @@ public class GuiYesNo extends WFrame {
 
 					@Override
 					public boolean mouseClicked(final WEvent ev, final Area pgp, final Point p, final int button) {
-						GuiYesNo.this.callback.onYes();
+						if (getGuiPosition(pgp).pointInside(p))
+							if (GuiYesNo.this.callback.onYes())
+								requestClose();
 						return super.mouseClicked(ev, pgp, p, button);
 					}
 
@@ -134,7 +151,7 @@ public class GuiYesNo extends WFrame {
 						return getYesText();
 					}
 				});
-				add(new MLabel(new R(Coord.pleft(.5f), Coord.top(28), Coord.width(125), Coord.height(12.5f)).child(Coord.pleft(-.5f)).child(Coord.left(65.5f))) {
+				add(new MLabel(new R(Coord.pleft(.5f), Coord.top(V.am(26).add(Motion.blank(0)).add(Easings.easeInOutElastic.move(.25f, 28)).start()), Coord.width(125), Coord.height(V.am(10.5f).add(Motion.blank(0)).add(Easings.easeInOutElastic.move(.25f, 12.5f)).start())).child(Coord.pleft(-.5f)).child(Coord.left(65.5f))) {
 					{
 						setColor(0x00000);
 					}
@@ -144,7 +161,10 @@ public class GuiYesNo extends WFrame {
 						final Area a = getGuiPosition(pgp);
 
 						WRenderer.startShape();
-						OpenGL.glColor4f(.95f, .95f, .95f, 1f);
+						if (a.pointInside(p))
+							OpenGL.glColor4f(.9f, .9f, .3f, .925f);
+						else
+							OpenGL.glColor4f(.95f, .95f, .95f, 1f);
 						draw(a);
 
 						OpenGL.glLineWidth(1.2f);
@@ -155,7 +175,9 @@ public class GuiYesNo extends WFrame {
 
 					@Override
 					public boolean mouseClicked(final WEvent ev, final Area pgp, final Point p, final int button) {
-						GuiYesNo.this.callback.onNo();
+						if (getGuiPosition(pgp).pointInside(p))
+							if (GuiYesNo.this.callback.onNo())
+								requestClose();
 						return super.mouseClicked(ev, pgp, p, button);
 					}
 

@@ -157,7 +157,7 @@ public class GuiAuthFollow extends WPanel {
 				if (this.state.isBlock()||this.state.isMute()) {
 					final GuiYesNo yesNo = new GuiYesNo(ev.owner, new YesNoCallback() {
 						@Override
-						public void onYes() {
+						public boolean onYes() {
 							TwitterButton.this.future = ClientThreadPool.instance().submit(new Callable<TweetQuakeUserState>() {
 								@Override
 								public TweetQuakeUserState call() throws Exception {
@@ -176,11 +176,12 @@ public class GuiAuthFollow extends WPanel {
 									return TwitterButton.this.state;
 								}
 							});
+							return true;
 						}
 
 						@Override
-						public void onNo() {
-							Minecraft.getMinecraft().displayGuiScreen(ev.owner);
+						public boolean onNo() {
+							return true;
 						}
 					});
 					Minecraft.getMinecraft().displayGuiScreen(yesNo);

@@ -10,7 +10,7 @@ import net.minecraft.util.ChatStyle;
 import net.teamfruit.eewreciever2.common.quake.twitter.TweetQuake;
 import net.teamfruit.eewreciever2.common.util.ChatBuilder;
 
-public class AuthNotice {
+public class AuthNoticeHandler {
 
 	@SubscribeEvent
 	public void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
